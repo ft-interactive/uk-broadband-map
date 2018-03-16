@@ -95,5 +95,10 @@
     "qa": "mocha ./test/**/*.spec.js",
     "start": "nodemon -e html,njk,js --watch views --watch config --exec webpack-dev-server"
   },
-  "dependencies": {}
+  "dependencies": {
+    "deck.gl": "^5.1.2",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-map-gl": "^3.2.5"
+  }
 }
