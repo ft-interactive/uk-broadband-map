@@ -41,6 +41,7 @@ module.exports = async (env = 'development') => ({
                   browsers: ['last 2 versions', 'ie >= 11', 'safari >= 10', 'ios >= 9'],
                 },
               ],
+              ['react'],
             ],
           },
         },
