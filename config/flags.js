@@ -3,7 +3,7 @@ export default (environment = 'development') => ({ // eslint-disable-line
   errorReporting: environment === 'production',
   analytics: environment === 'production',
   googleAnalytics: environment === 'production',
-  ads: true,
+  ads: environment === 'production',
   onwardjourney: true,
   shareButtons: true,
   header: true,
