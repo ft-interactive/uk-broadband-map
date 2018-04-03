@@ -204,3 +204,7 @@ function oTrackinginit() {
 }
 </script>
 {% endif %}
+
+{% if mapboxToken %}
+<script>window.mapboxToken = "{{mapboxToken}}"</script>
+{% endif %}

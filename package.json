@@ -42,6 +42,7 @@
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.28.4",
     "d3-time-format": "^2.0.5",
+    "dotenv": "^5.0.1",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^15.0.2",
     "eslint-plugin-babel": "^4.1.1",
@@ -98,6 +99,7 @@
   },
   "dependencies": {
     "deck.gl": "^5.1.2",
+    "mapbox-gl": "^0.44.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-map-gl": "^3.2.5"
