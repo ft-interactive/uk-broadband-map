@@ -108,3 +108,8 @@ body {
     color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 60);
   }
 }
+
+.o-footer__row {
+  border-top: 1px solid #51555c;
+  padding-top: 12px;
+}
