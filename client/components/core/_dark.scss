@@ -95,6 +95,16 @@ body {
 .onward-journey {
   h3,
   h2 {
-    color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 90);
+    color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100);
+
+    a {
+      &:hover {
+        color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 60);
+      }
+    }
+  }
+
+  time {
+    color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 60);
   }
 }
