@@ -1,5 +1,6 @@
 @import 'o-colors/main';
 @import 'o-grid/main';
+@import 'o-typography/main';
 @import 'components/core/main';
 
 // Dark theme
@@ -8,23 +9,31 @@ body {
 }
 
 .article {
-  color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100);
-
   h1,
   h2,
+  div,
   p,
   .o-typography-author:not(:hover),
   .o-typography-wrapper ol li::before,
   ol li,
   figcaption,
   small {
-    color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100);
+    color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 90);
+  }
+
+  .o-typography-topic:not(:hover) {
+    color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 40);
+  }
+
+  p:not(.o-typography-standfirst),
+  ol li {
+    @include oTypographyDisplay($scale: (default: 1, XL: 2), $line-height: 1.6);
   }
 }
 
 .onward-journey {
   h3,
   h2 {
-    color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100);
+    color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 90);
   }
 }
