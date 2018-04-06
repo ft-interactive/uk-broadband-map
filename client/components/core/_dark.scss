@@ -6,25 +6,89 @@ body {
 }
 
 .article {
-  h1,
-  h2,
-  div,
+  .o-typography-topic,
+  .o-typography-author {
+    color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100);
+
+    &:hover {
+      color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 60);
+    }
+  }
+
+  h1 {
+    color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100);
+  }
+
+  .o-typography-standfirst {
+    @include oTypographySans($scale: 2, $line-height: 24px);
+    color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 60);
+
+    a {
+      color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 60);
+      border-bottom: 2px solid oColorsGetTextColor(oColorsGetPaletteColor('slate'), 37);
+
+      &:hover {
+        color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100);
+        border-bottom: 2px solid oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100);
+      }
+    }
+  }
+
   p,
-  .o-typography-author:not(:hover),
-  .o-typography-wrapper ol li::before,
+  a,
   ol li,
-  figcaption,
-  small {
+  ul li,
+  div {
     color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 90);
   }
 
-  .o-typography-topic:not(:hover) {
-    color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 40);
+  p {
+    @include oTypographySerif($scale: (default: 1, XL: 2), $line-height: 1.6);
+
+    a {
+      border-bottom: 2px solid oColorsGetTextColor(oColorsGetPaletteColor('slate'), 60);
+
+      &:hover {
+        color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 60);
+        border-bottom: 2px solid oColorsGetTextColor(oColorsGetPaletteColor('slate'), 37);
+      }
+    }
   }
 
-  p:not(.o-typography-standfirst),
-  ol li {
-    @include oTypographyDisplay($scale: (default: 1, XL: 2), $line-height: 1.6);
+  ol li,
+  ul li {
+    @include oTypographySerif($scale: 1, $line-height: 28px);
+
+    &::before {
+      color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 90) !important;
+    }
+  }
+
+  figcaption {
+    color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 60);
+
+    a {
+      color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 90);
+      border-bottom: 2px solid oColorsGetTextColor(oColorsGetPaletteColor('slate'), 60);
+
+      &:hover {
+        color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 60);
+        border-bottom: 2px solid oColorsGetTextColor(oColorsGetPaletteColor('slate'), 37);
+      }
+    }
+  }
+
+  footer small {
+    color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 90);
+
+    a {
+      border-bottom: 2px solid oColorsGetTextColor(oColorsGetPaletteColor('slate'), 60);
+
+      &:hover {
+        color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 60);
+        border-bottom: 2px solid oColorsGetTextColor(oColorsGetPaletteColor('slate'), 37);
+      }
+    }
   }
 }
 
