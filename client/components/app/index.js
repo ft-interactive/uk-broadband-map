@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactMapGL from 'react-map-gl';
+import './styles.scss';
 
 const MAPBOX_STYLE = 'mapbox://styles/mapbox/dark-v9';
 const MAPBOX_TOKEN = window.mapboxToken;
