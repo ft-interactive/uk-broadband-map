@@ -25,6 +25,7 @@ body {
     color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 80);
 
     a {
+      color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 80);
       border-bottom: 2px solid oColorsGetTextColor(oColorsGetPaletteColor('slate'), 60);
 
       &:hover {
