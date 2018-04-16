@@ -30,7 +30,7 @@ body {
 
       &:hover {
         color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100);
-        border-bottom: 2px solid oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100);
+        border-bottom: 2px solid oColorsGetTextColor(oColorsGetPaletteColor('slate'), 80);
       }
     }
   }
@@ -47,15 +47,13 @@ body {
     color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 90);
   }
 
-  p,
-  footer small {
-    a {
-      border-bottom: 2px solid oColorsGetTextColor(oColorsGetPaletteColor('slate'), 60);
+  p a,
+  footer small a {
+    border-bottom: 2px solid oColorsGetTextColor(oColorsGetPaletteColor('slate'), 80);
 
-      &:hover {
-        color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 60);
-        border-bottom: 2px solid oColorsGetTextColor(oColorsGetPaletteColor('slate'), 37);
-      }
+    &:hover {
+      color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 73);
+      border-bottom: 2px solid oColorsGetTextColor(oColorsGetPaletteColor('slate'), 60);
     }
   }
 
@@ -77,29 +75,28 @@ body {
 
     a {
       color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100);
-      border-bottom: 2px solid oColorsGetTextColor(oColorsGetPaletteColor('slate'), 73);
+      border-bottom: 2px solid oColorsGetTextColor(oColorsGetPaletteColor('slate'), 80);
 
       &:hover {
         color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 60);
-        border-bottom: 2px solid oColorsGetTextColor(oColorsGetPaletteColor('slate'), 37);
+        border-bottom: 2px solid oColorsGetTextColor(oColorsGetPaletteColor('slate'), 50);
       }
     }
   }
 }
 
 .onward-journey {
-  h3,
+  .onward-journey__link,
   h2 {
     color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100);
 
-    a {
-      &:hover {
-        color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 60);
-      }
+    &:hover,
+    a:hover {
+      color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 73);
     }
   }
 
-  time {
+  .o-date {
     color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 60);
   }
 }
