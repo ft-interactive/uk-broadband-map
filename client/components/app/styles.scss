@@ -1,3 +1,9 @@
 .app {
   margin-bottom: 18px;
+
+  .navigation-control-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
 }
