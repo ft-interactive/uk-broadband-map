@@ -25,35 +25,38 @@ body {
     color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 80);
 
     a {
-      color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 80);
+      color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100);
       border-bottom: 2px solid oColorsGetTextColor(oColorsGetPaletteColor('slate'), 60);
 
       &:hover {
-        color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100);
-        border-bottom: 2px solid oColorsGetTextColor(oColorsGetPaletteColor('slate'), 80);
+        border-bottom: 2px solid oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100);
       }
     }
   }
 
-  .o-date {
+  p,
+  div,
+  .o-date,
+  ol li,
+  ul li,
+  figcaption {
     color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 60);
   }
 
-  p,
-  a,
-  ol li,
-  ul li,
-  div {
-    color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 90);
-  }
-
   p a,
+  figcaption a,
   footer small a {
-    border-bottom: 2px solid oColorsGetTextColor(oColorsGetPaletteColor('slate'), 80);
+    color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100);
+    border-bottom: 2px solid oColorsGetTextColor(oColorsGetPaletteColor('slate'), 60);
 
     &:hover {
-      color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 73);
-      border-bottom: 2px solid oColorsGetTextColor(oColorsGetPaletteColor('slate'), 60);
+      color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100);
+      border-bottom: 2px solid oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100);
+    }
+
+    &:focus {
+      color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100);
+      border-bottom: 2px solid oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100);
     }
   }
 
@@ -66,32 +69,21 @@ body {
     @include oTypographySerif($scale: 1, $line-height: 28px);
 
     &::before {
-      color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 90) !important;
-    }
-  }
-
-  figcaption {
-    color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 60);
-
-    a {
-      color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100);
-      border-bottom: 2px solid oColorsGetTextColor(oColorsGetPaletteColor('slate'), 80);
-
-      &:hover {
-        color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 60);
-        border-bottom: 2px solid oColorsGetTextColor(oColorsGetPaletteColor('slate'), 50);
-      }
+      color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 60) !important;
     }
   }
 }
 
 .onward-journey {
-  .onward-journey__link,
+  a,
   h2 {
     color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100);
 
-    &:hover,
-    a:hover {
+    &:hover {
+      color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 73);
+    }
+
+    &:focus {
       color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 73);
     }
   }
