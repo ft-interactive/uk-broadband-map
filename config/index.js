@@ -8,7 +8,6 @@ export default async (environment = 'development') => {
   const d = await article(environment);
   const flags = await getFlags(environment);
   const onwardJourney = await getOnwardJourney(environment);
-  const envVars = dotenv.config();
   let mapboxToken;
   /*
   An experimental demo that gets content from the API
