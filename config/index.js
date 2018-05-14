@@ -1,14 +1,13 @@
-if (process.env.NODE_ENV !== 'production') require('dotenv').config(); // eslint-disable-line
-
 import article from './article';
 import getFlags from './flags';
 import getOnwardJourney from './onward-journey';
+
+if (process.env.NODE_ENV !== 'production') require('dotenv').config(); // eslint-disable-line
 
 export default async (environment = 'development') => {
   const d = await article(environment);
   const flags = await getFlags(environment);
   const onwardJourney = await getOnwardJourney(environment);
-
   const mapboxToken = process.env.MAPBOX_TOKEN || '';
   /*
   An experimental demo that gets content from the API
