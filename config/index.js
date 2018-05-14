@@ -1,4 +1,5 @@
-import dotenv from 'dotenv';
+if (process.env.NODE_ENV !== 'production') require('dotenv').config(); // eslint-disable-line
+
 import article from './article';
 import getFlags from './flags';
 import getOnwardJourney from './onward-journey';
