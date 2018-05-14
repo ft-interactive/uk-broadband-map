@@ -8,7 +8,8 @@ export default async (environment = 'development') => {
   const d = await article(environment);
   const flags = await getFlags(environment);
   const onwardJourney = await getOnwardJourney(environment);
-  let mapboxToken;
+
+  const mapboxToken = process.env.MAPBOX_TOKEN || '';
   /*
   An experimental demo that gets content from the API
   and overwrites some model values. This requires the Link File
@@ -30,12 +31,6 @@ export default async (environment = 'development') => {
   }
 
   */
-
-  if (envVars.error) {
-    throw envVars.error;
-  } else {
-    mapboxToken = process.env.MAPBOX_TOKEN;
-  }
 
   return {
     ...d,
