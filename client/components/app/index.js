@@ -6,6 +6,23 @@ import './styles.scss';
 
 const MAPBOX_STYLE = 'mapbox://styles/financialtimes/cjg290kic7od82rn46o3o719e';
 const MAPBOX_TOKEN = window.mapboxToken;
+const dummyData = [
+  {
+    postcode: 'PO4 0LZ',
+    latitude: 50.790111,
+    longitude: -1.074687,
+  },
+  {
+    postcode: 'TF5 0DR',
+    latitude: 52.718158,
+    longitude: -2.543583,
+  },
+  {
+    postcode: 'RG25 2NP',
+    latitude: 51.240123,
+    longitude: -1.09689,
+  },
+];
 
 class App extends Component {
   constructor(props) {
