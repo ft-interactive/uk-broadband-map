@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactMapGL, { NavigationControl, FlyToInterpolator } from 'react-map-gl';
 import * as d3 from 'd3-ease'; // eslint-disable-line
 import GeographyLookup from './geography-lookup';
+import Histogram from './histogram';
 import './styles.scss';
 
 const MAPBOX_STYLE = 'mapbox://styles/financialtimes/cjg290kic7od82rn46o3o719e';
@@ -103,6 +104,8 @@ class App extends Component {
           onGeographyChange={this.handleGeographyChange}
           onGeographySubmit={this.handleGeographySubmit}
         />
+
+        <Histogram geography={this.state.activeGeography} />
 
         <ReactMapGL
           {...this.state.viewport}
