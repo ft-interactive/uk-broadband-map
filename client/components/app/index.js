@@ -9,17 +9,17 @@ const MAPBOX_STYLE = 'mapbox://styles/financialtimes/cjg290kic7od82rn46o3o719e';
 const MAPBOX_TOKEN = window.mapboxToken;
 const dummyData = [
   {
-    postcode: 'PO4 0LZ',
+    id: 'PO4 0LZ',
     latitude: 50.790111,
     longitude: -1.074687,
   },
   {
-    postcode: 'TF5 0DR',
+    id: 'TF5 0DR',
     latitude: 52.718158,
     longitude: -2.543583,
   },
   {
-    postcode: 'RG25 2NP',
+    id: 'RG25 2NP',
     latitude: 51.240123,
     longitude: -1.09689,
   },
@@ -39,11 +39,13 @@ class App extends Component {
         maxZoom: 10,
         minZoom: 5,
       },
+      activeGeography: null,
     };
+    this.onViewportChange = this.onViewportChange.bind(this);
     this.resize = this.resize.bind(this);
-    this.goToViewport = this.goToViewport.bind(this);
-    this.handleChange = this.handleGeographyChange.bind(this);
+    this.handleGeographyChange = this.handleGeographyChange.bind(this);
     this.handleGeographySubmit = this.handleGeographySubmit.bind(this);
+    this.goToViewport = this.goToViewport.bind(this);
   }
 
   componentDidMount() {
@@ -71,9 +73,21 @@ class App extends Component {
     });
   }
 
-  goToViewport() {
-    const nextLocation = { longitude: -0.070691, latitude: 51.4594016, zoom: 10 };
-    const { longitude, latitude, zoom } = nextLocation;
+  handleGeographyChange(str) {
+    console.log(`Typing: ${str}…`);
+  }
+
+  handleGeographySubmit(str) {
+    const geography = dummyData.find(d => d.id.toLowerCase() === str.toLowerCase());
+    const { id, longitude, latitude } = geography;
+
+    console.log(`Submitted: ${id}`);
+
+    this.goToViewport({ longitude, latitude }, id);
+  }
+
+  goToViewport({ longitude, latitude }, activeGeography) {
+    const zoom = this.state.viewport.maxZoom;
 
     this.onViewportChange({
       longitude,
@@ -83,23 +97,13 @@ class App extends Component {
       transitionInterpolator: new FlyToInterpolator(),
       transitionEasing: d3.easeCubic,
     });
-  }
 
-  handleGeographyChange(geography) {
-    console.log(`Typing: ${geography}…`);
-  }
-
-  handleGeographySubmit(geography) {
-    console.log(`Submitted: ${geography}`);
-
-    this.setState({ activeGeography: geography });
+    this.setState({ activeGeography });
   }
 
   render() {
     return (
       <div>
-        <button onClick={this.goToViewport}>Start transition</button>
-
         <GeographyLookup
           onGeographyChange={this.handleGeographyChange}
           onGeographySubmit={this.handleGeographySubmit}
