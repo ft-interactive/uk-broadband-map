@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ReactMapGL, { NavigationControl, FlyToInterpolator } from 'react-map-gl';
+import ReactMapGL, { NavigationControl, LinearInterpolator } from 'react-map-gl';
 import * as d3 from 'd3-ease'; // eslint-disable-line
 import GeographyLookup from './geography-lookup';
 import Histogram from './histogram';
@@ -94,7 +94,7 @@ class App extends Component {
       latitude,
       zoom,
       transitionDuration: 5000,
-      transitionInterpolator: new FlyToInterpolator(),
+      transitionInterpolator: new LinearInterpolator(),
       transitionEasing: d3.easeCubic,
     });
 
