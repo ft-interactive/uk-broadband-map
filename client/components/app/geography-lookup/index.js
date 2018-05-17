@@ -6,6 +6,7 @@ class GeographyLookup extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.textInput = React.createRef();
   }
 
   handleChange(event) {
@@ -26,7 +27,7 @@ class GeographyLookup extends Component {
           <input
             type="text"
             onChange={this.handleChange}
-            ref={(input) => { this.input = input; }}
+            ref={this.textInput}
             id="geography"
           />
         </label>

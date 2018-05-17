@@ -99,10 +99,10 @@
   },
   "dependencies": {
     "d3": "^5.4.0",
-    "deck.gl": "^5.1.2",
-    "mapbox-gl": "^0.44.1",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "react-map-gl": "^3.2.5"
+    "deck.gl": "^5.2.5",
+    "mapbox-gl": "^0.45.0",
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
+    "react-map-gl": "^3.2.7"
   }
 }

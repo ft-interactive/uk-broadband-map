@@ -41,21 +41,30 @@ class App extends Component {
       },
       activeGeography: null,
     };
+    this.setZoom = this.setZoom.bind(this);
     this.onViewportChange = this.onViewportChange.bind(this);
     this.resize = this.resize.bind(this);
     this.handleGeographyChange = this.handleGeographyChange.bind(this);
     this.handleGeographySubmit = this.handleGeographySubmit.bind(this);
     this.goToViewport = this.goToViewport.bind(this);
+    this.map = React.createRef();
   }
 
   componentDidMount() {
     window.addEventListener('resize', this.resize);
 
     this.resize();
+    this.setZoom();
   }
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.resize);
+  }
+
+  setZoom() {
+    const map = this.map.current.getMap();
+
+    console.log(map);
   }
 
   onViewportChange(viewport) {
@@ -120,6 +129,7 @@ class App extends Component {
           dragRotate={false}
           doubleClickZoom={false}
           touchZoom={false}
+          ref={this.map}
         >
           <div className="navigation-control-container">
             <NavigationControl
