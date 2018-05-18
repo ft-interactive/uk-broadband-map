@@ -10,23 +10,6 @@ import './styles.scss';
 
 const MAPBOX_STYLE = 'mapbox://styles/financialtimes/cjg290kic7od82rn46o3o719e';
 const MAPBOX_TOKEN = window.mapboxToken;
-const dummyData = [
-  {
-    id: 'PO4 0LZ',
-    latitude: 50.790111,
-    longitude: -1.074687,
-  },
-  {
-    id: 'TF5 0DR',
-    latitude: 52.718158,
-    longitude: -2.543583,
-  },
-  {
-    id: 'RG25 2NP',
-    latitude: 51.240123,
-    longitude: -1.09689,
-  },
-];
 
 class App extends Component {
   constructor(props) {
@@ -35,7 +18,6 @@ class App extends Component {
     this.onViewportChange = this.onViewportChange.bind(this);
     this.resize = this.resize.bind(this);
     this.handleGeographyChange = this.handleGeographyChange.bind(this);
-    this.handleGeographySubmit = this.handleGeographySubmit.bind(this);
     this.goToViewport = this.goToViewport.bind(this);
   }
 
@@ -43,6 +25,11 @@ class App extends Component {
     window.addEventListener('resize', this.resize);
 
     this.resize();
+  }
+
+  componentDidUpdate() {
+    const { id, longitude, latitude } = this.props.activeGeography;
+    if (id && longitude && latitude) this.goToViewport({ longitude, latitude }, id);
   }
 
   componentWillUnmount() {
@@ -62,19 +49,6 @@ class App extends Component {
     });
   }
 
-  handleGeographyChange(str) {
-    console.log(`Typing: ${str}…`);
-  }
-
-  handleGeographySubmit(str) {
-    const geography = dummyData.find(d => d.id.toLowerCase() === str.toLowerCase());
-    const { id, longitude, latitude } = geography;
-
-    console.log(`Submitted: ${id}`);
-
-    this.goToViewport({ longitude, latitude }, id);
-  }
-
   goToViewport({ longitude, latitude }) {
     const zoom = this.props.viewport.maxZoom;
 
@@ -91,7 +65,10 @@ class App extends Component {
   render() {
     return (
       <div>
-        <GeographyLookup getPostcodeData={this.props.getPostcodeData} />
+        <GeographyLookup
+          goToViewport={this.goToViewport}
+          getPostcodeData={this.props.getPostcodeData}
+        />
 
         <Histogram geography={this.props.activeGeography} />
 
@@ -122,6 +99,9 @@ class App extends Component {
 
 App.propTypes = {
   activeGeography: PropTypes.shape({
+    id: PropTypes.string,
+    latitude: PropTypes.number,
+    longitude: PropTypes.number,
     postcode: PropTypes.string,
   }),
   viewport: PropTypes.shape({
