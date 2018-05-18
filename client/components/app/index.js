@@ -7,23 +7,6 @@ import './styles.scss';
 
 const MAPBOX_STYLE = 'mapbox://styles/financialtimes/cjg290kic7od82rn46o3o719e';
 const MAPBOX_TOKEN = window.mapboxToken;
-const dummyData = [
-  {
-    id: 'PO4 0LZ',
-    latitude: 50.790111,
-    longitude: -1.074687,
-  },
-  {
-    id: 'TF5 0DR',
-    latitude: 52.718158,
-    longitude: -2.543583,
-  },
-  {
-    id: 'RG25 2NP',
-    latitude: 51.240123,
-    longitude: -1.09689,
-  },
-];
 
 class App extends Component {
   constructor(props) {
@@ -77,13 +60,24 @@ class App extends Component {
     console.log(`Typing: ${str}…`);
   }
 
-  handleGeographySubmit(str) {
-    const geography = dummyData.find(d => d.id.toLowerCase() === str.toLowerCase());
-    const { id, longitude, latitude } = geography;
-
-    console.log(`Submitted: ${id}`);
-
-    this.goToViewport({ longitude, latitude }, id);
+  async handleGeographySubmit(input) {
+    const postcode = input.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
+    try {
+      const location = 'http://ft-ig-content-prod.s3-website-eu-west-1.amazonaws.com/v2/ft-interactive/uk-broadband-map/master';
+      const request = await fetch(`${location}/postcode/${postcode}.json`);
+      const geography = await request.json();
+      const coordinates = {
+        longitude: Number(geography.longitude),
+        latitude: Number(geography.latitude),
+      };
+      this.goToViewport(coordinates, geography);
+      this.setState({ error: null });
+    } catch (e) {
+      this.setState({
+        error: 'Could not find that postcode!',
+        activeGeography: null,
+      });
+    }
   }
 
   goToViewport({ longitude, latitude }, activeGeography) {
@@ -108,7 +102,7 @@ class App extends Component {
           onGeographyChange={this.handleGeographyChange}
           onGeographySubmit={this.handleGeographySubmit}
         />
-
+        {this.state.error ? <span>{this.state.error}</span> : null}
         <Histogram geography={this.state.activeGeography} />
 
         <ReactMapGL
