@@ -2,9 +2,10 @@
 @import 'o-typography/main';
 
 .dark {
-  html,
+  background-color: oColorsGetPaletteColor('slate');
+
   body {
-    background-color: oColorsGetPaletteColor('slate');
+    background-color: inherit;
   }
 
   .article {
