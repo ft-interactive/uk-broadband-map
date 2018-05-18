@@ -1,21 +1,16 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class GeographyLookup extends Component {
   constructor(props) {
     super(props);
-
-    this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleChange(event) {
-    this.props.onGeographyChange(event.target.value);
   }
 
   handleSubmit(event) {
     event.preventDefault();
 
-    this.props.onGeographySubmit(this.input.value);
+    this.props.getPostcodeData(this.input.value);
   }
 
   render() {
@@ -26,18 +21,21 @@ class GeographyLookup extends Component {
           <input
             type="text"
             onChange={this.handleChange}
-            ref={(input) => { this.input = input; }}
+            ref={(input) => {
+              this.input = input;
+            }}
             id="geography"
           />
         </label>
 
-        <input
-          type="submit"
-          value="Submit"
-        />
+        <input type="submit" value="Submit" />
       </form>
     );
   }
 }
+
+GeographyLookup.propTypes = {
+  getPostcodeData: PropTypes.func.isRequired,
+};
 
 export default GeographyLookup;

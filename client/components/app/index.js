@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import ReactMapGL, { NavigationControl, LinearInterpolator } from 'react-map-gl';
 import * as d3 from 'd3-ease'; // eslint-disable-line
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import * as actions from '../../state/actions';
 import GeographyLookup from './geography-lookup';
 import Histogram from './histogram';
 import './styles.scss';
@@ -29,18 +32,6 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      viewport: {
-        width: window.innerWidth,
-        height: window.innerHeight,
-        longitude: -2.5,
-        latitude: 54.5,
-        zoom: 5,
-        maxZoom: 10,
-        minZoom: 5,
-      },
-      activeGeography: null,
-    };
     this.onViewportChange = this.onViewportChange.bind(this);
     this.resize = this.resize.bind(this);
     this.handleGeographyChange = this.handleGeographyChange.bind(this);
@@ -59,9 +50,7 @@ class App extends Component {
   }
 
   onViewportChange(viewport) {
-    this.setState({
-      viewport: { ...this.state.viewport, ...viewport },
-    });
+    this.props.updateViewport({ ...this.props.viewport, ...viewport });
   }
 
   resize() {
@@ -86,8 +75,8 @@ class App extends Component {
     this.goToViewport({ longitude, latitude }, id);
   }
 
-  goToViewport({ longitude, latitude }, activeGeography) {
-    const zoom = this.state.viewport.maxZoom;
+  goToViewport({ longitude, latitude }) {
+    const zoom = this.props.viewport.maxZoom;
 
     this.onViewportChange({
       longitude,
@@ -97,22 +86,17 @@ class App extends Component {
       transitionInterpolator: new LinearInterpolator(),
       transitionEasing: d3.easeCubic,
     });
-
-    this.setState({ activeGeography });
   }
 
   render() {
     return (
       <div>
-        <GeographyLookup
-          onGeographyChange={this.handleGeographyChange}
-          onGeographySubmit={this.handleGeographySubmit}
-        />
+        <GeographyLookup getPostcodeData={this.props.getPostcodeData} />
 
-        <Histogram geography={this.state.activeGeography} />
+        <Histogram geography={this.props.activeGeography} />
 
         <ReactMapGL
-          {...this.state.viewport}
+          {...this.props.viewport}
           mapStyle={MAPBOX_STYLE}
           mapboxApiAccessToken={MAPBOX_TOKEN}
           onViewportChange={viewport => this.onViewportChange(viewport)}
@@ -136,4 +120,27 @@ class App extends Component {
   }
 }
 
-export default App;
+App.propTypes = {
+  activeGeography: PropTypes.shape({
+    postcode: PropTypes.string,
+  }),
+  viewport: PropTypes.shape({
+    width: PropTypes.number,
+    height: PropTypes.number,
+    longitude: PropTypes.number,
+    latitude: PropTypes.number,
+    zoom: PropTypes.number,
+    maxZoom: PropTypes.number,
+    minZoom: PropTypes.number,
+  }).isRequired,
+
+  // Action dispatchers from Redux
+  updateViewport: PropTypes.func.isRequired,
+  getPostcodeData: PropTypes.func.isRequired,
+};
+
+App.defaultProps = {
+  activeGeography: {},
+};
+
+export default connect(state => state, actions)(App);

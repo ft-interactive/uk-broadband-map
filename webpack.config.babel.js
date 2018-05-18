@@ -116,6 +116,13 @@ module.exports = async (env = 'development') => ({
   devServer: {
     hot: false, // Needed for live-reloading Nunjucks templates.
     allowedHosts: ['.ngrok.io', 'local.ft.com'],
+    proxy: {
+      '/postcode': {
+        target:
+          'http://ft-ig-content-prod.s3-website-eu-west-1.amazonaws.com/v2/ft-interactive/uk-broadband-map/master',
+        changeOrigin: true,
+      },
+    },
   },
   devtool: 'source-map',
   plugins: [

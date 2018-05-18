@@ -74,6 +74,7 @@
     "prettier": "^1.10.2",
     "prettier-eslint": "^8.8.1",
     "raw-loader": "^0.5.1",
+    "redux-devtools-extension": "^2.13.2",
     "remove-markdown": "^0.2.0",
     "sass-loader": "^6.0.6",
     "serverless": "^1.27.2",
@@ -107,9 +108,13 @@
     "papaparse": "^4.4.0",
     "progress": "^2.0.0",
     "progress-stream": "^2.0.0",
+    "prop-types": "^15.6.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-map-gl": "^3.2.5",
+    "react-redux": "^5.0.7",
+    "redux": "^4.0.0",
+    "redux-thunk": "^2.2.0",
     "stream-progressbar": "^1.1.1"
   }
 }
