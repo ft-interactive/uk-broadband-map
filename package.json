@@ -26,6 +26,7 @@
   },
   "devDependencies": {
     "ajv": "^5.2.2",
+    "aws-cli": "0.0.2",
     "axios": "^0.16.2",
     "babel-eslint": "^7.2.3",
     "babel-loader": "^7.1.1",
@@ -75,6 +76,7 @@
     "raw-loader": "^0.5.1",
     "remove-markdown": "^0.2.0",
     "sass-loader": "^6.0.6",
+    "serverless": "^1.27.2",
     "style-loader": "^0.18.2",
     "webpack": "^3.3.0",
     "webpack-dev-server": "^2.5.1"
@@ -98,10 +100,16 @@
     "start": "nodemon -e html,njk,js --watch views --watch config --exec webpack-dev-server"
   },
   "dependencies": {
+    "aws-sdk": "^2.239.1",
+    "d3": "^5.4.0",
     "deck.gl": "^5.1.2",
     "mapbox-gl": "^0.44.1",
+    "papaparse": "^4.4.0",
+    "progress": "^2.0.0",
+    "progress-stream": "^2.0.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "react-map-gl": "^3.2.5"
+    "react-map-gl": "^3.2.5",
+    "stream-progressbar": "^1.1.1"
   }
 }
