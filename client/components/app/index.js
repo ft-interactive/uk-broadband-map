@@ -41,7 +41,7 @@ class App extends Component {
       },
       activeGeography: null,
     };
-    this.setZoom = this.setZoom.bind(this);
+    this.initialiseMap = this.initialiseMap.bind(this);
     this.onViewportChange = this.onViewportChange.bind(this);
     this.resize = this.resize.bind(this);
     this.handleGeographyChange = this.handleGeographyChange.bind(this);
@@ -54,22 +54,38 @@ class App extends Component {
     window.addEventListener('resize', this.resize);
 
     this.resize();
-    this.setZoom();
+    this.initialiseMap();
   }
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.resize);
   }
 
-  setZoom() {
-    const map = this.map.current.getMap();
-
-    console.log(map);
-  }
-
   onViewportChange(viewport) {
     this.setState({
       viewport: { ...this.state.viewport, ...viewport },
+    });
+  }
+
+  initialiseMap() {
+    const map = this.map.current.getMap();
+
+    map.on('load', () => {
+      const layers = map.getStyle().layers;
+      const firstSymbolId = layers.find(l => l.type === 'symbol').id;
+
+      console.log('Map resources loaded. Adding raster layer...');
+
+      map.addLayer({
+        id: 'geotiff-layer',
+        type: 'raster',
+        source: {
+          type: 'raster',
+          tiles: [`https://a.tiles.mapbox.com/v4/financialtimes.882qjlo5/{z}/{x}/{y}@2x.png?access_token=${MAPBOX_TOKEN}`],
+        },
+        minzoom: 4.9,
+        maxzoom: 10.1,
+      }, firstSymbolId);
     });
   }
 

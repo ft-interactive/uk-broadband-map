@@ -16,7 +16,7 @@ class GeographyLookup extends Component {
   handleSubmit(event) {
     event.preventDefault();
 
-    this.props.onGeographySubmit(this.input.value);
+    this.props.onGeographySubmit(this.textInput.current.value);
   }
 
   render() {
