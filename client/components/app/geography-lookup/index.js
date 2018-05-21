@@ -9,7 +9,6 @@ class GeographyLookup extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-
     this.props.getPostcodeData(this.textInput.current.value);
   };
 

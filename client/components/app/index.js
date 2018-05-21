@@ -50,9 +50,13 @@ class App extends Component {
     this.initialiseMap();
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(oldProps) {
     const { longitude, latitude } = this.props.activeGeography;
-    if (longitude && latitude) this.goToViewport({ longitude, latitude });
+    const { longitude: oldLong, latitude: oldLat } = oldProps.activeGeography;
+
+    if (longitude !== oldLong && latitude !== oldLat) {
+      this.goToViewport({ longitude, latitude });
+    }
   }
 
   componentWillUnmount() {
@@ -60,7 +64,6 @@ class App extends Component {
   }
 
   onViewportChange = (viewport) => {
-    console.log('aaaaa');
     this.props.updateViewport({ ...this.props.viewport, ...viewport });
   };
 
@@ -105,15 +108,14 @@ class App extends Component {
   };
 
   goToViewport = ({ longitude, latitude }) => {
-    const zoom = this.props.viewport.maxZoom;
-    console.log(longitude, latitude);
+    const { maxZoom: zoom } = this.props.viewport;
     this.onViewportChange({
       longitude,
       latitude,
       zoom: zoom * 2,
-      // transitionDuration: 5000,
-      // transitionInterpolator: new LinearInterpolator(),
-      // transitionEasing: d3.easeCubic,
+      transitionDuration: 5000,
+      transitionInterpolator: new LinearInterpolator(),
+      transitionEasing: d3.easeCubic,
     });
   };
 

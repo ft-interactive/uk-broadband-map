@@ -15,7 +15,7 @@ const Loader = ({ mapLoaded, handleLoaderComplete }) => (
 
 Loader.propTypes = {
   mapLoaded: PropTypes.bool.isRequired,
-  handleLoaderComplete: PropTypes.bool.isRequired,
+  handleLoaderComplete: PropTypes.func.isRequired,
 };
 
 export default Loader;
