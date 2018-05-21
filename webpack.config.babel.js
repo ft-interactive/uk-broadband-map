@@ -37,12 +37,12 @@ module.exports = async (env = 'development') => ({
               [
                 'env',
                 {
-                  // Via: https://docs.google.com/document/d/1mByh6sT8zI4XRyPKqWVsC2jUfXHZvhshS5SlHErWjXU/view
-                  browsers: ['last 2 versions', 'ie >= 11', 'safari >= 10', 'ios >= 9'],
+                  browsers: 'defaults',
                 },
               ],
-              ['react'],
+              'react',
             ],
+            plugins: ['transform-object-rest-spread', 'transform-class-properties'],
           },
         },
       },
