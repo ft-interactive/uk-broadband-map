@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactMapGL, { NavigationControl, LinearInterpolator } from 'react-map-gl';
 import * as d3 from 'd3-ease'; // eslint-disable-line
+import WebMercatorViewport from 'viewport-mercator-project';
 import GeographyLookup from './geography-lookup';
 import Histogram from './histogram';
 import Loader from './loader';
@@ -30,15 +31,20 @@ class App extends Component {
   constructor(props) {
     super(props);
 
+    const viewport = new WebMercatorViewport({
+      width: window.innerWidth,
+      height: window.innerHeight,
+    });
+    const bound = viewport.fitBounds(
+      [[-7.57216793459, 49.959999905], [1.68153079591, 58.6350001085]],
+      { padding: 20 },
+    );
+
     this.state = {
       viewport: {
-        width: window.innerWidth,
-        height: window.innerHeight,
-        longitude: -2.5,
-        latitude: 54.5,
-        zoom: 5,
-        maxZoom: 10,
-        minZoom: 5,
+        ...bound,
+        minZoom: bound.zoom,
+        maxZoom: 14,
       },
       activeGeography: null,
       mapLoaded: false,
@@ -58,7 +64,6 @@ class App extends Component {
   componentDidMount() {
     window.addEventListener('resize', this.resize);
 
-    this.resize();
     this.initialiseMap();
   }
 
@@ -84,18 +89,13 @@ class App extends Component {
   initialiseMap() {
     const map = this.map.current.getMap();
 
+    console.log('Loading map resources…');
+
     map.on('load', () => {
       const layers = map.getStyle().layers;
-      const firstSymbolId = layers.find(l => l.type === 'symbol').id;
+      const firstLineLayerId = layers.find(l => l.type === 'line').id;
 
-      console.log('Map resources loaded. Fitting map to UK bounds…');
-
-      map.fitBounds([
-        [-7.57216793459, 49.959999905],
-        [1.68153079591, 58.6350001085],
-      ], { padding: 20, duration: 0 });
-
-      console.log('Map fitted to UK bounds. Adding GeoTIFF layer…');
+      console.log('Map resources loaded. Adding GeoTIFF layer…');
 
       map.addLayer({
         id: 'geotiff-layer',
@@ -104,9 +104,9 @@ class App extends Component {
           type: 'raster',
           tiles: [`https://a.tiles.mapbox.com/v4/financialtimes.882qjlo5/{z}/{x}/{y}@2x.png?access_token=${MAPBOX_TOKEN}`],
         },
-        minzoom: 4.9,
-        maxzoom: 10.1,
-      }, firstSymbolId);
+        minzoom: 0,
+        maxzoom: 12,
+      }, firstLineLayerId);
 
       this.setState({ mapLoaded: true });
     });
@@ -126,12 +126,12 @@ class App extends Component {
   }
 
   goToViewport({ longitude, latitude }, activeGeography) {
-    const zoom = this.state.viewport.maxZoom;
+    const { zoom } = this.state.viewport;
 
     this.onViewportChange({
       longitude,
       latitude,
-      zoom,
+      zoom: zoom * 2,
       transitionDuration: 5000,
       transitionInterpolator: new LinearInterpolator(),
       transitionEasing: d3.easeCubic,
@@ -147,9 +147,10 @@ class App extends Component {
   }
 
   render() {
-    const loader = this.state.loaderComplete ? null : (
+    const { viewport, activeGeography, mapLoaded, loaderComplete } = this.state;
+    const loader = loaderComplete ? null : (
       <Loader
-        mapLoaded={this.state.mapLoaded}
+        mapLoaded={mapLoaded}
         onTransitionEnd={this.handleLoaderComplete}
         ref={this.loader}
       />
@@ -162,13 +163,13 @@ class App extends Component {
           onGeographySubmit={this.handleGeographySubmit}
         />
 
-        <Histogram geography={this.state.activeGeography} />
+        <Histogram geography={activeGeography} />
 
         <div className="map-container">
           {loader}
 
           <ReactMapGL
-            {...this.state.viewport}
+            {...viewport}
             mapStyle={MAPBOX_STYLE}
             mapboxApiAccessToken={MAPBOX_TOKEN}
             onViewportChange={viewport => this.onViewportChange(viewport)}
