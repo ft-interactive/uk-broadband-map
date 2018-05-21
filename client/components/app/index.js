@@ -4,7 +4,7 @@
  */
 
 import React, { Component } from 'react';
-import ReactMapGL, { NavigationControl, LinearInterpolator } from 'react-map-gl';
+import ReactMapGL, { NavigationControl, FlyToInterpolator } from 'react-map-gl';
 import * as d3 from 'd3-ease'; // eslint-disable-line
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -109,12 +109,13 @@ class App extends Component {
 
   goToViewport = ({ longitude, latitude }) => {
     const { maxZoom: zoom } = this.props.viewport;
+
     this.onViewportChange({
       longitude,
       latitude,
-      zoom: zoom * 2,
+      zoom,
       transitionDuration: 5000,
-      transitionInterpolator: new LinearInterpolator(),
+      transitionInterpolator: new FlyToInterpolator(),
       transitionEasing: d3.easeCubic,
     });
   };
@@ -156,6 +157,7 @@ class App extends Component {
               <NavigationControl
                 onViewportChange={(vp) => {
                   const { maxZoom, minZoom, ...viewportNoMaxMin } = vp;
+
                   return this.onViewportChange(viewportNoMaxMin);
                 }}
               />
