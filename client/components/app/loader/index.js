@@ -1,31 +1,21 @@
-import React, { Component } from 'react';
+/**
+ * @file
+ * Simple loader for when map is initialising
+ */
+
+import React from 'react';
+import PropTypes from 'prop-types';
 import './styles.scss';
 
-class Loader extends Component {
-  constructor(props) {
-    super(props);
+const Loader = ({ mapLoaded, handleLoaderComplete }) => (
+  <div className={`loader ${mapLoaded ? 'map-loaded' : ''}`} onTransitionEnd={handleLoaderComplete}>
+    <p>Loading…</p>
+  </div>
+);
 
-    this.loader = React.createRef();
-  }
-
-  componentDidMount() {
-    this.loader.current.addEventListener('transitionend', () => {
-      this.props.onTransitionEnd();
-    }, false);
-  }
-
-  render() {
-    const { mapLoaded } = this.props;
-
-    return (
-      <div
-        className={`loader ${mapLoaded ? 'map-loaded' : ''}`}
-        ref={this.loader}
-      >
-        <p>Loading…</p>
-      </div>
-    );
-  }
-}
+Loader.propTypes = {
+  mapLoaded: PropTypes.bool.isRequired,
+  handleLoaderComplete: PropTypes.bool.isRequired,
+};
 
 export default Loader;

@@ -3,7 +3,7 @@
  * Root reducer for Redux store
  */
 
-import { GET_POSTCODE_DATA, UPDATE_VIEWPORT } from './actions';
+import { GET_POSTCODE_DATA, UPDATE_VIEWPORT, SET_MAP_LOADED_STATUS } from './actions';
 
 const INITIAL_STATE = {
   viewport: {
@@ -16,6 +16,8 @@ const INITIAL_STATE = {
     minZoom: 5,
   },
   activeGeography: {},
+  mapLoaded: false,
+  loaderComplete: false,
 };
 
 export default (state = INITIAL_STATE, { type, payload }) => {
@@ -30,6 +32,12 @@ export default (state = INITIAL_STATE, { type, payload }) => {
       return {
         ...state,
         viewport: payload,
+      };
+
+    case SET_MAP_LOADED_STATUS:
+      return {
+        ...state,
+        mapLoaded: payload,
       };
 
     default:
