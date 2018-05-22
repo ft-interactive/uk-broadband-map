@@ -59,6 +59,7 @@
       &:focus {
         color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100);
         border-bottom-color: transparent;
+        outline: none;
       }
     }
 
