@@ -14,6 +14,7 @@ import GeographyLookup from './geography-lookup';
 import Histogram from './histogram';
 import Loader from './loader';
 import './styles.scss';
+import './speeds.json';
 
 const MAPBOX_STYLE = 'mapbox://styles/financialtimes/cjg290kic7od82rn46o3o719e';
 const MAPBOX_TOKEN = window.mapboxToken;
