@@ -13,6 +13,8 @@ import {
   UPDATE_VIEWPORT,
 } from './actions';
 
+export const UK_BOUNDS = [[-7.57216793459, 49.959999905], [1.68153079591, 58.6350001085]];
+
 const INITIAL_STATE = {
   viewport: {
     width: window.innerWidth,
@@ -28,6 +30,7 @@ const INITIAL_STATE = {
   loaderComplete: false,
   postcodeError: '',
   geolocatingInProgress: false,
+  ukBounds: UK_BOUNDS,
 };
 
 export default (state = INITIAL_STATE, { type, payload }) => {

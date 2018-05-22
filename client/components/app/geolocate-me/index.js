@@ -14,7 +14,9 @@ const GeolocateMe = ({ getUserLocation, geolocatingInProgress }) =>
   (geolocatingInProgress ? (
     <Icon className="spin" icon={spinner2} />
   ) : (
-    <Icon className="geolocate" icon={target} onClick={getUserLocation} />
+    <button>
+      <Icon className="geolocate" icon={target} onClick={getUserLocation} />
+    </button>
   ));
 
 GeolocateMe.propTypes = {

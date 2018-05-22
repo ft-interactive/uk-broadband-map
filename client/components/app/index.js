@@ -29,10 +29,7 @@ class App extends Component {
       height: props.viewport.height,
     });
 
-    const bound = viewport.fitBounds(
-      [[-7.57216793459, 49.959999905], [1.68153079591, 58.6350001085]],
-      { padding: 20 },
-    );
+    const bound = viewport.fitBounds(props.ukBounds, { padding: 20 });
 
     props.updateViewport({
       ...props.viewport,
@@ -130,7 +127,16 @@ class App extends Component {
   };
 
   render() {
-    const { viewport, activeGeography, speeds, mapLoaded } = this.props;
+    const {
+      activeGeography,
+      geolocatingInProgress,
+      getPostcodeData,
+      getUserLocation,
+      mapLoaded,
+      raisePostcodeError,
+      speeds,
+      viewport,
+    } = this.props;
 
     return (
       <div>
@@ -139,12 +145,12 @@ class App extends Component {
             <div data-o-grid-colspan="12 S11 Scenter M9 L8 XL7" className="locate-user">
               <GeographyLookup
                 goToViewport={this.goToViewport}
-                raisePostcodeError={this.props.raisePostcodeError}
-                getPostcodeData={this.props.getPostcodeData}
+                raisePostcodeError={raisePostcodeError}
+                getPostcodeData={getPostcodeData}
               />
               <GeolocateMe
-                getUserLocation={this.props.getUserLocation}
-                geolocatingInProgress={this.props.geolocatingInProgress}
+                getUserLocation={getUserLocation}
+                geolocatingInProgress={geolocatingInProgress}
               />
             </div>
           </div>
@@ -198,7 +204,7 @@ App.propTypes = {
     longitude: PropTypes.number,
     postcode: PropTypes.string,
   }),
-  speeds: PropTypes.array, // eslint-disable-line
+  speeds: PropTypes.array /* @TODO improve PropType */, // eslint-disable-line
   viewport: PropTypes.shape({
     width: PropTypes.number,
     height: PropTypes.number,
@@ -210,6 +216,7 @@ App.propTypes = {
   }).isRequired,
   mapLoaded: PropTypes.bool.isRequired,
   geolocatingInProgress: PropTypes.bool.isRequired,
+  ukBounds: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)).isRequired,
 
   // Action dispatchers from Redux
   updateViewport: PropTypes.func.isRequired,

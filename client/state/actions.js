@@ -3,6 +3,8 @@
  * Redux actions
  */
 
+import { isOutsideTheUK } from '../helpers';
+
 export const GET_POSTCODE_DATA = 'GET_POSTCODE_DATA';
 export const GET_SPEED_DATA = 'GET_SPEED_DATA';
 export const UPDATE_VIEWPORT = 'UPDATE_VIEWPORT';
@@ -58,6 +60,10 @@ export const getUserLocation = () => async (dispatch) => {
         navigator.geolocation.getCurrentPosition(resolve, reject),
       );
 
+      if (isOutsideTheUK(coords)) {
+        throw new Error('Outside UK Bounds');
+      }
+
       await dispatch({
         type: GET_USER_LOCATION,
         payload: {
@@ -74,7 +80,23 @@ export const getUserLocation = () => async (dispatch) => {
       throw new Error('Geolocation is unavailable');
     }
   } catch (e) {
-    console.error(e);
+    if (e.message === 'Outside UK Bounds') {
+      console.log('Outside UK bounds. Setting to FT offices');
+      await dispatch({
+        type: GET_USER_LOCATION,
+        payload: {
+          latitude: 51.5089683,
+          longitude: -0.0961675,
+        },
+      });
+
+      await dispatch({
+        type: GEOLOCATING_IN_PROGRESS,
+        payload: false,
+      });
+    } else {
+      console.error(e);
+    }
   }
 };
 
