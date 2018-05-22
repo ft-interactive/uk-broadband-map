@@ -8,7 +8,7 @@ export const UPDATE_VIEWPORT = 'UPDATE_VIEWPORT';
 export const SET_MAP_LOADED_STATUS = 'SET_MAP_LOADED_STATUS';
 
 export const getPostcodeData = postcode => dispatch =>
-  fetch(`postcode/${postcode.replace(/\s/g, '').toUpperCase()}.json`)
+  fetch(`${process.env.ENDPOINT || ''}postcode/${postcode.replace(/\s/g, '').toUpperCase()}.json`)
     .then(res => res.json())
     .then(data =>
       dispatch({
