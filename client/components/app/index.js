@@ -48,6 +48,7 @@ class App extends Component {
   componentDidMount() {
     window.addEventListener('resize', this.resize);
     this.initialiseMap();
+    this.props.getSpeedData();
   }
 
   componentDidUpdate(oldProps) {
@@ -135,7 +136,7 @@ class App extends Component {
           getPostcodeData={this.props.getPostcodeData}
         />
 
-        <Histogram geography={activeGeography} />
+        <Histogram geography={activeGeography} speeds={this.props.speeds}/>
 
         <div className="map-container">
           {this.state.loaderComplete ? null : (
@@ -176,6 +177,7 @@ App.propTypes = {
     longitude: PropTypes.number,
     postcode: PropTypes.string,
   }),
+  speeds: PropTypes.array,
   viewport: PropTypes.shape({
     width: PropTypes.number,
     height: PropTypes.number,
@@ -190,11 +192,13 @@ App.propTypes = {
   // Action dispatchers from Redux
   updateViewport: PropTypes.func.isRequired,
   getPostcodeData: PropTypes.func.isRequired,
+  getSpeedData: PropTypes.func.isRequired,
   setMapLoadedStatus: PropTypes.func.isRequired,
 };
 
 App.defaultProps = {
   activeGeography: {},
+  speeds: [],
 };
 
 export default connect(state => state, actions)(App);
