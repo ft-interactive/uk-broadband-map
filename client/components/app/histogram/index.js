@@ -8,6 +8,11 @@ import PropTypes from 'prop-types';
 import * as D3 from 'd3';
 
 export default class Histogram extends React.Component {
+  constructor() {
+    super();
+    this.node = React.createRef();
+  }
+
   componentDidMount() {
     this.update();
   }
@@ -18,7 +23,7 @@ export default class Histogram extends React.Component {
 
   update = () => {
     if (this.props.speeds.length === 0) return;
-    D3.select('svg').selectAll('*').remove();
+    D3.select(this.node.current).selectAll('*').remove();
     const width = 960;
     const height = 500;
     const margin = {
@@ -137,7 +142,7 @@ export default class Histogram extends React.Component {
   }
 
   render() {
-    return <svg/>;
+    return <svg ref={this.node}/>;
   }
 }
 
