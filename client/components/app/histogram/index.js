@@ -16,21 +16,6 @@ export default class Histogram extends React.Component {
     this.update();
   }
 
-  regionID = (name) => {
-    switch (name) {
-      case 'London': return 'London'
-      case 'Scotland': return 'Scotland'
-      case 'Wales': return 'Wales'
-      case 'South East': return 'SE'
-      case 'South West': return 'SW'
-      case 'East of England': return 'EE'
-      case 'West Midlands': return 'WM'
-      case 'Yorkshire and The Humber': return 'YH'
-      case 'North West': return 'NW'
-      case 'North East': return 'NE'
-    }
-  }
-
   update = () => {
     if (this.props.speeds.length === 0) return;
     D3.select('svg').selectAll('*').remove();
@@ -95,7 +80,21 @@ export default class Histogram extends React.Component {
         .attr('font-weight', 'bold')
         .text(this.props.geography.region);
       const yourSpeed = this.props.geography['Average_download_speed_(Mbit/s)'];
-      const region = this.regionID(this.props.geography.region);
+      const regionID = name => {
+        switch (name) {
+          case 'London': return 'London';
+          case 'Scotland': return 'Scotland';
+          case 'Wales': return 'Wales';
+          case 'South East': return 'SE';
+          case 'South West': return 'SW';
+          case 'East of England': return 'EE';
+          case 'West Midlands': return 'WM';
+          case 'Yorkshire and The Humber': return 'YH';
+          case 'North West': return 'NW';
+          case 'North East': return 'NE';
+        }
+      }
+      const region = regionID(this.props.geography.region);
       const columns = svg.append('g')
         .selectAll()
         .data(bins)
