@@ -14,6 +14,7 @@ import GeographyLookup from './geography-lookup';
 import Histogram from './histogram';
 import Summary from './summary';
 import Loader from './loader';
+import GeolocateMe from './geolocate-me';
 import './styles.scss';
 
 const MAPBOX_STYLE = 'mapbox://styles/financialtimes/cjg290kic7od82rn46o3o719e';
@@ -57,6 +58,7 @@ class App extends Component {
     const { longitude: oldLong, latitude: oldLat } = oldProps.activeGeography;
 
     if (longitude !== oldLong && latitude !== oldLat) {
+      console.log(longitude, latitude);
       this.goToViewport({ longitude, latitude });
     }
   }
@@ -134,11 +136,15 @@ class App extends Component {
       <div>
         <div className="o-grid-container">
           <div className="o-grid-row">
-            <div data-o-grid-colspan="12 S11 Scenter M9 L8 XL7">
+            <div data-o-grid-colspan="12 S11 Scenter M9 L8 XL7" className="locate-user">
               <GeographyLookup
                 goToViewport={this.goToViewport}
                 raisePostcodeError={this.props.raisePostcodeError}
                 getPostcodeData={this.props.getPostcodeData}
+              />
+              <GeolocateMe
+                getUserLocation={this.props.getUserLocation}
+                geolocatingInProgress={this.props.geolocatingInProgress}
               />
             </div>
           </div>
@@ -192,7 +198,7 @@ App.propTypes = {
     longitude: PropTypes.number,
     postcode: PropTypes.string,
   }),
-  speeds: PropTypes.array,
+  speeds: PropTypes.array, // eslint-disable-line
   viewport: PropTypes.shape({
     width: PropTypes.number,
     height: PropTypes.number,
@@ -203,6 +209,7 @@ App.propTypes = {
     minZoom: PropTypes.number,
   }).isRequired,
   mapLoaded: PropTypes.bool.isRequired,
+  geolocatingInProgress: PropTypes.bool.isRequired,
 
   // Action dispatchers from Redux
   updateViewport: PropTypes.func.isRequired,
@@ -210,6 +217,7 @@ App.propTypes = {
   getSpeedData: PropTypes.func.isRequired,
   setMapLoadedStatus: PropTypes.func.isRequired,
   raisePostcodeError: PropTypes.func.isRequired,
+  getUserLocation: PropTypes.func.isRequired,
 };
 
 App.defaultProps = {

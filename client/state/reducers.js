@@ -4,11 +4,13 @@
  */
 
 import {
+  GEOLOCATING_IN_PROGRESS,
   GET_POSTCODE_DATA,
   GET_SPEED_DATA,
-  UPDATE_VIEWPORT,
-  SET_MAP_LOADED_STATUS,
+  GET_USER_LOCATION,
   RAISE_POSTCODE_ERROR,
+  SET_MAP_LOADED_STATUS,
+  UPDATE_VIEWPORT,
 } from './actions';
 
 const INITIAL_STATE = {
@@ -25,6 +27,7 @@ const INITIAL_STATE = {
   mapLoaded: false,
   loaderComplete: false,
   postcodeError: '',
+  geolocatingInProgress: false,
 };
 
 export default (state = INITIAL_STATE, { type, payload }) => {
@@ -33,6 +36,21 @@ export default (state = INITIAL_STATE, { type, payload }) => {
       return {
         ...state,
         activeGeography: payload,
+      };
+
+    case GET_USER_LOCATION:
+      return {
+        ...state,
+        activeGeography: {
+          ...payload,
+          postcode: '<geolocated>',
+        },
+      };
+
+    case GEOLOCATING_IN_PROGRESS:
+      return {
+        ...state,
+        geolocatingInProgress: payload,
       };
 
     case GET_SPEED_DATA:

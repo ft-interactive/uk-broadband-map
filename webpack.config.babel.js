@@ -46,6 +46,7 @@ module.exports = async (env = 'development') => ({
               'transform-object-rest-spread',
               'transform-class-properties',
               'syntax-dynamic-import',
+              'transform-runtime',
             ],
           },
         },
