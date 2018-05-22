@@ -1,7 +1,7 @@
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import ImageminWebpackPlugin from 'imagemin-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-
+import { DefinePlugin } from 'webpack';
 // import { HotModuleReplacementPlugin } from 'webpack';
 import { resolve } from 'path';
 import getContext from './config';
@@ -126,6 +126,9 @@ module.exports = async (env = 'development') => ({
   },
   devtool: 'source-map',
   plugins: [
+    new DefinePlugin({
+      'process.env.ENDPOINT': JSON.stringify(process.env.ENDPOINT),
+    }),
     // new HotModuleReplacementPlugin(), // Re-enable if devServer.hot is set to true
     new ExtractTextPlugin({
       filename: env === 'production' ? '[name].[contenthash].css' : '[name].css',
