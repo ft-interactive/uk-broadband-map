@@ -83,26 +83,26 @@ class App extends Component {
     console.log('Loading map resources…');
 
     map.on('load', () => {
-      const layers = map.getStyle().layers;
-      const firstLineLayerId = layers.find(l => l.type === 'line').id;
-
-      console.log('Map resources loaded. Adding GeoTIFF layer…');
-
-      map.addLayer(
-        {
-          id: 'geotiff-layer',
-          type: 'raster',
-          source: {
-            type: 'raster',
-            tiles: [
-              `https://a.tiles.mapbox.com/v4/financialtimes.882qjlo5/{z}/{x}/{y}@2x.png?access_token=${MAPBOX_TOKEN}`,
-            ],
-          },
-          minzoom: 0,
-          maxzoom: 12,
-        },
-        firstLineLayerId,
-      );
+      // const layers = map.getStyle().layers;
+      // const firstLineLayerId = layers.find(l => l.type === 'line').id;
+      //
+      // console.log('Map resources loaded. Adding GeoTIFF layer…');
+      //
+      // map.addLayer(
+      //   {
+      //     id: 'geotiff-layer',
+      //     type: 'raster',
+      //     source: {
+      //       type: 'raster',
+      //       tiles: [
+      //         `https://a.tiles.mapbox.com/v4/financialtimes.882qjlo5/{z}/{x}/{y}@2x.png?access_token=${MAPBOX_TOKEN}`,
+      //       ],
+      //     },
+      //     minzoom: 0,
+      //     maxzoom: 12,
+      //   },
+      //   firstLineLayerId,
+      // );
 
       this.props.setMapLoadedStatus(true);
     });
