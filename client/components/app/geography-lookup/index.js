@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+const postcodeRegex = /^([Gg][Ii][Rr] ?0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9]?[A-Za-z])))) ?[0-9][A-Za-z]{2})$/i;
+
 class GeographyLookup extends Component {
   constructor(props) {
     super(props);
@@ -9,7 +11,23 @@ class GeographyLookup extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    this.props.getPostcodeData(this.textInput.current.value);
+    const postcode = this.textInput.current.value;
+    try {
+      if (!postcodeRegex.test(postcode)) {
+        throw new Error(`Postcode ${postcode} is invalid`);
+      } else if (
+        postcode
+          .toLowerCase()
+          .replace(/\s/g, '')
+          .startsWith('bt')
+      ) {
+        throw new Error(`Postcode ${postcode} is in Northern Ireland`);
+      }
+
+      this.props.getPostcodeData(postcode);
+    } catch (e) {
+      this.props.raisePostcodeError(e);
+    }
   };
 
   render() {
@@ -28,6 +46,7 @@ class GeographyLookup extends Component {
 
 GeographyLookup.propTypes = {
   getPostcodeData: PropTypes.func.isRequired,
+  raisePostcodeError: PropTypes.func.isRequired,
 };
 
 export default GeographyLookup;

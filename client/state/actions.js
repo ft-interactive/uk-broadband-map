@@ -7,20 +7,34 @@ export const GET_POSTCODE_DATA = 'GET_POSTCODE_DATA';
 export const GET_SPEED_DATA = 'GET_SPEED_DATA';
 export const UPDATE_VIEWPORT = 'UPDATE_VIEWPORT';
 export const SET_MAP_LOADED_STATUS = 'SET_MAP_LOADED_STATUS';
+export const RAISE_POSTCODE_ERROR = 'RAISE_POSTCODE_ERROR';
+
+export const raisePostcodeError = err => ({
+  type: RAISE_POSTCODE_ERROR,
+  payload: err.message,
+});
 
 export const getPostcodeData = postcode => dispatch =>
   fetch(`${process.env.ENDPOINT || ''}postcode/${postcode.replace(/\s/g, '').toUpperCase()}.json`)
-    .then(res => res.json())
-    .then(data =>
-      dispatch({
+    .then((res) => {
+      if (!res.ok) throw new Error('Invalid postcode');
+      return res.json();
+    })
+    .then((data) => {
+      if (data['Maximum_download_speed_(Mbit/s)'] === 'NA') {
+        throw new Error('Data is redacted due to small population size');
+      }
+
+      return dispatch({
         type: GET_POSTCODE_DATA,
         payload: {
           ...data,
           latitude: Number(data.latitude),
           longitude: Number(data.longitude), // Ensure type safety
         },
-      }),
-    );
+      });
+    })
+    .catch(err => dispatch(raisePostcodeError(err)));
 
 export const getSpeedData = () => dispatch =>
   import('../../speeds.json').then(data =>
