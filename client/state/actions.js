@@ -3,7 +3,6 @@
  * Redux actions
  */
 
-import * as speeds from '../../speeds.json';
 export const GET_POSTCODE_DATA = 'GET_POSTCODE_DATA';
 export const GET_SPEED_DATA = 'GET_SPEED_DATA';
 export const UPDATE_VIEWPORT = 'UPDATE_VIEWPORT';
@@ -24,10 +23,12 @@ export const getPostcodeData = postcode => dispatch =>
     );
 
 export const getSpeedData = () => dispatch =>
-  dispatch({
-    type: GET_SPEED_DATA,
-    payload: Object.values(speeds),
-  });
+  import('../../speeds.json').then(data =>
+    dispatch({
+      type: GET_SPEED_DATA,
+      payload: Object.values(data),
+    }),
+  );
 
 export const updateViewport = viewport => ({
   type: UPDATE_VIEWPORT,
