@@ -24,43 +24,28 @@
     <main role="main">
       <article class="article" itemscope itemtype="http://schema.org/Article">
         <div class="article-head o-grid-container">
-          <div class="o-grid-row">
-            <header data-o-grid-colspan="12 S11 Scenter M9">
-              {% block article_head %}
-              {% include "includes/article-head.html" %}
-              {% endblock %}
-            </header>
-          </div>
+          <header>
+            {% block article_head %}
+            {% include "includes/article-head.html" %}
+            {% endblock %}
+          </header>
         </div>
 
         <div class="article-body o-typography-wrapper" itemprop="articleBody">
+          <div class="o-grid-container">
+            <div class="o-grid-row">
+              <div data-o-grid-colspan="12 S11 Scenter M9 L8 XL7">
+                <p>
+                  Intro par. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                </p>
+              </div>
+            </div>
+          </div>
+
           <div id="root" class="app"></div>
 
           <div class="o-grid-container">
             <div class="o-grid-row">
-              <div data-o-grid-colspan="12 S11 Scenter M9 L8 XL7">
-                <div>
-                  {%- if byline -%}
-                    {%- if byline.push -%}
-                      {%- for author in byline -%}
-                        {{ " and " if not loop.first and loop.last else (", " if not loop.first else "") }}
-                        {%- if author.url -%}
-                        <a href="{{ author.url }}" class="o-typography-author">{{ author.name }}</a>
-                        {%- else -%}
-                        <span class="o-typography-author">{{ author.name }}</span>
-                        {%- endif -%}
-                      {%- endfor -%}
-                    {%- else -%}
-                      {{ byline | md(true) }}
-                    {%- endif -%}
-                  {%- endif -%}
-
-                  {%- if publishedDate -%}
-                  &nbsp;<span data-o-component="o-date" class="o-date o-typography-timestamp" datetime="{{ publishedDate | isotime }}">{{ publishedDate | ftdate }}</span>
-                  {%- endif -%}
-                </div>
-              </div>
-
               {% block article_body %}{% endblock %}
             </div>
           </div>
@@ -69,8 +54,9 @@
             <div class="o-grid-container">
               <div class="o-grid-row">
                 <div data-o-grid-colspan="12 S11 Scenter M9 L8 XL7">
-                  <small><a href="http://www.ft.com/servicestools/help/copyright" data-trackable="link-copyright">Copyright</a>
-                   <span itemprop="name">The Financial Times</span> Limited {{ now() | strftime('%Y') }}. All rights reserved. You may share using our article tools. Please don't cut articles from FT.com and redistribute by email or post to the web.</small>
+                  <small>
+                    <a href="http://www.ft.com/servicestools/help/copyright" data-trackable="link-copyright">Copyright</a><span itemprop="name"> The Financial Times</span> Limited {{ now() | strftime('%Y') }}. All rights reserved. You may share using our article tools. Please don't cut articles from FT.com and redistribute by email or post to the web.
+                  </small>
                 </div>
               </div>
             </div>

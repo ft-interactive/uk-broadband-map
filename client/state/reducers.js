@@ -8,7 +8,7 @@ import { GET_POSTCODE_DATA, GET_SPEED_DATA, UPDATE_VIEWPORT, SET_MAP_LOADED_STAT
 const INITIAL_STATE = {
   viewport: {
     width: window.innerWidth,
-    height: window.innerHeight,
+    height: window.innerHeight * 0.6,
     longitude: -2.5,
     latitude: 54.5,
     zoom: 0,

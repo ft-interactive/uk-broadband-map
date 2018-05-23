@@ -73,7 +73,7 @@ class App extends Component {
 
     this.onViewportChange({
       width: window.innerWidth,
-      height: window.innerHeight,
+      height: window.innerHeight * 0.6,
     });
   };
 
@@ -131,12 +131,16 @@ class App extends Component {
 
     return (
       <div>
-        <GeographyLookup
-          goToViewport={this.goToViewport}
-          getPostcodeData={this.props.getPostcodeData}
-        />
-
-        <Histogram geography={activeGeography} speeds={this.props.speeds}/>
+        <div className="o-grid-container">
+          <div className="o-grid-row">
+            <div data-o-grid-colspan="12 S11 Scenter M9 L8 XL7">
+              <GeographyLookup
+                goToViewport={this.goToViewport}
+                getPostcodeData={this.props.getPostcodeData}
+              />
+            </div>
+          </div>
+        </div>
 
         <div className="map-container">
           {this.state.loaderComplete ? null : (
@@ -164,6 +168,14 @@ class App extends Component {
               />
             </div>
           </ReactMapGL>
+        </div>
+
+        <div className="o-grid-container">
+          <div className="o-grid-row">
+            <div data-o-grid-colspan="12 S11 Scenter M9 L8 XL7">
+              <Histogram geography={activeGeography} speeds={this.props.speeds} />
+            </div>
+          </div>
         </div>
       </div>
     );
