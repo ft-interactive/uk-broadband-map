@@ -29,44 +29,46 @@
       {% endif %}
     </p>
 
-    {%- if byline -%}
-      {%- if byline.push -%}
-      Words by&nbsp;
-        {%- for author in byline -%}
-          {{ " and " if not loop.first and loop.last else (", " if not loop.first else "") }}
-          {%- if author.url -%}
-          <a href="{{ author.url }}" class="o-typography-author">{{ author.name }}</a>
-          {%- else -%}
-          <span class="o-typography-author">{{ author.name }}</span>
-          {%- endif -%}
-        {%- endfor -%}
-      {%- else -%}
-        {{ byline | md(true) }}
-      {%- endif -%}
-    {%- endif -%}
-
-    {%- if igByline -%}
-      {%- if byline.push -%}
-      .&nbsp;Graphics and interactivity by&nbsp;
-        {%- for author in igByline -%}
-          {{ " and " if not loop.first and loop.last else (", " if not loop.first else "") }}
-          {%- if author.url -%}
-          <a href="{{ author.url }}" class="o-typography-author">{{ author.name }}</a>
-          {%- else -%}
-          <span class="o-typography-author">{{ author.name }}</span>
-          {%- endif -%}
-        {%- endfor -%}
-      {%- else -%}
-        {{ igByline | md(true) }}
-      {%- endif -%}
-    {%- endif -%}
-
-    {%- if publishedDate -%}
-    &nbsp;<span data-o-component="o-date" class="o-date o-typography-timestamp" datetime="{{ publishedDate | isotime }}">{{ publishedDate | ftdate }}</span>
-    {%- endif -%}
-
     {% if flags.shareButtons %}
       {% include "includes/share.html" %}
     {% endif %}
+
+    <div class="byline">
+      {%- if byline -%}
+        {%- if byline.push -%}
+        Words by&nbsp;
+          {%- for author in byline -%}
+            {{ " and " if not loop.first and loop.last else (", " if not loop.first else "") }}
+            {%- if author.url -%}
+            <a href="{{ author.url }}" class="o-typography-author">{{ author.name }}</a>
+            {%- else -%}
+            <span class="o-typography-author">{{ author.name }}</span>
+            {%- endif -%}
+          {%- endfor -%}
+        {%- else -%}
+          {{ byline | md(true) }}
+        {%- endif -%}
+      {%- endif -%}
+
+      {%- if igByline -%}
+        {%- if byline.push -%}
+        ;&nbsp;graphics and interactivity by&nbsp;
+          {%- for author in igByline -%}
+            {{ " and " if not loop.first and loop.last else (", " if not loop.first else "") }}
+            {%- if author.url -%}
+            <a href="{{ author.url }}" class="o-typography-author">{{ author.name }}</a>
+            {%- else -%}
+            <span class="o-typography-author">{{ author.name }}</span>
+            {%- endif -%}
+          {%- endfor -%}
+        {%- else -%}
+          {{ igByline | md(true) }}
+        {%- endif -%}
+      {%- endif -%}
+
+      {%- if publishedDate -%}
+      &nbsp;in London&nbsp;<span data-o-component="o-date" class="o-date o-typography-timestamp" datetime="{{ publishedDate | isotime }}">{{ publishedDate | ftdate }}</span>
+      {%- endif -%}
+    </div>
   </div>
 </div>
