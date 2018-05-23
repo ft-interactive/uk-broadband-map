@@ -24,7 +24,7 @@ export default class Histogram extends React.Component {
   update = () => {
     if (this.props.speeds.length === 0) return;
     D3.select(this.node.current).selectAll('*').remove();
-    const width = D3.select(this.node.current).node().parentNode.getBoundingClientRect().width;
+    const width = D3.select(this.node.current).node().getBoundingClientRect().width;
     const height = width * 0.55;
     const margin = {
       top: 5,
@@ -43,7 +43,8 @@ export default class Histogram extends React.Component {
       .tickValues([0, 10, 24, 30, 150])
     const yAxis = D3.axisRight(yScale)
       .ticks(5);
-    const svg = D3.select('svg')
+    const svg = D3.select(this.node.current)
+      .append('svg')
       .attr('width', width)
       .attr('height', height);
     const xAxisElement = svg.append('g')
@@ -142,7 +143,7 @@ export default class Histogram extends React.Component {
   }
 
   render() {
-    return <svg ref={this.node}/>;
+    return <div ref={this.node}></div>;
   }
 }
 
