@@ -94,6 +94,7 @@ export default class Histogram extends React.Component {
           case 'South East': return 'SE';
           case 'South West': return 'SW';
           case 'East of England': return 'EE';
+          case 'East Midlands': return 'EM';
           case 'West Midlands': return 'WM';
           case 'Yorkshire and The Humber': return 'YH';
           case 'North West': return 'NW';
