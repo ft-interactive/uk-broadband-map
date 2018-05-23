@@ -18,6 +18,7 @@ const INITIAL_STATE = {
   speeds: [],
   mapLoaded: false,
   loaderComplete: false,
+  isTouch: !document.body.classList.contains('no-touchevents'),
 };
 
 export default (state = INITIAL_STATE, { type, payload }) => {
