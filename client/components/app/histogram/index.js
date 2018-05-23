@@ -24,8 +24,8 @@ export default class Histogram extends React.Component {
   update = () => {
     if (this.props.speeds.length === 0) return;
     D3.select(this.node.current).selectAll('*').remove();
-    const width = 960;
-    const height = 500;
+    const width = D3.select(this.node.current).node().parentNode.getBoundingClientRect().width;
+    const height = width * 0.55;
     const margin = {
       top: 5,
       right: 40,
