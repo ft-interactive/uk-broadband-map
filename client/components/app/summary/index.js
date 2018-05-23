@@ -18,10 +18,12 @@ const Summary = (props) => {
       case 'South East': return { code: 'SE', phrasing: 'the South East' };
       case 'South West': return { code: 'SW', phrasing: 'the South West' };
       case 'East of England': return { code: 'EE', phrasing: 'the East of England' };
+      case 'East Midlands': return { code: 'EM', phrasing: 'the East Midlands' };
       case 'West Midlands': return { code: 'WM', phrasing: 'the West Midlands' };
       case 'Yorkshire and The Humber': return { code: 'YH', phrasing: 'Yorkshire and the Humber' };
       case 'North West': return { code: 'NW', phrasing: 'the North West' };
       case 'North East': return { code: 'NE', phrasing: 'the North East' };
+      default: throw new Error('Unknown area!');
     }
   };
   const region = regionID(props.geography.region);
