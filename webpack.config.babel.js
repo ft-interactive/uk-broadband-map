@@ -42,7 +42,11 @@ module.exports = async (env = 'development') => ({
               ],
               'react',
             ],
-            plugins: ['transform-object-rest-spread', 'transform-class-properties'],
+            plugins: [
+              'transform-object-rest-spread',
+              'transform-class-properties',
+              'syntax-dynamic-import',
+            ],
           },
         },
       },
