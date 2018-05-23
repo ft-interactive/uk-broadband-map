@@ -11,19 +11,26 @@ $o-typography-is-silent: false;
     margin-top: 55px;
     text-align: center;
 
-    .o-typography-topic {
-      border-bottom: 4px solid #ffffff;
+    header {
+      width: 100%;
+
+      .o-typography-topic {
+        border-bottom: 4px solid #ffffff;
+      }
+
+      .o-typography-headline {
+        margin: 32px 0 13px;
+      }
+
+      .o-typography-standfirst {
+        margin-bottom: 22px;
+      }
+
+      .article__share {
+        margin-bottom: 16px;
+      }
     }
 
-    h1 {
-      margin-top: 32px;
-    }
-
-    .o-typography-standfirst {
-      max-width: 700px;
-      margin-left: auto;
-      margin-right: auto;
-    }
   }
 
   .cities {

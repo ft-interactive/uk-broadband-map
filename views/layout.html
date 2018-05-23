@@ -24,13 +24,11 @@
     <main role="main">
       <article class="article" itemscope itemtype="http://schema.org/Article">
         <div class="article-head o-grid-container">
-          <div class="o-grid-row">
-            <header data-o-grid-colspan="12 S11 Scenter M9">
-              {% block article_head %}
-              {% include "includes/article-head.html" %}
-              {% endblock %}
-            </header>
-          </div>
+          <header>
+            {% block article_head %}
+            {% include "includes/article-head.html" %}
+            {% endblock %}
+          </header>
         </div>
 
         <div class="article-body o-typography-wrapper" itemprop="articleBody">
@@ -38,29 +36,6 @@
 
           <div class="o-grid-container">
             <div class="o-grid-row">
-              <div data-o-grid-colspan="12 S11 Scenter M9 L8 XL7">
-                <div>
-                  {%- if byline -%}
-                    {%- if byline.push -%}
-                      {%- for author in byline -%}
-                        {{ " and " if not loop.first and loop.last else (", " if not loop.first else "") }}
-                        {%- if author.url -%}
-                        <a href="{{ author.url }}" class="o-typography-author">{{ author.name }}</a>
-                        {%- else -%}
-                        <span class="o-typography-author">{{ author.name }}</span>
-                        {%- endif -%}
-                      {%- endfor -%}
-                    {%- else -%}
-                      {{ byline | md(true) }}
-                    {%- endif -%}
-                  {%- endif -%}
-
-                  {%- if publishedDate -%}
-                  &nbsp;<span data-o-component="o-date" class="o-date o-typography-timestamp" datetime="{{ publishedDate | isotime }}">{{ publishedDate | ftdate }}</span>
-                  {%- endif -%}
-                </div>
-              </div>
-
               {% block article_body %}{% endblock %}
             </div>
           </div>
