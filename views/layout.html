@@ -59,11 +59,9 @@
                   &nbsp;<span data-o-component="o-date" class="o-date o-typography-timestamp" datetime="{{ publishedDate | isotime }}">{{ publishedDate | ftdate }}</span>
                   {%- endif -%}
                 </div>
-
-                <div>
-                  {% block article_body %}{% endblock %}
-                </div>
               </div>
+
+              {% block article_body %}{% endblock %}
             </div>
           </div>
 
