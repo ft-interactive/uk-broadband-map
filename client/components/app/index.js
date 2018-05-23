@@ -128,7 +128,7 @@ class App extends Component {
   };
 
   render() {
-    const { viewport, activeGeography, mapLoaded } = this.props;
+    const { viewport, activeGeography, speeds, mapLoaded } = this.props;
 
     return (
       <div>
@@ -174,8 +174,8 @@ class App extends Component {
         <div className="o-grid-container">
           <div className="o-grid-row">
             <div data-o-grid-colspan="12 S11 Scenter M9 L8 XL7">
-              <Histogram geography={activeGeography} speeds={this.props.speeds} />
-              <Summary geography={activeGeography} speeds={this.props.speeds}/>
+              <Histogram geography={activeGeography} speeds={speeds} />
+              <Summary geography={activeGeography} speeds={speeds}/>
             </div>
           </div>
         </div>
