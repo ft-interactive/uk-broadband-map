@@ -31,6 +31,7 @@
     "babel-runtime": "^6.26.0",
     "bower": "^1.8.0",
     "chai": "^4.1.0",
+    "cheerio": "^1.0.0-rc.2",
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.28.4",
     "d3-time-format": "^2.0.5",
@@ -104,6 +105,7 @@
     "react-redux": "^5.0.7",
     "redux": "^4.0.0",
     "redux-thunk": "^2.2.0",
+    "structured-google-docs-client": "0.0.3",
     "viewport-mercator-project": "^5.1.0"
   }
 }
