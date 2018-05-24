@@ -1,17 +1,91 @@
+$o-typography-is-silent: false;
+
 @import 'o-colors/main';
 @import 'o-grid/main';
+@import 'o-typography/main';
 @import 'components/core/main';
+@import 'components/core/dark';
 
-/*
-      TODO: delete this comment
+.article {
+  &-head {
+    margin-top: 55px;
+    text-align: center;
 
-      Write your code here - keep it neat!
-      Split logical parts of you project into components e.g.
+    header {
+      width: 100%;
 
-      /client
-        - /components
-            - /component-name
-                - styles.scss
-                - index.js
-                - template.html
-*/
+      .o-typography-topic {
+        border-bottom: 4px solid #ffffff;
+      }
+
+      .o-typography-headline {
+        margin: 32px 0 13px;
+      }
+
+      .o-typography-standfirst {
+        margin-bottom: 22px;
+      }
+
+      .article__share {
+        margin-bottom: 16px;
+      }
+
+      .byline {
+        text-align: left;
+      }
+    }
+
+  }
+
+  .cities {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-gap: 10px;
+
+    div {
+      width: 100%;
+      background: center center/cover no-repeat;
+      padding-bottom: 100%;
+
+      &.one {
+        background-image: url("http://placekitten.com/780/1000");
+      }
+
+      &.two {
+        background-image: url("http://placekitten.com/780/1000");
+      }
+
+      &.three {
+        background-image: url("http://placekitten.com/780/1000");
+      }
+
+      &.four {
+        background-image: url("http://placekitten.com/780/1000");
+      }
+
+      &.five {
+        background-image: url("http://placekitten.com/780/1000");
+      }
+
+      &.six {
+        background-image: url("http://placekitten.com/780/1000");
+      }
+
+      &.seven {
+        background-image: url("http://placekitten.com/780/1000");
+      }
+
+      &.eight {
+        background-image: url("http://placekitten.com/780/1000");
+      }
+
+      &.nine {
+        background-image: url("http://placekitten.com/780/1000");
+      }
+    }
+  }
+
+  .cities-caption {
+    margin-bottom: 18px;
+  }
+}

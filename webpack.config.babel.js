@@ -1,7 +1,7 @@
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import ImageminWebpackPlugin from 'imagemin-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-
+import { DefinePlugin } from 'webpack';
 // import { HotModuleReplacementPlugin } from 'webpack';
 import { resolve } from 'path';
 import getContext from './config';
@@ -37,11 +37,12 @@ module.exports = async (env = 'development') => ({
               [
                 'env',
                 {
-                  // Via: https://docs.google.com/document/d/1mByh6sT8zI4XRyPKqWVsC2jUfXHZvhshS5SlHErWjXU/view
-                  browsers: ['last 2 versions', 'ie >= 11', 'safari >= 10', 'ios >= 9'],
+                  browsers: 'defaults',
                 },
               ],
+              'react',
             ],
+            plugins: ['transform-object-rest-spread', 'transform-class-properties'],
           },
         },
       },
@@ -115,9 +116,19 @@ module.exports = async (env = 'development') => ({
   devServer: {
     hot: false, // Needed for live-reloading Nunjucks templates.
     allowedHosts: ['.ngrok.io', 'local.ft.com'],
+    proxy: {
+      '/postcode': {
+        target:
+          'http://ft-ig-content-prod.s3-website-eu-west-1.amazonaws.com/v2/ft-interactive/uk-broadband-map/master',
+        changeOrigin: true,
+      },
+    },
   },
   devtool: 'source-map',
   plugins: [
+    new DefinePlugin({
+      'process.env.ENDPOINT': JSON.stringify(process.env.ENDPOINT),
+    }),
     // new HotModuleReplacementPlugin(), // Re-enable if devServer.hot is set to true
     new ExtractTextPlugin({
       filename: env === 'production' ? '[name].[contenthash].css' : '[name].css',
