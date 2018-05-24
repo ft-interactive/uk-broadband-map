@@ -1,0 +1,13 @@
+.spin {
+  animation: rotate 1.5s linear infinite;
+}
+
+.geolocate {
+  cursor: pointer;
+}
+
+@keyframes rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
