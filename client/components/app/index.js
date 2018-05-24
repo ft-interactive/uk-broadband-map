@@ -104,6 +104,8 @@ class App extends Component {
       //   firstLineLayerId,
       // );
 
+      console.log('Map resources loaded');
+
       this.props.setMapLoadedStatus(true);
     });
   };
