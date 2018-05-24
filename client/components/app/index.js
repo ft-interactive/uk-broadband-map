@@ -14,6 +14,7 @@ import GeographyLookup from './geography-lookup';
 import Histogram from './histogram';
 import Summary from './summary';
 import Loader from './loader';
+import GeolocateMe from './geolocate-me';
 import './styles.scss';
 
 const MAPBOX_STYLE = 'mapbox://styles/financialtimes/cjg290kic7od82rn46o3o719e';
@@ -28,10 +29,7 @@ class App extends Component {
       height: props.viewport.height,
     });
 
-    const bound = viewport.fitBounds(
-      [[-7.57216793459, 49.959999905], [1.68153079591, 58.6350001085]],
-      { padding: 20 },
-    );
+    const bound = viewport.fitBounds(props.ukBounds, { padding: 20 });
 
     props.updateViewport({
       ...props.viewport,
@@ -57,6 +55,7 @@ class App extends Component {
     const { longitude: oldLong, latitude: oldLat } = oldProps.activeGeography;
 
     if (longitude !== oldLong && latitude !== oldLat) {
+      console.log(longitude, latitude);
       this.goToViewport({ longitude, latitude });
     }
   }
@@ -84,26 +83,28 @@ class App extends Component {
     console.log('Loading map resources…');
 
     map.on('load', () => {
-      const layers = map.getStyle().layers;
-      const firstLineLayerId = layers.find(l => l.type === 'line').id;
+      // const layers = map.getStyle().layers;
+      // const firstLineLayerId = layers.find(l => l.type === 'line').id;
+      //
+      // console.log('Map resources loaded. Adding GeoTIFF layer…');
+      //
+      // map.addLayer(
+      //   {
+      //     id: 'geotiff-layer',
+      //     type: 'raster',
+      //     source: {
+      //       type: 'raster',
+      //       tiles: [
+      //         `https://a.tiles.mapbox.com/v4/financialtimes.882qjlo5/{z}/{x}/{y}@2x.png?access_token=${MAPBOX_TOKEN}`,
+      //       ],
+      //     },
+      //     minzoom: 0,
+      //     maxzoom: 12,
+      //   },
+      //   firstLineLayerId,
+      // );
 
-      console.log('Map resources loaded. Adding GeoTIFF layer…');
-
-      map.addLayer(
-        {
-          id: 'geotiff-layer',
-          type: 'raster',
-          source: {
-            type: 'raster',
-            tiles: [
-              `https://a.tiles.mapbox.com/v4/financialtimes.882qjlo5/{z}/{x}/{y}@2x.png?access_token=${MAPBOX_TOKEN}`,
-            ],
-          },
-          minzoom: 0,
-          maxzoom: 12,
-        },
-        firstLineLayerId,
-      );
+      console.log('Map resources loaded');
 
       this.props.setMapLoadedStatus(true);
     });
@@ -128,16 +129,30 @@ class App extends Component {
   };
 
   render() {
-    const { viewport, activeGeography, speeds, mapLoaded } = this.props;
+    const {
+      activeGeography,
+      geolocatingInProgress,
+      getPostcodeData,
+      getUserLocation,
+      mapLoaded,
+      raisePostcodeError,
+      speeds,
+      viewport,
+    } = this.props;
 
     return (
       <div>
         <div className="o-grid-container">
           <div className="o-grid-row">
-            <div data-o-grid-colspan="12 S11 Scenter M9 L8 XL7">
+            <div data-o-grid-colspan="12 S11 Scenter M9 L8 XL7" className="locate-user">
               <GeographyLookup
                 goToViewport={this.goToViewport}
-                getPostcodeData={this.props.getPostcodeData}
+                raisePostcodeError={raisePostcodeError}
+                getPostcodeData={getPostcodeData}
+              />
+              <GeolocateMe
+                getUserLocation={getUserLocation}
+                geolocatingInProgress={geolocatingInProgress}
               />
             </div>
           </div>
@@ -175,7 +190,7 @@ class App extends Component {
           <div className="o-grid-row">
             <div data-o-grid-colspan="12 S11 Scenter M9 L8 XL7">
               <Histogram geography={activeGeography} speeds={speeds} />
-              <Summary geography={activeGeography} speeds={speeds}/>
+              <Summary geography={activeGeography} speeds={speeds} />
             </div>
           </div>
         </div>
@@ -191,7 +206,7 @@ App.propTypes = {
     longitude: PropTypes.number,
     postcode: PropTypes.string,
   }),
-  speeds: PropTypes.array,
+  speeds: PropTypes.array /* @TODO improve PropType */, // eslint-disable-line
   viewport: PropTypes.shape({
     width: PropTypes.number,
     height: PropTypes.number,
@@ -202,12 +217,16 @@ App.propTypes = {
     minZoom: PropTypes.number,
   }).isRequired,
   mapLoaded: PropTypes.bool.isRequired,
+  geolocatingInProgress: PropTypes.bool.isRequired,
+  ukBounds: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)).isRequired,
 
   // Action dispatchers from Redux
   updateViewport: PropTypes.func.isRequired,
   getPostcodeData: PropTypes.func.isRequired,
   getSpeedData: PropTypes.func.isRequired,
   setMapLoadedStatus: PropTypes.func.isRequired,
+  raisePostcodeError: PropTypes.func.isRequired,
+  getUserLocation: PropTypes.func.isRequired,
 };
 
 App.defaultProps = {
