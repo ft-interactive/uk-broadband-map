@@ -28,6 +28,7 @@ const INITIAL_STATE = {
   speeds: [],
   mapLoaded: false,
   loaderComplete: false,
+  isTouch: !document.body.classList.contains('no-touchevents'),
   postcodeError: '',
   geolocatingInProgress: false,
   ukBounds: UK_BOUNDS,
