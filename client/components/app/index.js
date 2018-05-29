@@ -15,6 +15,7 @@ import Histogram from './histogram';
 import Summary from './summary';
 import Loader from './loader';
 import GeolocateMe from './geolocate-me';
+import ImageGrid from './image-grid';
 import './styles.scss';
 
 const MAPBOX_STYLE = 'mapbox://styles/financialtimes/cjg290kic7od82rn46o3o719e';
