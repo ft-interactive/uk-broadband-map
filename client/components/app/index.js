@@ -21,6 +21,9 @@ import './styles.scss';
 const MAPBOX_STYLE = 'mapbox://styles/financialtimes/cjg290kic7od82rn46o3o719e';
 const MAPBOX_TOKEN = window.mapboxToken;
 
+// @TODO replace
+const imageGrid1Images = require('./image-grid/placeholders.json');
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -205,7 +208,17 @@ class App extends Component {
               );
             case '<!-- Lead urban/rural histogram here -->':
             case '<!-- Image grid 1 -->':
+              return (
+                <ImageGrid images={imageGrid1Images}>
+                  {({ url, title, alt }) => <img src={url} alt={alt} title={title} />}
+                </ImageGrid>
+              );
             case '<!-- Image grid 2 -->':
+              return (
+                <ImageGrid images={imageGrid1Images}>
+                  {({ url, title, alt }) => <img src={url} alt={alt} title={title} />}
+                </ImageGrid>
+              );
             default:
               return (
                 <div className="o-grid-container">
