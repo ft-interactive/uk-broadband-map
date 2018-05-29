@@ -14,6 +14,7 @@ import GeographyLookup from './geography-lookup';
 import Histogram from './histogram';
 import Summary from './summary';
 import Loader from './loader';
+import ZoomControls from './zoom-controls';
 import './styles.scss';
 
 const MAPBOX_STYLE = 'mapbox://styles/financialtimes/cjg290kic7od82rn46o3o719e';
@@ -28,10 +29,7 @@ class App extends Component {
       height: props.viewport.height,
     });
 
-    const bound = viewport.fitBounds(
-      [[-7.57216793459, 49.959999905], [1.68153079591, 58.6350001085]],
-      { padding: 20 },
-    );
+    const bound = viewport.fitBounds([[-8.655, 49.9], [1.79, 60.85000000000001]], { padding: 0 });
 
     props.updateViewport({
       ...props.viewport,
@@ -41,6 +39,7 @@ class App extends Component {
 
     this.state = {
       loaderComplete: false, // loaderComplete kept as part of state b/c impl. deet
+      dragEnabled: false,
     };
 
     this.map = React.createRef();
@@ -55,9 +54,10 @@ class App extends Component {
   componentDidUpdate(oldProps) {
     const { longitude, latitude } = this.props.activeGeography;
     const { longitude: oldLong, latitude: oldLat } = oldProps.activeGeography;
+    const zoom = 12;
 
     if (longitude !== oldLong && latitude !== oldLat) {
-      this.goToViewport({ longitude, latitude });
+      this.goToViewport({ longitude, latitude, zoom });
     }
   }
 
@@ -66,7 +66,10 @@ class App extends Component {
   }
 
   onViewportChange = (viewport) => {
+    const dragEnabled = viewport.zoom !== this.props.viewport.minZoom;
+
     this.props.updateViewport({ ...this.props.viewport, ...viewport });
+    this.setState({ dragEnabled });
   };
 
   resize = () => {
@@ -111,14 +114,21 @@ class App extends Component {
     });
   };
 
-  goToViewport = ({ longitude, latitude }) => {
-    const { maxZoom: zoom } = this.props.viewport;
+  goToViewport = ({
+    longitude = this.props.viewport.longitude,
+    latitude = this.props.viewport.latitude,
+    zoom,
+  }) => {
+    const { zoom: currentZoom } = this.props.viewport;
+    const transitionDuration = Math.abs((zoom - currentZoom) * 500);
+
+    console.log(`Transition duration: ${transitionDuration}`);
 
     this.onViewportChange({
       longitude,
       latitude,
       zoom,
-      transitionDuration: 5000,
+      transitionDuration,
       transitionInterpolator: new FlyToInterpolator(),
       transitionEasing: d3.easeCubic,
     });
@@ -138,7 +148,6 @@ class App extends Component {
           <div className="o-grid-row">
             <div data-o-grid-colspan="12 S11 Scenter M9 L8 XL7">
               <GeographyLookup
-                goToViewport={this.goToViewport}
                 raisePostcodeError={this.props.raisePostcodeError}
                 getPostcodeData={this.props.getPostcodeData}
               />
@@ -157,20 +166,19 @@ class App extends Component {
             mapboxApiAccessToken={MAPBOX_TOKEN}
             onViewportChange={this.onViewportChange}
             scrollZoom={false}
+            dragPan={this.state.dragEnabled}
             dragRotate={false}
             doubleClickZoom={false}
             touchZoom={false}
+            touchRotate={false}
             ref={this.map}
           >
-            <div className="navigation-control-container">
-              <NavigationControl
-                onViewportChange={(vp) => {
-                  const { maxZoom, minZoom, ...viewportNoMaxMin } = vp;
-
-                  return this.onViewportChange(viewportNoMaxMin);
-                }}
-              />
-            </div>
+            <ZoomControls
+              zoom={viewport.zoom}
+              minZoom={viewport.minZoom}
+              onZoomChange={this.goToViewport}
+              dragEnabled={this.state.dragEnabled}
+            />
           </ReactMapGL>
         </div>
 

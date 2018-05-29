@@ -14,11 +14,11 @@ import {
 const INITIAL_STATE = {
   viewport: {
     width: window.innerWidth,
-    height: window.innerHeight * 0.6,
+    height: window.innerHeight * 0.75,
     longitude: -2.5,
     latitude: 54.5,
     zoom: 0,
-    maxZoom: 14,
+    maxZoom: 15,
   },
   activeGeography: {},
   speeds: [],

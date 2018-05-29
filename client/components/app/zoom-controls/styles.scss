@@ -1,0 +1,73 @@
+@import 'o-grid/main';
+
+.drag-indicator-container,
+.zoom-control-container {
+  position: absolute;
+  top: 10px;
+
+  @include oGridRespondTo(M) {
+    top: 20px;
+  }
+}
+
+.drag-indicator-container {
+  left: 10px;
+
+  div:first-child {
+    display: inline;
+  }
+
+  .drag-indicator {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: red;
+  }
+
+  .enabled {
+    background-color: green;
+  }
+
+  @include oGridRespondTo(M) {
+    left: 20px;
+  }
+}
+
+.zoom-control-container {
+  display: flex;
+  flex-direction: column;
+  right: 10px;
+
+  @include oGridRespondTo(M) {
+    right: 20px;
+  }
+
+  .o-buttons.o-buttons--inverse {
+    $buttons: 6;
+    $button-height: 30;
+
+    display: block;
+    z-index: 1;
+    background-color: rgba(38, 42, 51, 0.8);
+
+    @for $i from 1 to $buttons {
+      &:nth-child(#{$i + 1}) {
+        position: absolute;
+        z-index: 0;
+        top: #{$button-height * $i}px;
+        right: 0;
+        transition: all #{$i * 50 + 250}ms ease-in-out;
+
+        &.hidden {
+          opacity: 0;
+          top: 0px;
+        }
+      }
+    }
+
+    &[aria-selected='true'] {
+      color: #1aecff;
+    }
+  }
+}
