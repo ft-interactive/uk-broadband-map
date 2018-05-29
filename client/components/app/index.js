@@ -3,7 +3,7 @@
  * Main app component
  */
 
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import ReactMapGL, { NavigationControl, FlyToInterpolator } from 'react-map-gl';
 import * as d3 from 'd3-ease'; // eslint-disable-line
 import { connect } from 'react-redux';
@@ -55,7 +55,6 @@ class App extends Component {
     const { longitude: oldLong, latitude: oldLat } = oldProps.activeGeography;
 
     if (longitude !== oldLong && latitude !== oldLat) {
-      console.log(longitude, latitude);
       this.goToViewport({ longitude, latitude });
     }
   }
@@ -141,60 +140,85 @@ class App extends Component {
     } = this.props;
 
     return (
-      <div>
-        <div className="o-grid-container">
-          <div className="o-grid-row">
-            <div data-o-grid-colspan="12 S11 Scenter M9 L8 XL7" className="locate-user">
-              <GeographyLookup
-                goToViewport={this.goToViewport}
-                raisePostcodeError={raisePostcodeError}
-                getPostcodeData={getPostcodeData}
-              />
-              <GeolocateMe
-                getUserLocation={getUserLocation}
-                geolocatingInProgress={geolocatingInProgress}
-              />
-            </div>
-          </div>
-        </div>
+      <Fragment>
+        {window.PRELOADED_COPY.map((el) => {
+          switch (el) {
+            case '<!-- Postcode input, Mapbox map and dynamic histogram -->':
+              return (
+                <Fragment>
+                  <div className="o-grid-container">
+                    <div className="o-grid-row">
+                      <div data-o-grid-colspan="12 S11 Scenter M9 L8 XL7" className="locate-user">
+                        <GeographyLookup
+                          goToViewport={this.goToViewport}
+                          raisePostcodeError={raisePostcodeError}
+                          getPostcodeData={getPostcodeData}
+                        />
+                        <GeolocateMe
+                          getUserLocation={getUserLocation}
+                          geolocatingInProgress={geolocatingInProgress}
+                        />
+                      </div>
+                    </div>
+                  </div>
 
-        <div className="map-container">
-          {this.state.loaderComplete ? null : (
-            <Loader mapLoaded={mapLoaded} handleLoaderComplete={this.handleLoaderComplete} />
-          )}
+                  <div className="map-container">
+                    {this.state.loaderComplete ? null : (
+                      <Loader
+                        mapLoaded={mapLoaded}
+                        handleLoaderComplete={this.handleLoaderComplete}
+                      />
+                    )}
 
-          <ReactMapGL
-            {...viewport}
-            mapStyle={MAPBOX_STYLE}
-            mapboxApiAccessToken={MAPBOX_TOKEN}
-            onViewportChange={this.onViewportChange}
-            scrollZoom={false}
-            dragRotate={false}
-            doubleClickZoom={false}
-            touchZoom={false}
-            ref={this.map}
-          >
-            <div className="navigation-control-container">
-              <NavigationControl
-                onViewportChange={(vp) => {
-                  const { maxZoom, minZoom, ...viewportNoMaxMin } = vp;
+                    <ReactMapGL
+                      {...viewport}
+                      mapStyle={MAPBOX_STYLE}
+                      mapboxApiAccessToken={MAPBOX_TOKEN}
+                      onViewportChange={this.onViewportChange}
+                      scrollZoom={false}
+                      dragRotate={false}
+                      doubleClickZoom={false}
+                      touchZoom={false}
+                      ref={this.map}
+                    >
+                      <div className="navigation-control-container">
+                        <NavigationControl
+                          onViewportChange={(vp) => {
+                            const { maxZoom, minZoom, ...viewportNoMaxMin } = vp;
 
-                  return this.onViewportChange(viewportNoMaxMin);
-                }}
-              />
-            </div>
-          </ReactMapGL>
-        </div>
-
-        <div className="o-grid-container">
-          <div className="o-grid-row">
-            <div data-o-grid-colspan="12 S11 Scenter M9 L8 XL7">
-              <Histogram geography={activeGeography} speeds={speeds} />
-              <Summary geography={activeGeography} speeds={speeds} />
-            </div>
-          </div>
-        </div>
-      </div>
+                            return this.onViewportChange(viewportNoMaxMin);
+                          }}
+                        />
+                      </div>
+                    </ReactMapGL>
+                  </div>
+                  <div className="o-grid-container">
+                    <div className="o-grid-row">
+                      <div data-o-grid-colspan="12 S11 Scenter M9 L8 XL7">
+                        <Histogram geography={activeGeography} speeds={speeds} />
+                        <Summary geography={activeGeography} speeds={speeds} />
+                      </div>
+                    </div>
+                  </div>
+                </Fragment>
+              );
+            case '<!-- Lead urban/rural histogram here -->':
+            case '<!-- Image grid 1 -->':
+            case '<!-- Image grid 2 -->':
+            default:
+              return (
+                <div className="o-grid-container">
+                  <div className="o-grid-row">
+                    <div data-o-grid-colspan="12 S11 Scenter M9 L8 XL7">
+                      {/* eslint-disable-next-line */}
+                      <p dangerouslySetInnerHTML={{ __html: el }} />
+                    </div>
+                  </div>
+                </div>
+              );
+          }
+        })}
+      </Fragment>
     );
   }
 }

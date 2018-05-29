@@ -7,8 +7,7 @@ import getOnwardJourney from './onward-journey';
 if (process.env.NODE_ENV !== 'production') require('dotenv').config(); // eslint-disable-line
 
 export default async (environment = 'development') => {
-  const content = await sanitise(await structuredGoogleDoc(process.env.DOC_KEY));
-  console.log(content);
+  const copy = await sanitise(await structuredGoogleDoc(process.env.DOC_KEY));
   const d = await article(environment);
   const flags = await getFlags(environment);
   const onwardJourney = await getOnwardJourney(environment);
@@ -40,6 +39,6 @@ export default async (environment = 'development') => {
     flags,
     onwardJourney,
     mapboxToken,
-    content,
+    copy,
   };
 };
