@@ -29,12 +29,12 @@ export default class Histogram extends React.Component {
     const width = D3.select(this.node.current)
       .node()
       .getBoundingClientRect().width;
-    const height = width * 0.55;
+    const height = width * 0.7;
     const margin = {
-      top: 5,
-      right: 40,
-      bottom: 45,
-      left: 10,
+      top: 70,
+      right: 10,
+      bottom: 55,
+      left: 20,
     };
     const bins = this.props.speeds.filter(d => d.megabit <= 150);
     const xScale = D3.scaleLinear()
@@ -44,50 +44,63 @@ export default class Histogram extends React.Component {
       .domain([0, 5])
       .range([height - margin.bottom, margin.top]);
     const xAxis = D3.axisBottom(xScale).tickValues([0, 10, 24, 30, 150]);
-    const yAxis = D3.axisRight(yScale).ticks(5);
+    const yAxis = D3.axisLeft(yScale).ticks(5);
     const svg = D3.select(this.node.current)
       .append('svg')
       .attr('width', width)
       .attr('height', height);
+    svg
+      .append('text')
+      .attr('x', margin.left)
+      .attr('y', 25)
+      .attr('fill', 'white')
+      .attr('font-family', 'FinancierDisplayWeb, serif')
+      .attr('font-size', '32px')
+      .text(this.props.geography.region ? `Broadband speed in ${this.props.geography.region}` : 'Broadband speed nationally');
+    svg
+      .append('g')
+      .attr('stroke', '#37393f')
+      .selectAll()
+      .data(D3.range(5, 0, -1))
+      .enter()
+      .append('line')
+      .attr('x1', margin.left)
+      .attr('y1', yScale)
+      .attr('x2', width - margin.left - margin.right)
+      .attr('y2', yScale);
     const xAxisElement = svg
       .append('g')
       .attr('transform', `translate(0, ${height - margin.bottom})`)
       .call(xAxis)
       .attr('font-family', null)
-      .attr('font-size', null);
+      .attr('font-size', '14px');
     xAxisElement.selectAll('line,path').attr('stroke', '#a8aaad');
     xAxisElement.selectAll('text').attr('fill', '#a8aaad');
     xAxisElement
       .append('text')
-      .attr('x', 10)
-      .attr('y', 40)
-      .attr('text-anchor', 'start')
-      .attr('fill', 'white')
-      .text('Broadband speed');
+      .attr('x', width - margin.left - margin.right)
+      .attr('y', 50)
+      .attr('fill', '#a8aaad')
+      .attr('font-size', '20px')
+      .attr('text-anchor', 'end')
+      .text('Average download speed (Mbit/s)');
     const yAxisElement = svg
       .append('g')
-      .attr('transform', `translate(${width - margin.right}, 0)`)
+      .attr('transform', `translate(${margin.left}, 0)`)
       .call(yAxis)
       .attr('font-family', null)
-      .attr('font-size', null);
-    yAxisElement.selectAll('line,path').attr('stroke', '#a8aaad');
+      .attr('font-size', '14px');
+    yAxisElement.selectAll('line,path').attr('stroke', 'none');
     yAxisElement.selectAll('text').attr('fill', '#a8aaad');
     yAxisElement
       .append('text')
-      .attr('x', 5)
-      .attr('y', -25)
+      .attr('x', 0)
+      .attr('y', 50)
+      .attr('fill', '#a8aaad')
+      .attr('font-size', '20px')
       .attr('text-anchor', 'start')
-      .attr('fill', 'white')
-      .attr('transform', 'rotate(90)')
-      .text('Percent of postcodes');
+      .text('% of postcodes');
     if (Object.keys(this.props.geography).length > 0) {
-      svg
-        .append('text')
-        .attr('x', 10)
-        .attr('y', 15)
-        .attr('fill', 'white')
-        .attr('font-weight', 'bold')
-        .text(this.props.geography.region);
       const yourSpeed = this.props.geography['Average_download_speed_(Mbit/s)'];
       const regionID = (name) => {
         switch (name) {
@@ -116,40 +129,25 @@ export default class Histogram extends React.Component {
         }
       };
       const region = regionID(this.props.geography.region);
+      const colours = value => D3.interpolateRgbBasis(['#981626', '#ce0f35', '#ff1a66', '#ff7760', '#ffffcc'])(value / bins.length);
       const columns = svg
         .append('g')
         .selectAll()
         .data(bins)
         .enter()
-        .append('g')
-        .attr('transform', d => `translate(${xScale(d.megabit - 2)}, 0)`);
-      columns
         .append('rect')
-        .attr('fill', d => D3.interpolateBlues((d.megabit - 2) / bins.length))
-        .attr('y', d => yScale(d[`${region}_rural`]))
+        .attr('fill', d => colours(d.megabit - 2))
+        .attr('x', d => xScale(d.megabit - 2))
+        .attr('y', d => yScale(d[`${region}_rural`] + d[`${region}_urban`]))
         .attr('width', (width - margin.left - margin.right) / bins.length)
-        .attr('height', d => yScale(0) - yScale(d[`${region}_rural`]));
+        .attr('height', d => yScale(0) - yScale(d[`${region}_rural`] + d[`${region}_urban`]));
       columns
-        .append('rect')
-        .attr('fill', d => D3.interpolateReds((d.megabit - 2) / bins.length))
-        .attr('y', d => yScale(d[`${region}_urban`]) - (yScale(0) - yScale(d[`${region}_rural`])))
-        .attr('width', (width - margin.left - margin.right) / bins.length)
-        .attr('height', d => yScale(0) - yScale(d[`${region}_urban`]));
-      const yourColumn = columns.filter(d => d.megabit > yourSpeed).filter((_, i) => i === 0);
-      yourColumn
-        .append('path')
-        .attr('d', D3.symbol().type(D3.symbolTriangle))
-        .attr('fill', 'white')
-        .attr('transform', (d) => {
-          const x = -((width - margin.left - margin.right) / bins.length) / 2;
-          const y = -yScale(d[`${region}_rural`] + d[`${region}_urban`]) + 15;
-          return `rotate(180) translate(${x}, ${y})`;
-        })
-        .attr('width', (width - margin.left - margin.right) / bins.length / 2)
-        .attr('height', 10);
+        .filter(d => d.megabit > yourSpeed)
+        .filter((_, i) => i === 0)
+        .attr('stroke', 'white');
     }
     const line = D3.line()
-      .x(d => xScale(d.megabit - 2))
+      .x(d => xScale(d.megabit - 2) + ((width - margin.left - margin.right) / bins.length))
       .y(d => yScale(d.national_pct));
     svg
       .append('path')
@@ -157,8 +155,8 @@ export default class Histogram extends React.Component {
       .attr('fill', 'none')
       .attr('stroke', 'white')
       .attr('stroke-linejoin', 'round')
-      .attr('stroke-dasharray', '4, 4')
-      .attr('stroke-width', 1.5)
+      .attr('stroke-dasharray', '6, 5')
+      .attr('stroke-width', 2.5)
       .attr('d', line);
   };
 
