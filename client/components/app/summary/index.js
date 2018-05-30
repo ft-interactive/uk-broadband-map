@@ -36,7 +36,7 @@ const Summary = (props) => {
     window.open(`https://twitter.com/intent/tweet?text=${encodeURI(contents)}`);
   }
   return <div className="summary">
-    <span>{text}</span>
+    <span>“{text}”</span>
     <button onClick={tweet}>Tweet this</button>
   </div>;
 }

@@ -194,7 +194,7 @@ class App extends Component {
                   </div>
                   <div className="o-grid-container">
                     <div className="o-grid-row">
-                      <div data-o-grid-colspan="12 S11 Scenter M9 L8 XL7">
+                      <div data-o-grid-colspan="12 S11 Scenter M11 L10 XL9">
                         <Histogram geography={activeGeography} speeds={speeds} />
                         <Summary geography={activeGeography} speeds={speeds} />
                       </div>
