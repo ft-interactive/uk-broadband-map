@@ -210,13 +210,13 @@ class App extends Component {
             case '<!-- Image grid 1 -->':
               return (
                 <ImageGrid images={imageGrid1Images}>
-                  {({ url, title, alt }) => <img src={url} alt={alt} title={title} />}
+                  {(alt, ...props) => <img alt={alt} {...props} />}
                 </ImageGrid>
               );
             case '<!-- Image grid 2 -->':
               return (
                 <ImageGrid images={imageGrid1Images}>
-                  {({ url, title, alt }) => <img src={url} alt={alt} title={title} />}
+                  {(alt, ...props) => <img alt={alt} {...props} />}
                 </ImageGrid>
               );
             default:

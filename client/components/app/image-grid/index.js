@@ -26,6 +26,10 @@ ImageGrid.propTypes = {
       alt: PropTypes.string.isRequired,
     }),
   ),
+  caption: PropTypes.shape({
+    names: PropTypes.arrayOf(PropTypes.string),
+    source: PropTypes.string,
+  }),
 };
 
 ImageGrid.defaultProps = {
