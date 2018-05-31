@@ -82,13 +82,11 @@ class App extends Component {
     const bound = viewport.fitBounds([[-8.655, 49.9], [1.79, 60.85000000000001]], { padding: 0 });
 
     if (zoom === minZoom) {
-      console.log('at minzoom');
       this.onViewportChange({
         ...bound,
         minZoom: bound.zoom,
       });
     } else {
-      console.log('not at minzoom');
       this.onViewportChange({
         width,
         height,
@@ -105,7 +103,7 @@ class App extends Component {
     map.on('load', () => {
       console.log('Map resources loaded.');
 
-      // this.setPanBounds(map);
+      this.setPanBounds(map);
 
       this.props.setMapLoadedStatus(true);
     });
