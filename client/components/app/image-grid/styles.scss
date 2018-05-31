@@ -1,0 +1,25 @@
+@import 'o-grid/main';
+
+.image-grid {
+  & > * {
+    width: 100%;
+    display: block;
+  }
+
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  grid-gap: 5px;
+
+  @include oGridRespondTo($from: S) {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+
+  @include oGridRespondTo($from: L, $until: XL) {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-gap: 10px;
+  }
+
+  @include oGridRespondTo(XL) {
+    grid-gap: 10px;
+  }
+}
