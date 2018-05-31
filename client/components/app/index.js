@@ -24,29 +24,16 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    const viewport = new WebMercatorViewport({
-      width: props.viewport.width,
-      height: props.viewport.height,
-    });
-
-    const bound = viewport.fitBounds([[-8.655, 49.9], [1.79, 60.85000000000001]], { padding: 0 });
-
-    props.updateViewport({
-      ...props.viewport,
-      ...bound,
-      minZoom: bound.zoom,
-    });
-
     this.state = {
       loaderComplete: false, // loaderComplete kept as part of state b/c impl. deet
       dragEnabled: false,
     };
-
     this.map = React.createRef();
   }
 
   componentDidMount() {
     window.addEventListener('resize', this.resize);
+    this.resize();
     this.initialiseMap();
     this.props.getSpeedData();
   }
@@ -66,24 +53,16 @@ class App extends Component {
   }
 
   onViewportChange = (viewport) => {
-    const dragEnabled = viewport.zoom !== this.props.viewport.minZoom;
+    const dragEnabled = viewport.zoom && viewport.zoom !== viewport.minZoom;
 
     this.props.updateViewport({ ...this.props.viewport, ...viewport });
     this.setState({ dragEnabled });
   };
 
-  resize = () => {
-    console.log('Viewport will resize…');
-
-    this.onViewportChange({
-      width: window.innerWidth,
-      height: window.innerHeight * 0.6,
-    });
-  };
-
-  setPanBounds = (map) => {
+  setPanBounds = () => {
     console.log('Getting initial map bounds…');
 
+    const map = this.map.current.getMap();
     const bounds = map.getBounds();
 
     console.log('Got initial map bounds. Setting maximum bounds…');
@@ -91,6 +70,31 @@ class App extends Component {
     map.setMaxBounds(bounds);
 
     console.log(`Maximum bounds fixed at ${bounds._sw} (SW), ${bounds._ne} (NE).`); // eslint-disable-line
+  };
+
+  resize = () => {
+    console.log('Viewport will resize…');
+
+    const width = window.innerWidth;
+    const height = window.innerHeight * 0.75;
+    const viewport = new WebMercatorViewport({ width, height });
+    const { zoom, minZoom } = this.props.viewport;
+    const bound = viewport.fitBounds([[-8.655, 49.9], [1.79, 60.85000000000001]], { padding: 0 });
+
+    if (zoom === minZoom) {
+      console.log('at minzoom');
+      this.onViewportChange({
+        ...bound,
+        minZoom: bound.zoom,
+      });
+    } else {
+      console.log('not at minzoom');
+      this.onViewportChange({
+        width,
+        height,
+        minZoom: bound.zoom,
+      });
+    }
   };
 
   initialiseMap = () => {
@@ -101,7 +105,7 @@ class App extends Component {
     map.on('load', () => {
       console.log('Map resources loaded.');
 
-      this.setPanBounds(map);
+      // this.setPanBounds(map);
 
       this.props.setMapLoadedStatus(true);
     });

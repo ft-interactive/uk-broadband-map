@@ -19,6 +19,7 @@ const INITIAL_STATE = {
     latitude: 54.5,
     zoom: 0,
     maxZoom: 15,
+    minZoom: 0,
   },
   activeGeography: {},
   speeds: [],
