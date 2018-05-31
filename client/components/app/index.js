@@ -210,13 +210,16 @@ class App extends Component {
             case '<!-- Image grid 1 -->':
               return (
                 <ImageGrid images={imageGrid1Images}>
-                  {(alt, ...props) => <img alt={alt} {...props} />}
+                  {({ alt, ...props }) => {
+                    console.log(alt, props);
+                    return <img alt={alt} {...props} />;
+                  }}
                 </ImageGrid>
               );
             case '<!-- Image grid 2 -->':
               return (
                 <ImageGrid images={imageGrid1Images}>
-                  {(alt, ...props) => <img alt={alt} {...props} />}
+                  {({ alt, ...props }) => <img alt={alt} {...props} />}
                 </ImageGrid>
               );
             default:
