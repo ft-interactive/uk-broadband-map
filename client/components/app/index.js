@@ -53,7 +53,9 @@ class App extends Component {
   }
 
   onViewportChange = (viewport) => {
-    const dragEnabled = viewport.zoom && viewport.zoom !== viewport.minZoom;
+    const zoom = viewport.zoom || this.props.viewport.zoom;
+    const minZoom = viewport.minZoom || this.props.viewport.minZoom;
+    const dragEnabled = zoom.toFixed(5) !== minZoom.toFixed(5);
 
     this.props.updateViewport({ ...this.props.viewport, ...viewport });
     this.setState({ dragEnabled });
@@ -103,7 +105,7 @@ class App extends Component {
     map.on('load', () => {
       console.log('Map resources loaded.');
 
-      this.setPanBounds(map);
+      // this.setPanBounds(map);
       this.props.setMapLoadedStatus(true);
     });
   };
@@ -169,8 +171,7 @@ class App extends Component {
             ref={this.map}
           >
             <ZoomControls
-              zoom={viewport.zoom}
-              minZoom={viewport.minZoom}
+              viewport={viewport}
               onZoomChange={this.goToViewport}
               dragEnabled={this.state.dragEnabled}
             />
