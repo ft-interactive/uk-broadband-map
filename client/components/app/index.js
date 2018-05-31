@@ -81,34 +81,27 @@ class App extends Component {
     });
   };
 
+  setPanBounds = (map) => {
+    console.log('Getting initial map bounds…');
+
+    const bounds = map.getBounds();
+
+    console.log('Got initial map bounds. Setting maximum bounds…');
+
+    map.setMaxBounds(bounds);
+
+    console.log(`Maximum bounds fixed at ${bounds._sw} (SW), ${bounds._ne} (NE).`);
+  };
+
   initialiseMap = () => {
     const map = this.map.current.getMap();
 
     console.log('Loading map resources…');
 
     map.on('load', () => {
-      // const layers = map.getStyle().layers;
-      // const firstLineLayerId = layers.find(l => l.type === 'line').id;
-      //
-      // console.log('Map resources loaded. Adding GeoTIFF layer…');
-      //
-      // map.addLayer(
-      //   {
-      //     id: 'geotiff-layer',
-      //     type: 'raster',
-      //     source: {
-      //       type: 'raster',
-      //       tiles: [
-      //         `https://a.tiles.mapbox.com/v4/financialtimes.882qjlo5/{z}/{x}/{y}@2x.png?access_token=${MAPBOX_TOKEN}`,
-      //       ],
-      //     },
-      //     minzoom: 0,
-      //     maxzoom: 12,
-      //   },
-      //   firstLineLayerId,
-      // );
+      console.log('Map resources loaded.');
 
-      console.log('Map resources loaded');
+      this.setPanBounds(map);
 
       this.props.setMapLoadedStatus(true);
     });
