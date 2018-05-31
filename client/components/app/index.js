@@ -4,7 +4,7 @@
  */
 
 import React, { Component } from 'react';
-import ReactMapGL, { NavigationControl, FlyToInterpolator } from 'react-map-gl';
+import ReactMapGL, { FlyToInterpolator } from 'react-map-gl';
 import * as d3 from 'd3-ease'; // eslint-disable-line
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -104,7 +104,6 @@ class App extends Component {
       console.log('Map resources loaded.');
 
       this.setPanBounds(map);
-
       this.props.setMapLoadedStatus(true);
     });
   };
@@ -131,6 +130,7 @@ class App extends Component {
 
   handleLoaderComplete = () => {
     console.log('Loader opacity transition complete. Unmounting Loader…');
+
     this.setState({ loaderComplete: true });
   };
 
