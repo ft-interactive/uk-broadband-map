@@ -15,8 +15,8 @@ const INITIAL_STATE = {
   viewport: {
     width: window.innerWidth,
     height: window.innerHeight * 0.75,
-    longitude: -2.5,
-    latitude: 54.5,
+    longitude: -3.432,
+    latitude: 55.757,
     zoom: 0,
     maxZoom: 15,
     minZoom: 0,
