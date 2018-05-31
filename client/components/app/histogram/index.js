@@ -34,7 +34,7 @@ export default class Histogram extends React.Component {
     const margin = {
       top: 100,
       right: 15,
-      bottom: 50,
+      bottom: 48,
       left: 40,
     };
     const bins = this.props.speeds.filter(d => d.megabit <= 150);
@@ -82,11 +82,12 @@ export default class Histogram extends React.Component {
       .attr('font-size', '16px');
     xAxisElement
       .append('text')
-      .attr('x', width - margin.right)
-      .attr('y', 45)
+      .attr('dy', '-0.2em')
+      .attr('x', margin.left + ((width - margin.left - margin.right) / 2))
+      .attr('y', margin.bottom)
       .attr('fill', '#939394')
       .attr('font-size', '14px')
-      .attr('text-anchor', 'end')
+      .attr('text-anchor', 'middle')
       .text('Average download speed (Mbit/s)'.toUpperCase());
     const yAxisElement = svg
       .append('g')
@@ -101,12 +102,13 @@ export default class Histogram extends React.Component {
       .attr('font-size', '16px');
     yAxisElement
       .append('text')
-      .attr('x', -200)
-      .attr('y', -25)
+      .attr('dy', '1em')
+      .attr('x', -(margin.bottom + ((height - margin.top - margin.bottom) / 2)))
+      .attr('y', -margin.left)
       .attr('transform', 'rotate(-90)')
       .attr('fill', '#939394')
       .attr('font-size', '14px')
-      .attr('text-anchor', 'start')
+      .attr('text-anchor', 'end')
       .text('% of postcodes'.toUpperCase());
     if (Object.keys(this.props.geography).length > 0) {
       const yourSpeed = this.props.geography['Average_download_speed_(Mbit/s)'];
@@ -152,7 +154,8 @@ export default class Histogram extends React.Component {
       columns
         .filter(d => d.megabit > yourSpeed)
         .filter((_, i) => i === 0)
-        .attr('stroke', 'white');
+        .attr('stroke', d => d.megabit > 60 ? 'black' : 'white')
+        .raise();
     }
     const line = D3.line()
       .x(d => xScale(d.megabit - 2) + ((width - margin.left - margin.right) / bins.length))
