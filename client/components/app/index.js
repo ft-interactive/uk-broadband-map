@@ -90,7 +90,7 @@ class App extends Component {
 
     map.setMaxBounds(bounds);
 
-    console.log(`Maximum bounds fixed at ${bounds._sw} (SW), ${bounds._ne} (NE).`);
+    console.log(`Maximum bounds fixed at ${bounds._sw} (SW), ${bounds._ne} (NE).`); // eslint-disable-line
   };
 
   initialiseMap = () => {
