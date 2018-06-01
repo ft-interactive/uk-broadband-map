@@ -200,6 +200,7 @@ class App extends Component {
                     >
                       <ZoomControls
                         viewport={viewport}
+                        zoomLevels={[viewport.minZoom, 6, 9, 12, 15]}
                         onZoomChange={this.goToViewport}
                         dragEnabled={this.state.dragEnabled}
                       />

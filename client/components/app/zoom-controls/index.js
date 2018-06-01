@@ -1,35 +1,18 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import WebMercatorViewport from 'viewport-mercator-project';
 import './styles.scss';
 
-class ZoomControls extends Component {
-  constructor(props) {
-    super(props);
+// TODO: figure out how to set this without using state
+const controlsHidden = false;
 
-    this.state = {
-      controlsHidden: false,
-    };
-    this.zoomLevels = [props.viewport.minZoom, 6, 9, 12, 15];
-  }
-
-  componentDidUpdate() {
-    const { minZoom } = this.props.viewport;
-
-    this.zoomLevels[0] = minZoom;
-  }
-
-  handleHideClick = () => {
-    const { controlsHidden } = this.state;
-
-    this.setState({ controlsHidden: !controlsHidden });
-  };
-
+class ZoomControls extends PureComponent {
   handleZoomClick = (event) => {
+    console.log(event.target.value);
     const zoom = Number(event.target.value);
-    const { minZoom, longitude, latitude } = this.props.viewport;
+    const { longitude, latitude, minZoom } = this.props.viewport;
 
-    if (zoom === minZoom) {
+    if (zoom.toFixed(5) === minZoom.toFixed(5)) {
       const viewport = new WebMercatorViewport({
         width: window.innerWidth,
         height: window.innerHeight * 0.75,
@@ -50,30 +33,31 @@ class ZoomControls extends Component {
     });
   };
 
-  render() {
-    const { controlsHidden } = this.state;
-    const { zoom } = this.props.viewport;
-    const { dragEnabled } = this.props;
-    const hideButton = (
-      <button onClick={this.handleHideClick} className="o-buttons o-buttons--inverse zoom-hide">
-        {controlsHidden ? 'Show controls' : 'Hide controls'}
+  renderZoomButton = (num) => {
+    const { zoomLevels } = this.props;
+    const { zoom: currentZoomLevel } = this.props.viewport;
+    const currentZoomIndex = zoomLevels.indexOf(currentZoomLevel);
+    let value;
+
+    if (currentZoomIndex > -1) {
+      value = num > -1 ? zoomLevels[currentZoomIndex - 1] : zoomLevels[currentZoomIndex + 1];
+    } else {
+      value = 'HURRRRR';
+    }
+
+    return (
+      <button
+        value={value}
+        onClick={this.handleZoomClick}
+        className={`o-buttons o-buttons--inverse zoom-plus ${controlsHidden ? 'hidden' : ''}`}
+      >
+        {value}
       </button>
     );
-    const zoomButtons = this.zoomLevels.map((z, i) => (
-      /* eslint-disable jsx-a11y/role-supports-aria-props */
-      <button
-        key={z}
-        value={z}
-        onClick={this.handleZoomClick}
-        className={`o-buttons o-buttons--inverse zoom-${i === 0 ? 'reset' : z} ${
-          controlsHidden ? 'hidden' : ''
-        }`}
-        aria-selected={z.toFixed(5) === zoom.toFixed(5) ? 'true' : 'false'}
-      >
-        {i === 0 ? 'Reset zoom' : `${z}x`}
-      </button>
-      /* eslint-enable jsx-a11y/role-supports-aria-props */
-    ));
+  };
+
+  render() {
+    const { dragEnabled } = this.props;
 
     return (
       <div>
@@ -84,8 +68,7 @@ class ZoomControls extends Component {
         </div>
 
         <div className="o-buttons__group zoom-control-container">
-          {hideButton}
-          {zoomButtons}
+          {[1, -1].map(x => this.renderZoomButton(x))}
         </div>
       </div>
     );
@@ -94,6 +77,7 @@ class ZoomControls extends Component {
 
 ZoomControls.propTypes = {
   viewport: PropTypes.object.isRequired, // eslint-disable-line
+  zoomLevels: PropTypes.arrayOf(PropTypes.number).isRequired,
   onZoomChange: PropTypes.func.isRequired,
   dragEnabled: PropTypes.bool.isRequired,
 };
