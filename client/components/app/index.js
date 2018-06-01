@@ -4,11 +4,12 @@
  */
 
 import React, { Component, Fragment } from 'react';
-import ReactMapGL, { NavigationControl, FlyToInterpolator } from 'react-map-gl';
+import ReactMapGL, { FlyToInterpolator } from 'react-map-gl';
 import * as d3 from 'd3-ease'; // eslint-disable-line
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import WebMercatorViewport from 'viewport-mercator-project';
+import { throttle } from 'lodash';
 import * as actions from '../../state/actions';
 import GeographyLookup from './geography-lookup';
 import Histogram from './histogram';
@@ -29,28 +30,16 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    const viewport = new WebMercatorViewport({
-      width: props.viewport.width,
-      height: props.viewport.height,
-    });
-    const bound = viewport.fitBounds(props.ukBounds, { padding: 20 });
-
-    props.updateViewport({
-      ...props.viewport,
-      ...bound,
-      minZoom: bound.zoom,
-    });
-
     this.state = {
       loaderComplete: false, // loaderComplete kept as part of state b/c impl. deet
       dragEnabled: false,
     };
-
     this.map = React.createRef();
   }
 
   componentDidMount() {
-    window.addEventListener('resize', this.resize);
+    window.addEventListener('resize', throttle(this.resize, 500));
+    this.resize();
     this.initialiseMap();
     this.props.getSpeedData();
   }
@@ -70,19 +59,48 @@ class App extends Component {
   }
 
   onViewportChange = (viewport) => {
-    const dragEnabled = viewport.zoom !== this.props.viewport.minZoom;
+    const zoom = viewport.zoom || this.props.viewport.zoom;
+    const minZoom = viewport.minZoom || this.props.viewport.minZoom;
+    const dragEnabled = zoom.toFixed(5) !== minZoom.toFixed(5);
 
     this.props.updateViewport({ ...this.props.viewport, ...viewport });
     this.setState({ dragEnabled });
   };
 
+  setPanBounds = () => {
+    console.log('Getting initial map bounds…');
+
+    const map = this.map.current.getMap();
+    const bounds = map.getBounds();
+
+    console.log('Got initial map bounds. Setting maximum bounds…');
+
+    map.setMaxBounds(bounds);
+
+    console.log(`Maximum bounds fixed at ${bounds._sw} (SW), ${bounds._ne} (NE).`); // eslint-disable-line
+  };
+
   resize = () => {
     console.log('Viewport will resize…');
 
-    this.onViewportChange({
-      width: window.innerWidth,
-      height: window.innerHeight * 0.6,
-    });
+    const width = window.innerWidth;
+    const height = window.innerHeight * 0.75;
+    const viewport = new WebMercatorViewport({ width, height });
+    const { zoom, minZoom } = this.props.viewport;
+    const bound = viewport.fitBounds([[-8.655, 49.9], [1.79, 60.85000000000001]], { padding: 0 });
+
+    if (zoom === minZoom) {
+      this.onViewportChange({
+        ...bound,
+        minZoom: bound.zoom,
+      });
+    } else {
+      this.onViewportChange({
+        width,
+        height,
+        minZoom: bound.zoom,
+      });
+    }
   };
 
   initialiseMap = () => {
@@ -91,29 +109,9 @@ class App extends Component {
     console.log('Loading map resources…');
 
     map.on('load', () => {
-      // const layers = map.getStyle().layers;
-      // const firstLineLayerId = layers.find(l => l.type === 'line').id;
-      //
-      // console.log('Map resources loaded. Adding GeoTIFF layer…');
-      //
-      // map.addLayer(
-      //   {
-      //     id: 'geotiff-layer',
-      //     type: 'raster',
-      //     source: {
-      //       type: 'raster',
-      //       tiles: [
-      //         `https://a.tiles.mapbox.com/v4/financialtimes.882qjlo5/{z}/{x}/{y}@2x.png?access_token=${MAPBOX_TOKEN}`,
-      //       ],
-      //     },
-      //     minzoom: 0,
-      //     maxzoom: 12,
-      //   },
-      //   firstLineLayerId,
-      // );
+      console.log('Map resources loaded.');
 
-      console.log('Map resources loaded');
-
+      // this.setPanBounds(map);
       this.props.setMapLoadedStatus(true);
     });
   };
@@ -140,6 +138,7 @@ class App extends Component {
 
   handleLoaderComplete = () => {
     console.log('Loader opacity transition complete. Unmounting Loader…');
+
     this.setState({ loaderComplete: true });
   };
 
@@ -200,8 +199,7 @@ class App extends Component {
                       ref={this.map}
                     >
                       <ZoomControls
-                        zoom={viewport.zoom}
-                        minZoom={viewport.minZoom}
+                        viewport={viewport}
                         onZoomChange={this.goToViewport}
                         dragEnabled={this.state.dragEnabled}
                       />
