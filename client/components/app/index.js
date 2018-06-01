@@ -63,9 +63,9 @@ class App extends Component {
     const minZoom = viewport.minZoom || this.props.viewport.minZoom;
     const dragEnabled = zoom.toFixed(5) !== minZoom.toFixed(5);
 
-    const [topLeft, bottomRight] = this.props.ukBounds;
-    const [minLon, minLat] = topLeft;
-    const [maxLon, maxLat] = bottomRight;
+    const [bottomRight, topLeft] = this.props.ukBounds;
+    const [minLon, minLat] = bottomRight;
+    const [maxLon, maxLat] = topLeft;
 
     /* eslint-disable no-param-reassign */
     if (viewport.longitude > maxLon + threshold) {
