@@ -35,7 +35,7 @@ export default class Histogram extends React.Component {
     const margin = {
       top: 110,
       right: 20,
-      bottom: 48,
+      bottom: 50,
       left: 5,
     };
     const regionID = name => {
@@ -94,7 +94,7 @@ export default class Histogram extends React.Component {
       .attr('x', margin.left + ((width - margin.left - margin.right) / 2))
       .attr('y', margin.bottom)
       .attr('fill', '#939394')
-      .attr('font-size', '14px')
+      .attr('font-size', '16px')
       .attr('text-anchor', 'middle')
       .text('Average download speed (Mbit/s)'.toUpperCase());
     const yAxisElement = svg
