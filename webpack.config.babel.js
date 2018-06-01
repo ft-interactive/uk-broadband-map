@@ -1,7 +1,7 @@
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import ImageminWebpackPlugin from 'imagemin-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import { DefinePlugin } from 'webpack';
+import { DefinePlugin, optimize } from 'webpack';
 // import { HotModuleReplacementPlugin } from 'webpack';
 import { resolve } from 'path';
 import getContext from './config';
@@ -133,6 +133,7 @@ module.exports = async (env = 'development') => ({
   plugins: [
     new DefinePlugin({
       'process.env.ENDPOINT': JSON.stringify(process.env.ENDPOINT),
+      'process.env.NODE_ENV': JSON.stringify(env),
     }),
     // new HotModuleReplacementPlugin(), // Re-enable if devServer.hot is set to true
     new ExtractTextPlugin({
@@ -142,8 +143,7 @@ module.exports = async (env = 'development') => ({
     new HtmlWebpackPlugin({
       template: 'client/index.html',
     }),
-    env === 'production'
-      ? new ImageminWebpackPlugin({ test: /\.(jpe?g|png|gif|svg)$/i })
-      : undefined,
+    env === 'production' && new optimize.UglifyJsPlugin({ sourceMap: true }),
+    env === 'production' && new ImageminWebpackPlugin({ test: /\.(jpe?g|png|gif|svg)$/i }),
   ].filter(i => i),
 });

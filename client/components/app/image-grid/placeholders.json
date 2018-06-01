@@ -1,32 +1,50 @@
 [
   {
-    "url": "http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8472845076-vz5g2.png",
+    "key": "001_key",
+    "src": "http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8472845076-vz5g2.png",
     "title": "",
-    "alt": ""
+    "alt": "",
+    "srcSet": "",
+    "sizes": ""
   },
   {
-    "url": "http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8472845076-vz5g2.png",
+    "key": "002_key",
+    "src": "http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8472845076-vz5g2.png",
     "title": "",
-    "alt": ""
+    "alt": "",
+    "srcSet": "",
+    "sizes": ""
   },
   {
-    "url": "http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8472845076-vz5g2.png",
+    "key": "003_key",
+    "src": "http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8472845076-vz5g2.png",
     "title": "",
-    "alt": ""
+    "alt": "",
+    "srcSet": "",
+    "sizes": ""
   },
   {
-    "url": "http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8472845076-vz5g2.png",
+    "key": "004_key",
+    "src": "http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8472845076-vz5g2.png",
     "title": "",
-    "alt": ""
+    "alt": "",
+    "srcSet": "",
+    "sizes": ""
   },
   {
-    "url": "http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8472845076-vz5g2.png",
+    "key": "005_key",
+    "src": "http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8472845076-vz5g2.png",
     "title": "",
-    "alt": ""
+    "alt": "",
+    "srcSet": "",
+    "sizes": ""
   },
   {
-    "url": "http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8472845076-vz5g2.png",
+    "key": "006_key",
+    "src": "http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8472845076-vz5g2.png",
     "title": "",
-    "alt": ""
+    "alt": "",
+    "srcSet": "",
+    "sizes": ""
   }
 ]
