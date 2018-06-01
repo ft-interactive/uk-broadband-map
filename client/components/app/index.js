@@ -22,6 +22,7 @@ import './styles.scss';
 
 const MAPBOX_STYLE = 'mapbox://styles/financialtimes/cjg290kic7od82rn46o3o719e';
 const MAPBOX_TOKEN = window.mapboxToken;
+const threshold = 0;
 
 // @TODO replace
 const imageGrid1Images = require('./image-grid/placeholders.json');
@@ -32,7 +33,6 @@ class App extends Component {
 
     this.state = {
       loaderComplete: false, // loaderComplete kept as part of state b/c impl. deet
-      dragEnabled: false,
     };
     this.map = React.createRef();
   }
@@ -63,8 +63,27 @@ class App extends Component {
     const minZoom = viewport.minZoom || this.props.viewport.minZoom;
     const dragEnabled = zoom.toFixed(5) !== minZoom.toFixed(5);
 
+    const [topLeft, bottomRight] = this.props.ukBounds;
+    const [minLon, minLat] = topLeft;
+    const [maxLon, maxLat] = bottomRight;
+
+    /* eslint-disable no-param-reassign */
+    if (viewport.longitude > maxLon + threshold) {
+      viewport.longitude = maxLon;
+    }
+    if (viewport.longitude < minLon - threshold) {
+      viewport.longitude = minLon;
+    }
+    if (viewport.latitude > maxLat + threshold) {
+      viewport.latitude = maxLat;
+    }
+    if (viewport.latitude < minLat - threshold) {
+      viewport.latitude = minLat;
+    }
+    /* eslint-enable */
+
     this.props.updateViewport({ ...this.props.viewport, ...viewport });
-    this.setState({ dragEnabled });
+    this.props.setDraggableStatus(dragEnabled);
   };
 
   setPanBounds = () => {
@@ -87,7 +106,7 @@ class App extends Component {
     const height = window.innerHeight * 0.75;
     const viewport = new WebMercatorViewport({ width, height });
     const { zoom, minZoom } = this.props.viewport;
-    const bound = viewport.fitBounds([[-8.655, 49.9], [1.79, 60.85000000000001]], { padding: 0 });
+    const bound = viewport.fitBounds(this.props.ukBounds, { padding: 0 });
 
     if (zoom === minZoom) {
       this.onViewportChange({
@@ -191,7 +210,7 @@ class App extends Component {
                       mapboxApiAccessToken={MAPBOX_TOKEN}
                       onViewportChange={this.onViewportChange}
                       scrollZoom={false}
-                      dragPan={this.state.dragEnabled}
+                      dragPan={this.props.dragEnabled}
                       dragRotate={false}
                       doubleClickZoom={false}
                       touchZoom={false}
@@ -201,7 +220,7 @@ class App extends Component {
                       <ZoomControls
                         viewport={viewport}
                         onZoomChange={this.goToViewport}
-                        dragEnabled={this.state.dragEnabled}
+                        dragEnabled={this.props.dragEnabled}
                       />
                     </ReactMapGL>
                   </div>
@@ -246,6 +265,34 @@ class App extends Component {
   }
 }
 
+export const PropTypeSpeed = PropTypes.shape({
+  megabit: PropTypes.number.isRequired,
+  postcodes_count: PropTypes.number.isRequired,
+  national_pct: PropTypes.number.isRequired,
+  EE_rural: PropTypes.number.isRequired,
+  EE_urban: PropTypes.number.isRequired,
+  EM_rural: PropTypes.number.isRequired,
+  EM_urban: PropTypes.number.isRequired,
+  London_rural: PropTypes.number.isRequired,
+  London_urban: PropTypes.number.isRequired,
+  NE_rural: PropTypes.number.isRequired,
+  NE_urban: PropTypes.number.isRequired,
+  NW_rural: PropTypes.number.isRequired,
+  NW_urban: PropTypes.number.isRequired,
+  Scotland_rural: PropTypes.number.isRequired,
+  Scotland_urban: PropTypes.number.isRequired,
+  SE_rural: PropTypes.number.isRequired,
+  SE_urban: PropTypes.number.isRequired,
+  SW_rural: PropTypes.number.isRequired,
+  SW_urban: PropTypes.number.isRequired,
+  Wales_rural: PropTypes.number.isRequired,
+  Wales_urban: PropTypes.number.isRequired,
+  WM_rural: PropTypes.number.isRequired,
+  WM_urban: PropTypes.number.isRequired,
+  YH_rural: PropTypes.number.isRequired,
+  YH_urban: PropTypes.number.isRequired,
+});
+
 App.propTypes = {
   activeGeography: PropTypes.shape({
     id: PropTypes.string,
@@ -253,7 +300,7 @@ App.propTypes = {
     longitude: PropTypes.number,
     postcode: PropTypes.string,
   }),
-  speeds: PropTypes.array /* @TODO improve PropType */, // eslint-disable-line
+  speeds: PropTypes.arrayOf(PropTypeSpeed),
   viewport: PropTypes.shape({
     width: PropTypes.number,
     height: PropTypes.number,
@@ -266,6 +313,7 @@ App.propTypes = {
   mapLoaded: PropTypes.bool.isRequired,
   geolocatingInProgress: PropTypes.bool.isRequired,
   ukBounds: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)).isRequired,
+  dragEnabled: PropTypes.bool.isRequired,
 
   // Action dispatchers from Redux
   updateViewport: PropTypes.func.isRequired,
@@ -274,6 +322,7 @@ App.propTypes = {
   setMapLoadedStatus: PropTypes.func.isRequired,
   raisePostcodeError: PropTypes.func.isRequired,
   getUserLocation: PropTypes.func.isRequired,
+  setDraggableStatus: PropTypes.func.isRequired,
 };
 
 App.defaultProps = {
