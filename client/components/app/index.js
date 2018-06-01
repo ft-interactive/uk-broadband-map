@@ -9,6 +9,7 @@ import * as d3 from 'd3-ease'; // eslint-disable-line
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import WebMercatorViewport from 'viewport-mercator-project';
+import { throttle } from 'lodash';
 import * as actions from '../../state/actions';
 import GeographyLookup from './geography-lookup';
 import Histogram from './histogram';
@@ -32,7 +33,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    window.addEventListener('resize', this.resize);
+    window.addEventListener('resize', throttle(this.resize, 500));
     this.resize();
     this.initialiseMap();
     this.props.getSpeedData();
