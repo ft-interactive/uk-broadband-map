@@ -3,7 +3,7 @@
  * Main app component
  */
 
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import ReactMapGL, { NavigationControl, FlyToInterpolator } from 'react-map-gl';
 import * as d3 from 'd3-ease'; // eslint-disable-line
 import { connect } from 'react-redux';
@@ -15,10 +15,15 @@ import Histogram from './histogram';
 import Summary from './summary';
 import Loader from './loader';
 import ZoomControls from './zoom-controls';
+import GeolocateMe from './geolocate-me';
+import ImageGrid from './image-grid';
 import './styles.scss';
 
 const MAPBOX_STYLE = 'mapbox://styles/financialtimes/cjg290kic7od82rn46o3o719e';
 const MAPBOX_TOKEN = window.mapboxToken;
+
+// @TODO replace
+const imageGrid1Images = require('./image-grid/placeholders.json');
 
 class App extends Component {
   constructor(props) {
@@ -28,8 +33,7 @@ class App extends Component {
       width: props.viewport.width,
       height: props.viewport.height,
     });
-
-    const bound = viewport.fitBounds([[-8.655, 49.9], [1.79, 60.85000000000001]], { padding: 0 });
+    const bound = viewport.fitBounds(props.ukBounds, { padding: 20 });
 
     props.updateViewport({
       ...props.viewport,
@@ -140,57 +144,106 @@ class App extends Component {
   };
 
   render() {
-    const { viewport, activeGeography, speeds, mapLoaded } = this.props;
+    const {
+      activeGeography,
+      geolocatingInProgress,
+      getPostcodeData,
+      getUserLocation,
+      mapLoaded,
+      raisePostcodeError,
+      speeds,
+      viewport,
+    } = this.props;
 
     return (
-      <div>
-        <div className="o-grid-container">
-          <div className="o-grid-row">
-            <div data-o-grid-colspan="12 S11 Scenter M9 L8 XL7">
-              <GeographyLookup
-                raisePostcodeError={this.props.raisePostcodeError}
-                getPostcodeData={this.props.getPostcodeData}
-              />
-            </div>
-          </div>
-        </div>
+      <Fragment>
+        {window.PRELOADED_COPY.map((el) => {
+          switch (el) {
+            case '<!-- Postcode input, Mapbox map and dynamic histogram -->':
+              return (
+                <Fragment>
+                  <div className="o-grid-container">
+                    <div className="o-grid-row">
+                      <div data-o-grid-colspan="12 S11 Scenter M9 L8 XL7" className="locate-user">
+                        <GeographyLookup
+                          goToViewport={this.goToViewport}
+                          raisePostcodeError={raisePostcodeError}
+                          getPostcodeData={getPostcodeData}
+                        />
+                        <GeolocateMe
+                          getUserLocation={getUserLocation}
+                          geolocatingInProgress={geolocatingInProgress}
+                        />
+                      </div>
+                    </div>
+                  </div>
 
-        <div className="map-container">
-          {this.state.loaderComplete ? null : (
-            <Loader mapLoaded={mapLoaded} handleLoaderComplete={this.handleLoaderComplete} />
-          )}
+                  <div className="map-container">
+                    {this.state.loaderComplete ? null : (
+                      <Loader
+                        mapLoaded={mapLoaded}
+                        handleLoaderComplete={this.handleLoaderComplete}
+                      />
+                    )}
 
-          <ReactMapGL
-            {...viewport}
-            mapStyle={MAPBOX_STYLE}
-            mapboxApiAccessToken={MAPBOX_TOKEN}
-            onViewportChange={this.onViewportChange}
-            scrollZoom={false}
-            dragPan={this.state.dragEnabled}
-            dragRotate={false}
-            doubleClickZoom={false}
-            touchZoom={false}
-            touchRotate={false}
-            ref={this.map}
-          >
-            <ZoomControls
-              zoom={viewport.zoom}
-              minZoom={viewport.minZoom}
-              onZoomChange={this.goToViewport}
-              dragEnabled={this.state.dragEnabled}
-            />
-          </ReactMapGL>
-        </div>
-
-        <div className="o-grid-container">
-          <div className="o-grid-row">
-            <div data-o-grid-colspan="12 S11 Scenter M9 L8 XL7">
-              <Histogram geography={activeGeography} speeds={speeds} />
-              <Summary geography={activeGeography} speeds={speeds} />
-            </div>
-          </div>
-        </div>
-      </div>
+                    <ReactMapGL
+                      {...viewport}
+                      mapStyle={MAPBOX_STYLE}
+                      mapboxApiAccessToken={MAPBOX_TOKEN}
+                      onViewportChange={this.onViewportChange}
+                      scrollZoom={false}
+                      dragPan={this.state.dragEnabled}
+                      dragRotate={false}
+                      doubleClickZoom={false}
+                      touchZoom={false}
+                      touchRotate={false}
+                      ref={this.map}
+                    >
+                      <ZoomControls
+                        zoom={viewport.zoom}
+                        minZoom={viewport.minZoom}
+                        onZoomChange={this.goToViewport}
+                        dragEnabled={this.state.dragEnabled}
+                      />
+                    </ReactMapGL>
+                  </div>
+                  <div className="o-grid-container">
+                    <div className="o-grid-row">
+                      <div data-o-grid-colspan="12 S11 Scenter M11 L10 XL9">
+                        <Histogram geography={activeGeography} speeds={speeds} />
+                        <Summary geography={activeGeography} speeds={speeds} />
+                      </div>
+                    </div>
+                  </div>
+                </Fragment>
+              );
+            case '<!-- Lead urban/rural histogram here -->':
+            case '<!-- Image grid 1 -->':
+              return (
+                <ImageGrid images={imageGrid1Images}>
+                  {({ url, title, alt }) => <img src={url} alt={alt} title={title} />}
+                </ImageGrid>
+              );
+            case '<!-- Image grid 2 -->':
+              return (
+                <ImageGrid images={imageGrid1Images}>
+                  {({ url, title, alt }) => <img src={url} alt={alt} title={title} />}
+                </ImageGrid>
+              );
+            default:
+              return (
+                <div className="o-grid-container">
+                  <div className="o-grid-row">
+                    <div data-o-grid-colspan="12 S11 Scenter M9 L8 XL7">
+                      {/* eslint-disable-next-line */}
+                      <p dangerouslySetInnerHTML={{ __html: el }} />
+                    </div>
+                  </div>
+                </div>
+              );
+          }
+        })}
+      </Fragment>
     );
   }
 }
@@ -202,7 +255,7 @@ App.propTypes = {
     longitude: PropTypes.number,
     postcode: PropTypes.string,
   }),
-  speeds: PropTypes.array,
+  speeds: PropTypes.array /* @TODO improve PropType */, // eslint-disable-line
   viewport: PropTypes.shape({
     width: PropTypes.number,
     height: PropTypes.number,
@@ -213,6 +266,8 @@ App.propTypes = {
     minZoom: PropTypes.number,
   }).isRequired,
   mapLoaded: PropTypes.bool.isRequired,
+  geolocatingInProgress: PropTypes.bool.isRequired,
+  ukBounds: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)).isRequired,
 
   // Action dispatchers from Redux
   updateViewport: PropTypes.func.isRequired,
@@ -220,6 +275,7 @@ App.propTypes = {
   getSpeedData: PropTypes.func.isRequired,
   setMapLoadedStatus: PropTypes.func.isRequired,
   raisePostcodeError: PropTypes.func.isRequired,
+  getUserLocation: PropTypes.func.isRequired,
 };
 
 App.defaultProps = {

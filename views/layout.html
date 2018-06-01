@@ -32,17 +32,11 @@
         </div>
 
         <div class="article-body o-typography-wrapper" itemprop="articleBody">
-          <div class="o-grid-container">
-            <div class="o-grid-row">
-              <div data-o-grid-colspan="12 S11 Scenter M9 L8 XL7">
-                <p>
-                  Intro par. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                </p>
-              </div>
-            </div>
+          <div id="root" class="app">
+            {% for par in copy %}
+            <p>{{ par | safe }}</p>
+            {% endfor %}
           </div>
-
-          <div id="root" class="app"></div>
 
           <div class="o-grid-container">
             <div class="o-grid-row">

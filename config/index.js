@@ -1,3 +1,5 @@
+import structuredGoogleDoc from 'structured-google-docs-client';
+import sanitise from './sanitise';
 import article from './article';
 import getFlags from './flags';
 import getOnwardJourney from './onward-journey';
@@ -5,6 +7,7 @@ import getOnwardJourney from './onward-journey';
 if (process.env.NODE_ENV !== 'production') require('dotenv').config(); // eslint-disable-line
 
 export default async (environment = 'development') => {
+  const copy = await sanitise(await structuredGoogleDoc(process.env.DOC_KEY));
   const d = await article(environment);
   const flags = await getFlags(environment);
   const onwardJourney = await getOnwardJourney(environment);
@@ -36,5 +39,6 @@ export default async (environment = 'development') => {
     flags,
     onwardJourney,
     mapboxToken,
+    copy,
   };
 };
