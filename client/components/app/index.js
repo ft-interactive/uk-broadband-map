@@ -145,11 +145,11 @@ class App extends Component {
 
     return (
       <Fragment>
-        {window.PRELOADED_COPY.map((el) => {
+        {window.PRELOADED_COPY.map((el, idx) => {
           switch (el) {
             case '<!-- Postcode input, Mapbox map and dynamic histogram -->':
               return (
-                <Fragment>
+                <Fragment key={idx}>
                   <div className="o-grid-container">
                     <div className="o-grid-row">
                       <div data-o-grid-colspan="12 S11 Scenter M9 L8 XL7" className="locate-user">
@@ -209,22 +209,19 @@ class App extends Component {
             case '<!-- Lead urban/rural histogram here -->':
             case '<!-- Image grid 1 -->':
               return (
-                <ImageGrid images={imageGrid1Images}>
-                  {({ alt, ...props }) => {
-                    console.log(alt, props);
-                    return <img alt={alt} {...props} />;
-                  }}
+                <ImageGrid images={imageGrid1Images} key={idx}>
+                  {({ alt, ...props }) => <img alt={alt} {...props} />}
                 </ImageGrid>
               );
             case '<!-- Image grid 2 -->':
               return (
-                <ImageGrid images={imageGrid1Images}>
+                <ImageGrid images={imageGrid1Images} key={idx}>
                   {({ alt, ...props }) => <img alt={alt} {...props} />}
                 </ImageGrid>
               );
             default:
               return (
-                <div className="o-grid-container">
+                <div className="o-grid-container" key={idx}>
                   <div className="o-grid-row">
                     <div data-o-grid-colspan="12 S11 Scenter M9 L8 XL7">
                       {/* eslint-disable-next-line */}

@@ -23,10 +23,10 @@ ImageGrid.propTypes = {
   children: PropTypes.func.isRequired,
   images: PropTypes.arrayOf(
     PropTypes.shape({
-      url: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]).isRequired,
+      src: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]).isRequired,
       title: PropTypes.string,
       alt: PropTypes.string.isRequired,
-      srcset: PropTypes.string,
+      srcSet: PropTypes.string,
       sizes: PropTypes.string,
     }),
   ),

@@ -1,5 +1,6 @@
 [
   {
+    "key": "001_key",
     "src": "http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8472845076-vz5g2.png",
     "title": "",
     "alt": "",
@@ -7,6 +8,7 @@
     "sizes": ""
   },
   {
+    "key": "002_key",
     "src": "http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8472845076-vz5g2.png",
     "title": "",
     "alt": "",
@@ -14,6 +16,7 @@
     "sizes": ""
   },
   {
+    "key": "003_key",
     "src": "http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8472845076-vz5g2.png",
     "title": "",
     "alt": "",
@@ -21,6 +24,7 @@
     "sizes": ""
   },
   {
+    "key": "004_key",
     "src": "http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8472845076-vz5g2.png",
     "title": "",
     "alt": "",
@@ -28,6 +32,7 @@
     "sizes": ""
   },
   {
+    "key": "005_key",
     "src": "http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8472845076-vz5g2.png",
     "title": "",
     "alt": "",
@@ -35,6 +40,7 @@
     "sizes": ""
   },
   {
+    "key": "006_key",
     "src": "http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8472845076-vz5g2.png",
     "title": "",
     "alt": "",
