@@ -143,7 +143,7 @@ module.exports = async (env = 'development') => ({
     new HtmlWebpackPlugin({
       template: 'client/index.html',
     }),
-    env === 'production' && new optimize.UglifyJsPlugin(),
+    env === 'production' && new optimize.UglifyJsPlugin({ sourceMap: true }),
     env === 'production' && new ImageminWebpackPlugin({ test: /\.(jpe?g|png|gif|svg)$/i }),
   ].filter(i => i),
 });
