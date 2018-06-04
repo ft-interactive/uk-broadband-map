@@ -11,6 +11,7 @@ import {
   RAISE_POSTCODE_ERROR,
   SET_MAP_LOADED_STATUS,
   UPDATE_VIEWPORT,
+  CHOOSE_PRESET,
 } from './actions';
 
 export const UK_BOUNDS = [[-7.57216793459, 49.959999905], [1.68153079591, 58.6350001085]];
@@ -32,6 +33,7 @@ const INITIAL_STATE = {
   postcodeError: '',
   geolocatingInProgress: false,
   ukBounds: UK_BOUNDS,
+  selectedPreset: '',
 };
 
 export default (state = INITIAL_STATE, { type, payload }) => {
@@ -79,6 +81,16 @@ export default (state = INITIAL_STATE, { type, payload }) => {
       return {
         ...state,
         postcodeError: payload,
+      };
+
+    case CHOOSE_PRESET:
+      return {
+        ...state,
+        selectedPreset: payload.id,
+        viewport: {
+          ...state.viewport,
+          ...payload.viewport,
+        },
       };
 
     default:

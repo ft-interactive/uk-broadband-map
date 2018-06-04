@@ -12,6 +12,7 @@ export const SET_MAP_LOADED_STATUS = 'SET_MAP_LOADED_STATUS';
 export const RAISE_POSTCODE_ERROR = 'RAISE_POSTCODE_ERROR';
 export const GET_USER_LOCATION = 'GET_USER_LOCATION';
 export const GEOLOCATING_IN_PROGRESS = 'GEOLOCATING_IN_PROGRESS';
+export const CHOOSE_PRESET = 'CHOOSE_PRESET';
 
 export const raisePostcodeError = err => ({
   type: RAISE_POSTCODE_ERROR,
@@ -108,6 +109,11 @@ export const updateViewport = viewport => ({
 export const setMapLoadedStatus = status => ({
   type: SET_MAP_LOADED_STATUS,
   payload: status,
+});
+
+export const choosePreset = evt => ({
+  type: CHOOSE_PRESET,
+  payload: evt.target.value,
 });
 
 export default '';

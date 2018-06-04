@@ -14,8 +14,8 @@ import GeographyLookup from './geography-lookup';
 import Histogram from './histogram';
 import Summary from './summary';
 import Loader from './loader';
-import GeolocateMe from './geolocate-me';
 import ImageGrid from './image-grid';
+import LocationsDropdown from './locations-dropdown';
 import './styles.scss';
 
 const MAPBOX_STYLE = 'mapbox://styles/financialtimes/cjg290kic7od82rn46o3o719e';
@@ -23,6 +23,7 @@ const MAPBOX_TOKEN = window.mapboxToken;
 
 // @TODO replace
 const imageGrid1Images = require('./image-grid/placeholders.json');
+const presets = require('./locations-dropdown/locations.json');
 
 class App extends Component {
   constructor(props) {
@@ -141,6 +142,8 @@ class App extends Component {
       raisePostcodeError,
       speeds,
       viewport,
+      selectedPreset,
+      choosePreset,
     } = this.props;
 
     return (
@@ -149,18 +152,22 @@ class App extends Component {
           switch (el) {
             case '<!-- Postcode input, Mapbox map and dynamic histogram -->':
               return (
-                <Fragment key={idx}>
+                <Fragment key="map">
                   <div className="o-grid-container">
                     <div className="o-grid-row">
-                      <div data-o-grid-colspan="12 S11 Scenter M9 L8 XL7" className="locate-user">
+                      <div className="locate-user">
                         <GeographyLookup
                           goToViewport={this.goToViewport}
                           raisePostcodeError={raisePostcodeError}
                           getPostcodeData={getPostcodeData}
-                        />
-                        <GeolocateMe
                           getUserLocation={getUserLocation}
                           geolocatingInProgress={geolocatingInProgress}
+                        />
+                        <span>OR</span>
+                        <LocationsDropdown
+                          presets={presets}
+                          selectedPreset={selectedPreset}
+                          choosePreset={choosePreset}
                         />
                       </div>
                     </div>
@@ -209,13 +216,13 @@ class App extends Component {
             case '<!-- Lead urban/rural histogram here -->':
             case '<!-- Image grid 1 -->':
               return (
-                <ImageGrid images={imageGrid1Images} key={idx}>
+                <ImageGrid images={imageGrid1Images} key="image-grid-1">
                   {({ alt, ...props }) => <img alt={alt} {...props} />}
                 </ImageGrid>
               );
             case '<!-- Image grid 2 -->':
               return (
-                <ImageGrid images={imageGrid1Images} key={idx}>
+                <ImageGrid images={imageGrid1Images} key="image-grid-2">
                   {({ alt, ...props }) => <img alt={alt} {...props} />}
                 </ImageGrid>
               );
@@ -257,6 +264,7 @@ App.propTypes = {
   mapLoaded: PropTypes.bool.isRequired,
   geolocatingInProgress: PropTypes.bool.isRequired,
   ukBounds: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)).isRequired,
+  selectedPreset: PropTypes.string.isRequired,
 
   // Action dispatchers from Redux
   updateViewport: PropTypes.func.isRequired,
@@ -265,6 +273,7 @@ App.propTypes = {
   setMapLoadedStatus: PropTypes.func.isRequired,
   raisePostcodeError: PropTypes.func.isRequired,
   getUserLocation: PropTypes.func.isRequired,
+  choosePreset: PropTypes.func.isRequired,
 };
 
 App.defaultProps = {
