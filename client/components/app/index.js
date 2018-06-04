@@ -208,9 +208,11 @@ class App extends Component {
               );
             case '<!-- Lead urban/rural histogram here -->':
             return (
-              <div className="o-grid-row">
-                <div data-o-grid-colspan="12 S11 Scenter M11 L10 XL9">
-                  <Histogram speeds={speeds} />
+              <div className="o-grid-container">
+                <div className="o-grid-row">
+                  <div data-o-grid-colspan="12 S11 Scenter M11 L10 XL9">
+                    <Histogram speeds={speeds} />
+                  </div>
                 </div>
               </div>
             );
