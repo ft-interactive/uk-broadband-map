@@ -70,7 +70,7 @@ export default class Histogram extends React.Component {
       .tickFormat(d => {
         if (d === 0) return null;
         else if (d === 5 && region) return `${d}% of all postcodes in ${region.phrasing}`.toUpperCase();
-        else if (d === 5) return '% of all postcodes'.toUpperCase();
+        else if (d === 5) return `${d}% of all postcodes`.toUpperCase();
         else return d;
       });
     const svg = D3.select(this.node.current)
@@ -162,26 +162,6 @@ export default class Histogram extends React.Component {
         .attr('stroke', 'white')
         .attr('stroke-width', 2)
         .attr('d', ruralLine);
-      const labelsNationally = svg
-        .append('g');
-      labelsNationally
-        .append('text')
-        .attr('x', xScale(27))
-        .attr('y', yScale(2.3))
-        .attr('fill', 'white')
-        .attr('font-size', 16)
-        .attr('text-anchor', 'middle')
-        .attr('letter-spacing', 0.3)
-        .text('Urban'.toUpperCase());
-      labelsNationally
-        .append('text')
-        .attr('x', xScale(27))
-        .attr('y', yScale(0.6))
-        .attr('fill', 'white')
-        .attr('font-size', 16)
-        .attr('text-anchor', 'middle')
-        .attr('letter-spacing', 0.3)
-        .text('Rural'.toUpperCase());
     }
     svg
       .append('g')
@@ -241,6 +221,27 @@ export default class Histogram extends React.Component {
         .selectAll('.annotation-note-label')
         .attr('fill', 'white')
         .attr('letter-spacing', '0.3');
+    } else if (!this.props.geography) {
+      const labelsNationally = svg
+        .append('g');
+      labelsNationally
+        .append('text')
+        .attr('x', xScale(27))
+        .attr('y', yScale(2.3))
+        .attr('fill', 'white')
+        .attr('font-size', 16)
+        .attr('text-anchor', 'middle')
+        .attr('letter-spacing', 0.3)
+        .text('Urban'.toUpperCase());
+      labelsNationally
+        .append('text')
+        .attr('x', xScale(27))
+        .attr('y', yScale(0.6))
+        .attr('fill', 'white')
+        .attr('font-size', 16)
+        .attr('text-anchor', 'middle')
+        .attr('letter-spacing', 0.3)
+        .text('Rural'.toUpperCase());
     }
     if (result && result.megabit <= 150) {
       svg
