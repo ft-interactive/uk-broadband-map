@@ -19,6 +19,10 @@
 
 @include oGridRespondTo($until: M) {
 
+  .histogram {
+    margin: 44px 0 54px 0;
+  }
+
   .histogram h2 {
     font-size: 28px;
     text-align: left;

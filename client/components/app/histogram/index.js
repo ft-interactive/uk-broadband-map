@@ -31,7 +31,7 @@ export default class Histogram extends React.Component {
     const width = D3.select(this.node.current)
       .node()
       .getBoundingClientRect().width;
-    const height = width * 0.65;
+    const height = matchMedia('(max-width: 46.24em)').matches ? width * 1.2 : width * 0.65;
     const margin = {
       top: 110,
       right: 20,
@@ -157,7 +157,7 @@ export default class Histogram extends React.Component {
           .datum(result)
           .attr('cx', d => xScale(d.megabit - 1))
           .attr('cy', yScale(0))
-          .attr('r', ((width - margin.left - margin.right) / bins.length) / 2)
+          .attr('r', (width - margin.left - margin.right) / bins.length)
           .attr('fill', 'rgba(0, 0, 0, 0.8)')
           .attr('stroke', 'white')
           .attr('stroke-width', 2);
@@ -165,7 +165,7 @@ export default class Histogram extends React.Component {
           .annotation()
           .accessors({
             x: d => result.megabit <= 60 ? xScale(d.megabit - 2) : xScale(d.megabit),
-            y: d => yScale(0) - (height * 0.08),
+            y: d => yScale(0) - 40,
           })
           .annotations([{
             type: D3Annotation.annotationLabel,
