@@ -13,6 +13,7 @@ export const RAISE_POSTCODE_ERROR = 'RAISE_POSTCODE_ERROR';
 export const GET_USER_LOCATION = 'GET_USER_LOCATION';
 export const GEOLOCATING_IN_PROGRESS = 'GEOLOCATING_IN_PROGRESS';
 export const SET_DRAGGABLE_STATUS = 'SET_DRAGGABLE_STATUS';
+export const SET_TRANSITION_STATUS = 'SET_TRANSITION_STATUS';
 
 export const raisePostcodeError = err => ({
   type: RAISE_POSTCODE_ERROR,
@@ -114,6 +115,11 @@ export const setMapLoadedStatus = status => ({
 export const setDraggableStatus = isDraggable => ({
   type: SET_DRAGGABLE_STATUS,
   payload: isDraggable,
+});
+
+export const setTransitionStatus = transitionInProgress => ({
+  type: SET_TRANSITION_STATUS,
+  payload: transitionInProgress,
 });
 
 export default '';

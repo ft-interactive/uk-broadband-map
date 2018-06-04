@@ -12,6 +12,7 @@ import {
   SET_MAP_LOADED_STATUS,
   UPDATE_VIEWPORT,
   SET_DRAGGABLE_STATUS,
+  SET_TRANSITION_STATUS,
 } from './actions';
 
 export const UK_BOUNDS = [[-8.655, 49.9], [1.79, 60.85000000000001]];
@@ -35,6 +36,7 @@ const INITIAL_STATE = {
   geolocatingInProgress: false,
   ukBounds: UK_BOUNDS,
   dragEnabled: false,
+  transitionInProgress: false,
 };
 
 export default (state = INITIAL_STATE, { type, payload }) => {
@@ -88,6 +90,12 @@ export default (state = INITIAL_STATE, { type, payload }) => {
       return {
         ...state,
         dragEnabled: payload,
+      };
+
+    case SET_TRANSITION_STATUS:
+      return {
+        ...state,
+        transitionInProgress: payload,
       };
 
     default:

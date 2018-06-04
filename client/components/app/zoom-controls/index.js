@@ -28,10 +28,8 @@ class ZoomControls extends PureComponent {
   handleZoomChange = (zoom) => {
     const { longitude, latitude, minZoom } = this.props.viewport;
 
-    console.log('setting slider value', this.zoomScale(zoom));
     this.slider.current.value = this.zoomScale(zoom);
 
-    console.log('new slider value', this.slider.current.value);
 
     if (zoom.toFixed(5) === minZoom.toFixed(5)) {
       const viewport = new WebMercatorViewport({
@@ -91,6 +89,7 @@ class ZoomControls extends PureComponent {
         className={`o-buttons o-buttons--inverse zoom-${num > -1 ? 'plus' : 'minus'} ${
           controlsHidden ? 'hidden' : ''
         }`}
+        disabled={this.props.transitionInProgress}
       >
         {num > -1 ? '+' : '-'}
       </button>
@@ -128,7 +127,7 @@ ZoomControls.propTypes = {
   viewport: PropTypes.object.isRequired, // eslint-disable-line
   zoomLevels: PropTypes.arrayOf(PropTypes.number).isRequired,
   onZoomChange: PropTypes.func.isRequired,
-  // dragEnabled: PropTypes.bool.isRequired,
+  transitionInProgress: PropTypes.bool.isRequired,
 };
 
 ZoomControls.defaultProps = { minZoom: 0 };

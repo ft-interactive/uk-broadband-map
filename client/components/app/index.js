@@ -171,6 +171,9 @@ class App extends Component {
       raisePostcodeError,
       speeds,
       viewport,
+      dragEnabled,
+      setTransitionStatus,
+      transitionInProgress,
     } = this.props;
 
     return (
@@ -210,11 +213,13 @@ class App extends Component {
                       mapboxApiAccessToken={MAPBOX_TOKEN}
                       onViewportChange={this.onViewportChange}
                       scrollZoom={false}
-                      dragPan={this.props.dragEnabled}
+                      dragPan={dragEnabled}
                       dragRotate={false}
                       doubleClickZoom={false}
                       touchZoom={false}
                       touchRotate={false}
+                      onTransitionStart={() => setTransitionStatus(true)}
+                      onTransitionEnd={() => setTransitionStatus(false)}
                       ref={this.map}
                     />
 
@@ -222,7 +227,8 @@ class App extends Component {
                       viewport={viewport}
                       zoomLevels={[viewport.minZoom, 6, 9, 12, 15]}
                       onZoomChange={this.goToViewport}
-                      dragEnabled={this.props.dragEnabled}
+                      dragEnabled={dragEnabled}
+                      transitionInProgress={transitionInProgress}
                     />
                   </div>
                   <div className="o-grid-container">
@@ -315,6 +321,7 @@ App.propTypes = {
   geolocatingInProgress: PropTypes.bool.isRequired,
   ukBounds: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)).isRequired,
   dragEnabled: PropTypes.bool.isRequired,
+  transitionInProgress: PropTypes.bool.isRequired,
 
   // Action dispatchers from Redux
   updateViewport: PropTypes.func.isRequired,
@@ -324,6 +331,7 @@ App.propTypes = {
   raisePostcodeError: PropTypes.func.isRequired,
   getUserLocation: PropTypes.func.isRequired,
   setDraggableStatus: PropTypes.func.isRequired,
+  setTransitionStatus: PropTypes.func.isRequired,
 };
 
 App.defaultProps = {
