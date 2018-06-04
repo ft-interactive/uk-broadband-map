@@ -8,26 +8,30 @@ $font-sans: MetricWeb, sans-serif;
 .app {
   margin-bottom: 18px;
 
-  .mapboxgl-control-container {
-    .mapboxgl-ctrl-attrib {
-      background-color: rgba(38, 42, 51, 0.8);
-      font-family: $font-sans;
-      font-size: 14px;
+  .map-container {
+    position: relative;
 
-      a {
-        color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100) !important;
-        border-bottom: 2px solid oColorsGetTextColor(oColorsGetPaletteColor('slate'), 60);
+    .mapboxgl-control-container {
+      .mapboxgl-ctrl-attrib {
+        background-color: rgba(38, 42, 51, 0.8);
+        font-family: $font-sans;
+        font-size: 14px;
 
-        &:hover {
-          color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100);
-          border-bottom: 2px solid oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100);
-          text-decoration: none;
-        }
+        a {
+          color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100) !important;
+          border-bottom: 2px solid oColorsGetTextColor(oColorsGetPaletteColor('slate'), 60);
 
-        &:focus {
-          color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100);
-          border-bottom-color: transparent;
-          outline: none;
+          &:hover {
+            color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100);
+            border-bottom: 2px solid oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100);
+            text-decoration: none;
+          }
+
+          &:focus {
+            color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100);
+            border-bottom-color: transparent;
+            outline: none;
+          }
         }
       }
     }

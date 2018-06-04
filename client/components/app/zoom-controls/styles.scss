@@ -1,5 +1,7 @@
 @import 'o-grid/main';
 
+$button-size: 30px;
+
 .drag-indicator-container,
 .zoom-control-container {
   position: absolute;
@@ -37,37 +39,33 @@
 .zoom-control-container {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   right: 10px;
+  height: 200px;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.6);
 
   @include oGridRespondTo(M) {
     right: 20px;
   }
 
   .o-buttons.o-buttons--inverse {
-    $buttons: 6;
-    $button-height: 30;
-
-    display: block;
-    z-index: 1;
+    min-width: $button-size;
+    height: $button-size;
     background-color: rgba(38, 42, 51, 0.8);
 
-    @for $i from 1 to $buttons {
-      &:nth-child(#{$i + 1}) {
-        position: absolute;
-        z-index: 0;
-        top: #{$button-height * $i}px;
-        right: 0;
-        transition: all #{$i * 50 + 250}ms ease-in-out;
-
-        &.hidden {
-          opacity: 0;
-          top: 0px;
-        }
-      }
+    &.zoom-plus {
+      order: 0;
     }
 
-    &[aria-selected='true'] {
-      color: #1aecff;
+    &.zoom-minus {
+      order: 2;
     }
+  }
+
+  .slider-wrapper {
+    order: 1;
+    // transform-origin: 75px 75px;
+    transform: rotate(-90deg);
   }
 }

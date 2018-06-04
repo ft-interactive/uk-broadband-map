@@ -216,14 +216,14 @@ class App extends Component {
                       touchZoom={false}
                       touchRotate={false}
                       ref={this.map}
-                    >
-                      <ZoomControls
-                        viewport={viewport}
-                        zoomLevels={[viewport.minZoom, 6, 9, 12, 15]}
-                        onZoomChange={this.goToViewport}
-                        dragEnabled={this.props.dragEnabled}
-                      />
-                    </ReactMapGL>
+                    />
+
+                    <ZoomControls
+                      viewport={viewport}
+                      zoomLevels={[viewport.minZoom, 6, 9, 12, 15]}
+                      onZoomChange={this.goToViewport}
+                      dragEnabled={this.props.dragEnabled}
+                    />
                   </div>
                   <div className="o-grid-container">
                     <div className="o-grid-row">

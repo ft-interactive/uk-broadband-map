@@ -1,14 +1,30 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import WebMercatorViewport from 'viewport-mercator-project';
+import { scaleLinear } from 'd3-scale'; // eslint-disable-line
+import { range as d3Range } from 'd3-array'; // eslint-disable-line
 import './styles.scss';
 
 // TODO: figure out how to set this without using state
 const controlsHidden = false;
 
 class ZoomControls extends PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.zoomScale = scaleLinear();
+  }
+
+  componentDidUpdate() {
+    const { zoomLevels } = this.props;
+    const zoomSteps = d3Range(0, zoomLevels.length, 1);
+
+    this.zoomScale
+      .domain(zoomLevels)
+      .range(zoomSteps);
+  }
+
   handleZoomClick = (event) => {
-    console.log(event.target.value);
     const zoom = Number(event.target.value);
     const { longitude, latitude, minZoom } = this.props.viewport;
 
@@ -33,6 +49,13 @@ class ZoomControls extends PureComponent {
     });
   };
 
+  handleZoomChange = (event) => {
+    const { zoomLevels } = this.props;
+    const zoomStep = Math.round(event.target.value);
+
+    return this.props.onZoomChange({ zoom: zoomLevels[zoomStep] });
+  }
+
   renderZoomButton = (num) => {
     const { zoomLevels } = this.props;
     const { zoom: currentZoomLevel } = this.props.viewport;
@@ -40,37 +63,48 @@ class ZoomControls extends PureComponent {
     let value;
 
     if (currentZoomIndex > -1) {
-      value = num > -1 ? zoomLevels[currentZoomIndex - 1] : zoomLevels[currentZoomIndex + 1];
+      value = num > -1 ? zoomLevels[currentZoomIndex + 1] : zoomLevels[currentZoomIndex - 1];
     } else {
       value = 'HURRRRR';
     }
 
     return (
       <button
+        key={`zoom-${num > -1 ? 'plus' : 'minus'}`}
         value={value}
         onClick={this.handleZoomClick}
-        className={`o-buttons o-buttons--inverse zoom-plus ${controlsHidden ? 'hidden' : ''}`}
+        className={`o-buttons o-buttons--inverse zoom-${num > -1 ? 'plus' : 'minus'} ${
+          controlsHidden ? 'hidden' : ''
+        }`}
       >
-        {value}
+        {num > -1 ? '+' : '-'}
       </button>
     );
   };
 
   render() {
-    const { dragEnabled } = this.props;
+    const { zoom, maxZoom, minZoom } = this.props.viewport;
 
     return (
-      <div>
-        <div className="drag-indicator-container">
-          <div>Drag enabled: </div>
+      <Fragment>
+        <div className="zoom-control-container">
+          {[0, -1].map(x => this.renderZoomButton(x))}
 
-          <div className={`drag-indicator${dragEnabled ? ' enabled' : ''}`} />
+          <div className="slider-wrapper">
+            <input
+              name="zoom"
+              type="range"
+              min={this.zoomScale(minZoom)}
+              max={this.zoomScale(maxZoom)}
+              step={1}
+              value={this.zoomScale(zoom)}
+              onChange={this.handleZoomChange}
+            />
+          </div>
         </div>
 
-        <div className="o-buttons__group zoom-control-container">
-          {[1, -1].map(x => this.renderZoomButton(x))}
-        </div>
-      </div>
+        {/* {zoom.toFixed(2)} */}
+      </Fragment>
     );
   }
 }
