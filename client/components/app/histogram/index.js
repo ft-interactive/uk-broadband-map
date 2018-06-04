@@ -54,7 +54,7 @@ export default class Histogram extends React.Component {
         default: throw new Error('Unknown area!');
       }
     };
-    const region = this.props.geography.region ? regionID(this.props.geography.region) : null;
+    const region = this.props.geography && this.props.geography.region ? regionID(this.props.geography.region) : null;
     const bins = this.props.speeds.filter(d => d.megabit <= 150);
     const xScale = D3.scaleLinear()
       .domain([0, bins[bins.length - 1].megabit])
@@ -123,9 +123,9 @@ export default class Histogram extends React.Component {
         else return width - margin.right;
       })
       .attr('y2', yScale);
-    if (Object.keys(this.props.geography).length > 0) {
+    const colours = value => D3.interpolateRgbBasis(['#981626', '#ce0f35', '#ff1a66', '#ff7760', '#ffffcc'])(value / bins.length);
+    if (this.props.geography && Object.keys(this.props.geography).length > 0) {
       const result = this.props.speeds.find(d => d.megabit > this.props.geography['Average_download_speed_(Mbit/s)']);
-      const colours = value => D3.interpolateRgbBasis(['#981626', '#ce0f35', '#ff1a66', '#ff7760', '#ffffcc'])(value / bins.length);
       const columns = svg
         .append('g');
       const columnsBars = columns
@@ -138,19 +138,6 @@ export default class Histogram extends React.Component {
         .attr('y', d => yScale(d[`${region.code}_rural`] + d[`${region.code}_urban`]))
         .attr('width', (width - margin.left - margin.right) / bins.length)
         .attr('height', d => yScale(0) - yScale(d[`${region.code}_rural`] + d[`${region.code}_urban`]));
-      svg
-        .append('g')
-        .attr('stroke', '#262a33')
-        .attr('stroke-dasharray', '4, 4')
-        .attr('stroke-width', 1)
-        .selectAll()
-        .data([10, 24, 30, 80])
-        .enter()
-        .append('line')
-        .attr('x1', d => xScale(d) + 0.5)
-        .attr('y1', 0)
-        .attr('x2', d => xScale(d) + 0.5)
-        .attr('y2', height - margin.bottom);
       if (result.megabit <= 150) {
         columns
           .append('circle')
@@ -218,56 +205,83 @@ export default class Histogram extends React.Component {
           .attr('letter-spacing', '0.3')
           .text(`${this.props.geography['postcode_space']} speed is ${Math.round(this.props.geography['Average_download_speed_(Mbit/s)'])} Mbit/s`);
       }
+    } else if (!this.props.geography) {
+      svg
+        .append('g')
+        .selectAll()
+        .data(bins)
+        .enter()
+        .append('rect')
+        .attr('fill', d => colours(d.megabit - 2))
+        .attr('x', d => xScale(d.megabit - 2))
+        .attr('y', d => yScale(d['national_pct']))
+        .attr('width', (width - margin.left - margin.right) / bins.length)
+        .attr('height', d => yScale(0) - yScale(d['national_pct']));
     }
-    const line = D3.line()
-      .x(d => xScale(d.megabit - 2) + (((width - margin.left - margin.right) / bins.length) / 2))
-      .y(d => yScale(d.national_pct));
     svg
-      .append('path')
-      .datum(bins)
-      .attr('fill', 'none')
-      .attr('stroke', 'white')
-      .attr('stroke-linejoin', 'round')
-      .attr('stroke-dasharray', '6, 5')
-      .attr('stroke-width', 2.5)
-      .attr('d', line);
-    const labelsNational = D3Annotation
-      .annotation()
-      .accessors({
-        x: d => xScale(d.megabit),
-        y: d => yScale(d.national_pct),
-      })
-      .annotations([{
-        type: D3Annotation.annotationLabel,
-        dx: 20,
-        dy: 0,
-        data: bins[37],
-        note: {
-          type: 'line',
-          align: 'middle',
-          orientation: 'leftRight',
-          label: 'National'.toUpperCase(),
-        },
-    }]);
-    const labelsNationalElements = svg
       .append('g')
-      .attr('font-size', '14px')
-      .call(labelsNational);
-    labelsNationalElements
-      .selectAll('.annotation-note-title, .annotation-note-bg')
-      .remove();
-    labelsNationalElements
-      .selectAll('.connector')
-      .attr('stroke', 'white');
-    labelsNationalElements
-      .selectAll('.annotation-note-label')
-      .attr('fill', 'white')
-      .attr('letter-spacing', '0.3');
+      .attr('stroke', '#262a33')
+      .attr('stroke-dasharray', '4, 4')
+      .attr('stroke-width', 1)
+      .selectAll()
+      .data([10, 24, 30, 80])
+      .enter()
+      .append('line')
+      .attr('x1', d => xScale(d) + 0.5)
+      .attr('y1', 0)
+      .attr('x2', d => xScale(d) + 0.5)
+      .attr('y2', height - margin.bottom);
+    if (this.props.geography) {
+      const line = D3.line()
+        .x(d => xScale(d.megabit - 2) + (((width - margin.left - margin.right) / bins.length) / 2))
+        .y(d => yScale(d.national_pct));
+      svg
+        .append('path')
+        .datum(bins)
+        .attr('fill', 'none')
+        .attr('stroke', 'white')
+        .attr('stroke-linejoin', 'round')
+        .attr('stroke-dasharray', '6, 5')
+        .attr('stroke-width', 2.5)
+        .attr('d', line);
+      const labelsNational = D3Annotation
+        .annotation()
+        .accessors({
+          x: d => xScale(d.megabit),
+          y: d => yScale(d.national_pct),
+        })
+        .annotations([{
+          type: D3Annotation.annotationLabel,
+          dx: 20,
+          dy: 0,
+          data: bins[37],
+          note: {
+            type: 'line',
+            align: 'middle',
+            orientation: 'leftRight',
+            label: 'National comparison'.toUpperCase(),
+          },
+      }]);
+      const labelsNationalElements = svg
+        .append('g')
+        .attr('font-size', '14px')
+        .call(labelsNational);
+      labelsNationalElements
+        .selectAll('.annotation-note-title, .annotation-note-bg')
+        .remove();
+      labelsNationalElements
+        .selectAll('.connector')
+        .attr('stroke', 'white');
+      labelsNationalElements
+        .selectAll('.annotation-note-label')
+        .attr('fill', 'white')
+        .attr('letter-spacing', '0.3');
+    }
   };
 
   render() {
     return <div className="histogram">
-      <h2>Compare your broadband speed against your area and nationally</h2>
+      {this.props.geography ? (<h2>Compare your broadband speed against your area and nationally</h2>) : null}
       <div ref={this.node}/>
     </div>
   }
