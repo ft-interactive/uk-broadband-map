@@ -40,17 +40,17 @@ export default class Histogram extends React.Component {
     };
     const regionID = name => {
       switch (name) {
-        case 'London': return { code: 'London', phrasing: 'London' };
-        case 'Scotland': return { code: 'Scotland', phrasing: 'Scotland' };
-        case 'South East': return { code: 'SE', phrasing: 'the South East' };
-        case 'Wales': return { code: 'Wales', phrasing: 'Wales' };
-        case 'South West': return { code: 'SW', phrasing: 'the South West' };
-        case 'East of England': return { code: 'EE', phrasing: 'the East of England' };
-        case 'East Midlands': return { code: 'EM', phrasing: 'the East Midlands' };
-        case 'West Midlands': return { code: 'WM', phrasing: 'the West Midlands' };
-        case 'Yorkshire and The Humber': return { code: 'YH', phrasing: 'Yorkshire & the Humber' };
-        case 'North West': return { code: 'NW', phrasing: 'the North West' };
-        case 'North East': return { code: 'NE', phrasing: 'the North East' };
+        case 'London': return { code: 'london', phrasing: 'London' };
+        case 'Scotland': return { code: 'scotland', phrasing: 'Scotland' };
+        case 'South East': return { code: 'se', phrasing: 'the South East' };
+        case 'Wales': return { code: 'wales', phrasing: 'Wales' };
+        case 'South West': return { code: 'sw', phrasing: 'the South West' };
+        case 'East of England': return { code: 'ee', phrasing: 'the East of England' };
+        case 'East Midlands': return { code: 'em', phrasing: 'the East Midlands' };
+        case 'West Midlands': return { code: 'wm', phrasing: 'the West Midlands' };
+        case 'Yorkshire and The Humber': return { code: 'yh', phrasing: 'Yorkshire & the Humber' };
+        case 'North West': return { code: 'nw', phrasing: 'the North West' };
+        case 'North East': return { code: 'ne', phrasing: 'the North East' };
         default: throw new Error('Unknown area!');
       }
     };
@@ -69,7 +69,7 @@ export default class Histogram extends React.Component {
       .ticks(5)
       .tickFormat(d => {
         if (d === 0) return null;
-        else if (d === 5 && region) return `${d}% of all postcodes in ${region.phrasing}`.toUpperCase();
+        else if (d === 5 && region) return `${d}% of postcodes in ${region.phrasing}`.toUpperCase();
         else if (d === 5) return `${d}% of all postcodes`.toUpperCase();
         else return d;
       });
@@ -136,9 +136,9 @@ export default class Histogram extends React.Component {
         .append('rect')
         .attr('fill', d => colours(d.megabit - 2))
         .attr('x', d => xScale(d.megabit - 2))
-        .attr('y', d => yScale(d[`${region.code}_rural`] + d[`${region.code}_urban`]))
+        .attr('y', d => yScale(d[`${region.code}-rural`] + d[`${region.code}-urban`]))
         .attr('width', (width - margin.left - margin.right) / bins.length)
-        .attr('height', d => yScale(0) - yScale(d[`${region.code}_rural`] + d[`${region.code}_urban`]));
+        .attr('height', d => yScale(0) - yScale(d[`${region.code}-rural`] + d[`${region.code}-urban`]));
     } else if (!this.props.geography) {
       svg
         .append('g')
@@ -148,13 +148,13 @@ export default class Histogram extends React.Component {
         .append('rect')
         .attr('fill', d => colours(d.megabit - 2))
         .attr('x', d => xScale(d.megabit - 2))
-        .attr('y', d => yScale(d['national_pct']))
+        .attr('y', d => yScale(d['national-rural'] + d['national-urban']))
         .attr('width', (width - margin.left - margin.right) / bins.length)
-        .attr('height', d => yScale(0) - yScale(d['national_pct']));
+        .attr('height', d => yScale(0) - yScale(d['national-rural'] + d['national-urban']));
       const ruralLine = D3.line()
         .curve(D3.curveStepAfter)
         .x(d => xScale(d.megabit - 2))
-        .y(d => yScale(d['national_pct'] / 2));
+        .y(d => yScale(d['national-rural']));
       svg
         .append('path')
         .datum(bins)
@@ -179,7 +179,7 @@ export default class Histogram extends React.Component {
     if (this.props.geography) {
       const line = D3.line()
         .x(d => xScale(d.megabit - 2) + (((width - margin.left - margin.right) / bins.length) / 2))
-        .y(d => yScale(d['national_pct']));
+        .y(d => yScale(d['national-rural'] + d['national-urban']));
       svg
         .append('path')
         .datum(bins)
@@ -193,7 +193,7 @@ export default class Histogram extends React.Component {
         .annotation()
         .accessors({
           x: d => xScale(d.megabit),
-          y: d => yScale(d['national_pct']),
+          y: d => yScale(d['national-rural'] + d['national-urban']),
         })
         .annotations([{
           type: D3Annotation.annotationLabel,

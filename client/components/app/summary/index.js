@@ -12,23 +12,23 @@ const Summary = (props) => {
   const yourSpeed = props.geography['Average_download_speed_(Mbit/s)'];
   const regionID = name => {
     switch (name) {
-      case 'London': return { code: 'London', phrasing: 'London' };
-      case 'Scotland': return { code: 'Scotland', phrasing: 'Scotland' };
-      case 'Wales': return { code: 'Wales', phrasing: 'Wales' };
-      case 'South East': return { code: 'SE', phrasing: 'the South East' };
-      case 'South West': return { code: 'SW', phrasing: 'the South West' };
-      case 'East of England': return { code: 'EE', phrasing: 'the East of England' };
-      case 'East Midlands': return { code: 'EM', phrasing: 'the East Midlands' };
-      case 'West Midlands': return { code: 'WM', phrasing: 'the West Midlands' };
+      case 'London': return { code: 'london', phrasing: 'London' };
+      case 'Scotland': return { code: 'scotland', phrasing: 'Scotland' };
+      case 'Wales': return { code: 'wales', phrasing: 'Wales' };
+      case 'South East': return { code: 'se', phrasing: 'the South East' };
+      case 'South West': return { code: 'sw', phrasing: 'the South West' };
+      case 'East of England': return { code: 'ee', phrasing: 'the East of England' };
+      case 'East Midlands': return { code: 'em', phrasing: 'the East Midlands' };
+      case 'West Midlands': return { code: 'wm', phrasing: 'the West Midlands' };
       case 'Yorkshire and The Humber': return { code: 'YH', phrasing: 'Yorkshire and the Humber' };
-      case 'North West': return { code: 'NW', phrasing: 'the North West' };
-      case 'North East': return { code: 'NE', phrasing: 'the North East' };
+      case 'North West': return { code: 'nw', phrasing: 'the North West' };
+      case 'North East': return { code: 'ne', phrasing: 'the North East' };
       default: throw new Error('Unknown area!');
     }
   };
   const region = regionID(props.geography.region);
   const regionPercentage = props.speeds.filter(speed => speed.megabit < yourSpeed).reduce((a, speed) => {
-    return a + speed[`${region.code}_rural`] + speed[`${region.code}_urban`];
+    return a + speed[`${region.code}-rural`] + speed[`${region.code}-urban`];
   }, 0);
   const regionPercentageText = Math.round(regionPercentage) === 100 ? 'almost 100' : Math.round(regionPercentage);
   const text = `My broadband is faster than ${regionPercentageText}% of other people in ${region.phrasing}.`
