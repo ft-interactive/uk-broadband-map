@@ -162,6 +162,26 @@ export default class Histogram extends React.Component {
         .attr('stroke', 'white')
         .attr('stroke-width', 2)
         .attr('d', ruralLine);
+      const labelsNationally = svg
+        .append('g');
+      labelsNationally
+        .append('text')
+        .attr('x', xScale(27))
+        .attr('y', yScale(2.3))
+        .attr('fill', 'white')
+        .attr('font-size', 16)
+        .attr('text-anchor', 'middle')
+        .attr('letter-spacing', 0.3)
+        .text('Urban'.toUpperCase());
+      labelsNationally
+        .append('text')
+        .attr('x', xScale(27))
+        .attr('y', yScale(0.6))
+        .attr('fill', 'white')
+        .attr('font-size', 16)
+        .attr('text-anchor', 'middle')
+        .attr('letter-spacing', 0.3)
+        .text('Rural'.toUpperCase());
     }
     svg
       .append('g')
