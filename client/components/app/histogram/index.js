@@ -151,6 +151,17 @@ export default class Histogram extends React.Component {
         .attr('y', d => yScale(d['national_pct']))
         .attr('width', (width - margin.left - margin.right) / bins.length)
         .attr('height', d => yScale(0) - yScale(d['national_pct']));
+      const ruralLine = D3.line()
+        .curve(D3.curveStepAfter)
+        .x(d => xScale(d.megabit - 2))
+        .y(d => yScale(d['national_pct'] / 2));
+      svg
+        .append('path')
+        .datum(bins)
+        .attr('fill', 'none')
+        .attr('stroke', 'white')
+        .attr('stroke-width', 2)
+        .attr('d', ruralLine);
     }
     svg
       .append('g')
@@ -168,7 +179,7 @@ export default class Histogram extends React.Component {
     if (this.props.geography) {
       const line = D3.line()
         .x(d => xScale(d.megabit - 2) + (((width - margin.left - margin.right) / bins.length) / 2))
-        .y(d => yScale(d.national_pct));
+        .y(d => yScale(d['national_pct']));
       svg
         .append('path')
         .datum(bins)
@@ -182,7 +193,7 @@ export default class Histogram extends React.Component {
         .annotation()
         .accessors({
           x: d => xScale(d.megabit),
-          y: d => yScale(d.national_pct),
+          y: d => yScale(d['national_pct']),
         })
         .annotations([{
           type: D3Annotation.annotationLabel,
