@@ -30,7 +30,8 @@ const Summary = (props) => {
   const regionPercentage = props.speeds.filter(speed => speed.megabit < yourSpeed).reduce((a, speed) => {
     return a + speed[`${region.code}_rural`] + speed[`${region.code}_urban`];
   }, 0);
-  const text = `My broadband is faster than ${Math.round(regionPercentage)}% of other people in ${region.phrasing}.`
+  const regionPercentageText = Math.round(regionPercentage) === 100 ? 'almost 100' : Math.round(regionPercentage);
+  const text = `My broadband is faster than ${regionPercentageText}% of other people in ${region.phrasing}.`
   const tweet = () => {
     const contents = text + ' https://ft.com/';
     window.open(`https://twitter.com/intent/tweet?text=${encodeURI(contents)}`);
