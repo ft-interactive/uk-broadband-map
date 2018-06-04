@@ -13,6 +13,7 @@ class ZoomControls extends PureComponent {
     super(props);
 
     this.zoomScale = scaleLinear();
+    this.slider = React.createRef();
   }
 
   componentDidUpdate() {
@@ -24,9 +25,13 @@ class ZoomControls extends PureComponent {
       .range(zoomSteps);
   }
 
-  handleZoomClick = (event) => {
-    const zoom = Number(event.target.value);
+  handleZoomChange = (zoom) => {
     const { longitude, latitude, minZoom } = this.props.viewport;
+
+    console.log('setting slider value', this.zoomScale(zoom));
+    this.slider.current.value = this.zoomScale(zoom);
+
+    console.log('new slider value', this.slider.current.value);
 
     if (zoom.toFixed(5) === minZoom.toFixed(5)) {
       const viewport = new WebMercatorViewport({
@@ -47,13 +52,23 @@ class ZoomControls extends PureComponent {
       latitude,
       zoom,
     });
+  }
+
+  handleButtonClick = (event) => {
+    event.preventDefault();
+
+    const zoomLevel = Number(event.target.value);
+
+    this.handleZoomChange(zoomLevel);
   };
 
-  handleZoomChange = (event) => {
-    const { zoomLevels } = this.props;
-    const zoomStep = Math.round(event.target.value);
+  handleSliderChange = (event) => {
+    event.preventDefault();
 
-    return this.props.onZoomChange({ zoom: zoomLevels[zoomStep] });
+    const zoomStep = Number(event.target.value);
+    const zoomLevel = this.zoomScale.invert(zoomStep);
+
+    this.handleZoomChange(zoomLevel);
   }
 
   renderZoomButton = (num) => {
@@ -72,7 +87,7 @@ class ZoomControls extends PureComponent {
       <button
         key={`zoom-${num > -1 ? 'plus' : 'minus'}`}
         value={value}
-        onClick={this.handleZoomClick}
+        onClick={this.handleButtonClick}
         className={`o-buttons o-buttons--inverse zoom-${num > -1 ? 'plus' : 'minus'} ${
           controlsHidden ? 'hidden' : ''
         }`}
@@ -83,7 +98,8 @@ class ZoomControls extends PureComponent {
   };
 
   render() {
-    const { zoom, maxZoom, minZoom } = this.props.viewport;
+    const { zoomLevels } = this.props;
+    const value = this.slider.current ? this.slider.current.value : 0;
 
     return (
       <Fragment>
@@ -94,16 +110,15 @@ class ZoomControls extends PureComponent {
             <input
               name="zoom"
               type="range"
-              min={this.zoomScale(minZoom)}
-              max={this.zoomScale(maxZoom)}
+              min={0}
+              max={zoomLevels.length - 1}
               step={1}
-              value={this.zoomScale(zoom)}
-              onChange={this.handleZoomChange}
+              value={value}
+              onChange={this.handleSliderChange}
+              ref={this.slider}
             />
           </div>
         </div>
-
-        {/* {zoom.toFixed(2)} */}
       </Fragment>
     );
   }
@@ -113,7 +128,7 @@ ZoomControls.propTypes = {
   viewport: PropTypes.object.isRequired, // eslint-disable-line
   zoomLevels: PropTypes.arrayOf(PropTypes.number).isRequired,
   onZoomChange: PropTypes.func.isRequired,
-  dragEnabled: PropTypes.bool.isRequired,
+  // dragEnabled: PropTypes.bool.isRequired,
 };
 
 ZoomControls.defaultProps = { minZoom: 0 };
