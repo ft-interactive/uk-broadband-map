@@ -315,7 +315,7 @@ export default class Histogram extends React.Component {
 
   render() {
     return <div className="histogram">
-      {this.props.geography ? (<h2>Compare your broadband speed against your area and nationally</h2>) : null}
+      <h2>{this.props.geography ? 'Compare your broadband speed against your area and nationally' : 'Static national broadband speed title here'}</h2>
       <div ref={this.node}/>
     </div>
   }
