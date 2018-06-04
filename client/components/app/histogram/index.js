@@ -127,7 +127,8 @@ export default class Histogram extends React.Component {
       const yourSpeed = this.props.geography['Average_download_speed_(Mbit/s)'];
       const colours = value => D3.interpolateRgbBasis(['#981626', '#ce0f35', '#ff1a66', '#ff7760', '#ffffcc'])(value / bins.length);
       const columns = svg
-        .append('g')
+        .append('g');
+      const columnsBars = columns
         .selectAll()
         .data(bins)
         .enter()
@@ -137,11 +138,19 @@ export default class Histogram extends React.Component {
         .attr('y', d => yScale(d[`${region.code}_rural`] + d[`${region.code}_urban`]))
         .attr('width', (width - margin.left - margin.right) / bins.length)
         .attr('height', d => yScale(0) - yScale(d[`${region.code}_rural`] + d[`${region.code}_urban`]));
-      columns
+      const yourData = columnsBars
         .filter(d => d.megabit > yourSpeed)
         .filter((_, i) => i === 0)
-        .attr('stroke', d => d.megabit > 60 ? 'black' : 'white')
-        .raise();
+        .data()[0];
+      columns
+        .append('circle')
+        .datum(yourData)
+        .attr('cx', d => xScale(d.megabit - 1))
+        .attr('cy', yScale(0))
+        .attr('r', ((width - margin.left - margin.right) / bins.length) / 2)
+        .attr('fill', 'rgba(0, 0, 0, 0.8)')
+        .attr('stroke', 'white')
+        .attr('stroke-width', 2);
       svg
         .append('g')
         .attr('stroke', '#262a33')
@@ -155,6 +164,40 @@ export default class Histogram extends React.Component {
         .attr('y1', 0)
         .attr('x2', d => xScale(d) + 0.5)
         .attr('y2', height - margin.bottom);
+      const labelsRegional = D3Annotation
+        .annotation()
+        .accessors({
+          x: d => yourData.megabit <= 60 ? xScale(d.megabit - 2) : xScale(d.megabit),
+          y: d => yScale(0) - (height * 0.08),
+        })
+        .annotations([{
+          type: D3Annotation.annotationLabel,
+          data: yourData,
+          note: {
+            type: 'line',
+            align: yourData.megabit <= 60 ? 'left' : 'right',
+            orientation: 'topBottom',
+            wrap: width - margin.left - margin.right,
+            padding: 0,
+            label: `${this.props.geography['postcode_space']} speed is ${Math.round(this.props.geography['Average_download_speed_(Mbit/s)'])} Mbit/s`,
+          },
+        }]);
+      const labelsRegionalElements = svg
+        .append('g')
+        .attr('font-size', '16px')
+        .attr('font-weight', '600')
+        .attr('letter-spacing', '0.3')
+        .call(labelsRegional);
+      labelsRegionalElements
+        .selectAll('.annotation-note-title, .annotation-connector')
+        .remove();
+      labelsRegionalElements
+        .selectAll('.annotation-note-bg')
+        .attr('fill', 'black')
+        .attr('fill-opacity', 0.8);
+      labelsRegionalElements
+        .selectAll('.annotation-note-label')
+        .attr('fill', 'white');
     }
     const line = D3.line()
       .x(d => xScale(d.megabit - 2) + (((width - margin.left - margin.right) / bins.length) / 2))
@@ -168,6 +211,38 @@ export default class Histogram extends React.Component {
       .attr('stroke-dasharray', '6, 5')
       .attr('stroke-width', 2.5)
       .attr('d', line);
+    const labelsNational = D3Annotation
+      .annotation()
+      .accessors({
+        x: d => xScale(d.megabit),
+        y: d => yScale(d.national_pct),
+      })
+      .annotations([{
+        type: D3Annotation.annotationLabel,
+        dx: 20,
+        dy: 0,
+        data: bins[37],
+        note: {
+          type: 'line',
+          align: 'middle',
+          orientation: 'leftRight',
+          label: 'National'.toUpperCase(),
+        },
+    }]);
+    const labelsNationalElements = svg
+      .append('g')
+      .attr('font-size', '14px')
+      .call(labelsNational);
+    labelsNationalElements
+      .selectAll('.annotation-note-title, .annotation-note-bg')
+      .remove();
+    labelsNationalElements
+      .selectAll('.connector')
+      .attr('stroke', 'white');
+    labelsNationalElements
+      .selectAll('.annotation-note-label')
+      .attr('fill', 'white')
+      .attr('letter-spacing', '0.3');
   };
 
   render() {
