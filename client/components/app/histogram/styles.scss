@@ -1,3 +1,5 @@
+@import 'o-grid/main';
+
 .histogram {
   position: relative;
   max-width: none !important;
@@ -6,10 +8,20 @@
 
 .histogram h2 {
   position: absolute;
+  width: 100%;
   margin: 0;
   color: white;
   font-size: 37px;
   font-family: FinancierDisplayWeb, serif;
   font-weight: normal;
   text-align: center;
+}
+
+@include oGridRespondTo($until: M) {
+
+  .histogram h2 {
+    font-size: 28px;
+    text-align: left;
+  }
+
 }
