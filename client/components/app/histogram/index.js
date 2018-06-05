@@ -316,7 +316,7 @@ export default class Histogram extends React.Component {
         <h2>
           {this.props.geography
             ? 'Compare your broadband speed against your area and nationally'
-            : 'Static national broadband speed title here'}
+            : 'Britain\'s broadband speeds: not just an urban/rural divide'}
         </h2>
         <div ref={this.node} />
       </div>
