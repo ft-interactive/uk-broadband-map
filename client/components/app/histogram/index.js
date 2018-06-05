@@ -124,7 +124,7 @@ export default class Histogram extends React.Component {
       .attr('y1', yScale)
       .attr('x2', (d) => {
         const textWidth = yAxisElement.selectAll('text').nodes()[d].getBBox().width;
-        if (d === 5) return width - margin.right - textWidth;
+        if (d === 5) return width - margin.left - 6 - textWidth;
         return width - margin.right;
       })
       .attr('y2', yScale);
