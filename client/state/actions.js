@@ -65,13 +65,31 @@ export const getUserLocation = () => async (dispatch) => {
         throw new Error('Outside UK Bounds');
       }
 
-      await dispatch({
-        type: GET_USER_LOCATION,
-        payload: {
-          latitude: coords.latitude,
-          longitude: coords.longitude,
-        },
-      });
+      // Try to get postcode via lat/lng
+      const postcodesIOResponse = await fetch(
+        `https://api.postcodes.io/postcodes?lon=${coords.longitude}&lat=${coords.latitude}`,
+      ).then(res => res.json());
+
+      if (postcodesIOResponse.status === 200) {
+        const [postcodeData] = postcodesIOResponse.result;
+
+        await dispatch({
+          type: GET_USER_LOCATION,
+          payload: {
+            latitude: coords.latitude,
+            longitude: coords.longitude,
+            ...postcodeData,
+          },
+        });
+      } else {
+        await dispatch({
+          type: GET_USER_LOCATION,
+          payload: {
+            latitude: coords.latitude,
+            longitude: coords.longitude,
+          },
+        });
+      }
 
       await dispatch({
         type: GEOLOCATING_IN_PROGRESS,
