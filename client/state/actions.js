@@ -129,9 +129,9 @@ export const setMapLoadedStatus = status => ({
   payload: status,
 });
 
-export const choosePreset = evt => ({
+export const choosePreset = preset => ({
   type: CHOOSE_PRESET,
-  payload: evt.target.value,
+  payload: preset,
 });
 
 export default '';
