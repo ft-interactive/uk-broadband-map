@@ -2,6 +2,28 @@
   {
     "id": "london",
     "label": "London",
-    "viewport": {}
+    "viewport": {
+      "zoom": 13,
+      "longitude": -0.1056524,
+      "latitude": 51.5044484
+    }
+  },
+  {
+    "id": "manchester",
+    "label": "Manchester",
+    "viewport": {
+      "zoom": 12,
+      "longitude": -2.23333,
+      "latitude": 53.46667
+    }
+  },
+  {
+    "id": "lancashire",
+    "label": "Lancashire",
+    "viewport": {
+      "zoom": 11,
+      "longitude": -2.6341,
+      "latitude": 54.1043
+    }
   }
 ]

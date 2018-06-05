@@ -3,6 +3,9 @@
  * Root reducer for Redux store
  */
 
+import { easeCubic } from 'd3-ease';
+import { FlyToInterpolator } from 'react-map-gl';
+
 import {
   GEOLOCATING_IN_PROGRESS,
   GET_POSTCODE_DATA,
@@ -90,6 +93,9 @@ export default (state = INITIAL_STATE, { type, payload }) => {
         viewport: {
           ...state.viewport,
           ...payload.viewport,
+          transitionDuration: 5000,
+          transitionInterpolator: new FlyToInterpolator(),
+          transitionEasing: easeCubic,
         },
       };
 
