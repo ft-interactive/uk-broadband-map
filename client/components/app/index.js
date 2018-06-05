@@ -175,6 +175,7 @@ class App extends Component {
       setTransitionStatus,
       transitionInProgress,
     } = this.props;
+    const { minZoom } = viewport;
 
     return (
       <Fragment>
@@ -225,7 +226,7 @@ class App extends Component {
 
                     <ZoomControls
                       viewport={viewport}
-                      zoomLevels={[viewport.minZoom, 6, 9, 12, 15]}
+                      zoomLevels={[Number(minZoom.toFixed(5)), 6, 9, 12, 15]}
                       onZoomChange={this.goToViewport}
                       dragEnabled={dragEnabled}
                       transitionInProgress={transitionInProgress}

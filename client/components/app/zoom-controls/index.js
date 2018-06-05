@@ -1,8 +1,8 @@
 import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import WebMercatorViewport from 'viewport-mercator-project';
-import { scaleLinear } from 'd3-scale'; // eslint-disable-line
-import { range as d3Range } from 'd3-array'; // eslint-disable-line
+import { scaleThreshold } from 'd3-scale'; // eslint-disable-line
+import { range as d3Range, min as d3Min, max as d3Max } from 'd3-array'; // eslint-disable-line
 import './styles.scss';
 
 // TODO: figure out how to set this without using state
@@ -12,26 +12,28 @@ class ZoomControls extends PureComponent {
   constructor(props) {
     super(props);
 
-    this.zoomScale = scaleLinear();
+    this.zoomScale = scaleThreshold();
     this.slider = React.createRef();
   }
 
   componentDidUpdate() {
     const { zoomLevels } = this.props;
-    const zoomSteps = d3Range(0, zoomLevels.length, 1);
 
     this.zoomScale
-      .domain(zoomLevels)
-      .range(zoomSteps);
+      .domain(zoomLevels);
+
+    zoomLevels.unshift(0);
+
+    this.zoomScale
+      .range(zoomLevels);
   }
 
   handleZoomChange = (zoom) => {
     const { longitude, latitude, minZoom } = this.props.viewport;
 
-    this.slider.current.value = this.zoomScale(zoom);
+    this.slider.current.value = zoom;
 
-
-    if (zoom.toFixed(5) === minZoom.toFixed(5)) {
+    if (zoom === Number(minZoom.toFixed(5))) {
       const viewport = new WebMercatorViewport({
         width: window.innerWidth,
         height: window.innerHeight * 0.75,
@@ -46,8 +48,6 @@ class ZoomControls extends PureComponent {
     }
 
     return this.props.onZoomChange({
-      longitude,
-      latitude,
       zoom,
     });
   }
@@ -55,31 +55,25 @@ class ZoomControls extends PureComponent {
   handleButtonClick = (event) => {
     event.preventDefault();
 
-    const zoomLevel = Number(event.target.value);
+    const newZoomLevel = Number(event.target.value);
 
-    this.handleZoomChange(zoomLevel);
+    this.handleZoomChange(newZoomLevel);
   };
 
   handleSliderChange = (event) => {
     event.preventDefault();
 
-    const zoomStep = Number(event.target.value);
-    const zoomLevel = this.zoomScale.invert(zoomStep);
+    const newZoomLevel = this.zoomScale(Number(event.target.value));
 
-    this.handleZoomChange(zoomLevel);
+    this.handleZoomChange(newZoomLevel);
   }
 
   renderZoomButton = (num) => {
-    const { zoomLevels } = this.props;
+    const { zoomLevels, transitionInProgress } = this.props;
     const { zoom: currentZoomLevel } = this.props.viewport;
-    const currentZoomIndex = zoomLevels.indexOf(currentZoomLevel);
-    let value;
-
-    if (currentZoomIndex > -1) {
-      value = num > -1 ? zoomLevels[currentZoomIndex + 1] : zoomLevels[currentZoomIndex - 1];
-    } else {
-      value = 'HURRRRR';
-    }
+    const currentZoomStep = this.zoomScale(currentZoomLevel.toFixed(5));
+    const currentZoomIndex = zoomLevels.indexOf(currentZoomStep);
+    const value = num > 0 ? zoomLevels[currentZoomIndex + 1] : zoomLevels[currentZoomIndex - 1];
 
     return (
       <button
@@ -89,31 +83,33 @@ class ZoomControls extends PureComponent {
         className={`o-buttons o-buttons--inverse zoom-${num > -1 ? 'plus' : 'minus'} ${
           controlsHidden ? 'hidden' : ''
         }`}
-        disabled={this.props.transitionInProgress}
+        disabled={!value || transitionInProgress}
       >
-        {num > -1 ? '+' : '-'}
+        {value}
       </button>
     );
   };
 
   render() {
     const { zoomLevels } = this.props;
-    const value = this.slider.current ? this.slider.current.value : 0;
+    const zoomStep = this.slider.current ? this.slider.current.value : 0;
+    // const zoomStep = this.props.viewport.zoom;
 
     return (
       <Fragment>
         <div className="zoom-control-container">
-          {[0, -1].map(x => this.renderZoomButton(x))}
+          {/* Map an array of plus/minus increments */}
+          {[1, -1].map(x => this.renderZoomButton(x))}
 
           <div className="slider-wrapper">
             <input
               name="zoom"
               type="range"
-              min={0}
-              max={zoomLevels.length - 1}
-              step={1}
-              value={value}
-              onChange={this.handleSliderChange}
+              min={zoomLevels[0]}
+              max={zoomLevels[zoomLevels.length - 1]}
+              step={'any'}
+              value={zoomStep}
+              onInput={this.handleSliderChange}
               ref={this.slider}
             />
           </div>
@@ -130,6 +126,6 @@ ZoomControls.propTypes = {
   transitionInProgress: PropTypes.bool.isRequired,
 };
 
-ZoomControls.defaultProps = { minZoom: 0 };
+ZoomControls.defaultProps = { viewport: { zoom: 0 } };
 
 export default ZoomControls;
