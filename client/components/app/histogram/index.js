@@ -168,23 +168,25 @@ export default class Histogram extends React.Component {
         .attr('stroke-width', 2)
         .attr('d', ruralLine);
     }
-    const tickpoints = bins.filter(bin => [10, 24, 30, 80].includes(bin.megabit));
-    svg
-      .append('g')
-      .attr('stroke', '#262a33')
-      .attr('stroke-dasharray', '4, 4')
-      .attr('stroke-width', 1)
-      .selectAll()
-      .data(tickpoints)
-      .enter()
-      .append('line')
-      .attr('x1', d => xScale(d.megabit) + 0.5)
-      .attr('y1', yScale(0))
-      .attr('x2', d => xScale(d.megabit) + 0.5)
-      .attr('y2', (d) => {
-        const location = region ? region.code : 'national';
-        return yScale(d[`${location}-rural`] + d[`${location}-urban`]);
-      });
+    if (result || !this.props.geography) {
+      const tickpoints = bins.filter(bin => [10, 24, 30, 80].includes(bin.megabit));
+      svg
+        .append('g')
+        .attr('stroke', '#262a33')
+        .attr('stroke-dasharray', '4, 4')
+        .attr('stroke-width', 1)
+        .selectAll()
+        .data(tickpoints)
+        .enter()
+        .append('line')
+        .attr('x1', d => xScale(d.megabit) + 0.5)
+        .attr('y1', yScale(0))
+        .attr('x2', d => xScale(d.megabit) + 0.5)
+        .attr('y2', (d) => {
+          const location = region ? region.code : 'national';
+          return yScale(d[`${location}-rural`] + d[`${location}-urban`]);
+        });
+    }
     if (this.props.geography) {
       const line = D3.line()
         .x(d => xScale(d.megabit - 2) + (width - margin.left - margin.right) / bins.length / 2)
@@ -198,35 +200,45 @@ export default class Histogram extends React.Component {
         .attr('stroke-dasharray', '6, 5')
         .attr('stroke-width', 2.5)
         .attr('d', line);
-      const labelsNational = D3Annotation.annotation()
-        .accessors({
-          x: d => xScale(d.megabit),
-          y: d => yScale(d['national-rural'] + d['national-urban']),
-        })
-        .annotations([
-          {
-            type: D3Annotation.annotationLabel,
-            dx: 20,
-            dy: 0,
-            data: bins[37],
-            note: {
-              type: 'line',
-              align: 'middle',
-              orientation: 'leftRight',
-              label: 'National comparison'.toUpperCase(),
-            },
-          },
-        ]);
-      const labelsNationalElements = svg
-        .append('g')
-        .attr('font-size', '14px')
-        .call(labelsNational);
-      labelsNationalElements.selectAll('.annotation-note-title, .annotation-note-bg').remove();
-      labelsNationalElements.selectAll('.connector').attr('stroke', 'white');
-      labelsNationalElements
-        .selectAll('.annotation-note-label')
+      const labelify = text => {
+        const g = svg
+          .append('g')
+          .attr('transform', 'translate(30, 0)');
+        g
+          .append('line')
+          .attr('stroke', 'black')
+          .attr('x1', Number(text.attr('x')) - 5 + 1)
+          .attr('y1', Number(text.attr('y')) - (text.node().getBBox().height / 4) + 1)
+          .attr('x2', Number(text.attr('x')) - 25 + 1)
+          .attr('y2', Number(text.attr('y')) - (text.node().getBBox().height / 4) + 1);
+        g
+          .append('line')
+          .attr('stroke', 'white')
+          .attr('x1', Number(text.attr('x')) - 5)
+          .attr('y1', Number(text.attr('y')) - (text.node().getBBox().height / 4))
+          .attr('x2', Number(text.attr('x')) - 25)
+          .attr('y2', Number(text.attr('y')) - (text.node().getBBox().height / 4));
+        g
+          .append('text')
+          .attr('font-size', text.attr('font-size'))
+          .attr('letter-spacing', text.attr('letter-spacing'))
+          .attr('fill', 'black')
+          .attr('x', Number(text.attr('x')) + 1)
+          .attr('y', Number(text.attr('y')) + 1)
+          .text(text.text());
+        g.append(() => text.remove().node());
+      };
+      svg
+        .append('text')
+        .datum(bins[37])
+        .attr('x', d => xScale(d.megabit))
+        .attr('y', d => yScale(d['national-rural'] + d['national-urban']))
         .attr('fill', 'white')
-        .attr('letter-spacing', '0.3');
+        .attr('font-size', '14px')
+        .attr('text-anchor', 'start')
+        .attr('letter-spacing', '0.3')
+        .text('National comparison'.toUpperCase())
+        .call(labelify);
     } else if (!this.props.geography) {
       const labelsNationally = svg.append('g');
       labelsNationally
@@ -248,9 +260,10 @@ export default class Histogram extends React.Component {
         .attr('letter-spacing', 0.3)
         .text('Rural'.toUpperCase());
     }
-    const backgroundify = padding => {
-      return text => svg
-        .insert('rect', () => text.node())
+    const backgroundify = padding => text => {
+      const g = svg.append('g');
+      g
+        .append('rect')
         .attr('x', text.node().getBBox().x - padding)
         .attr('y', text.node().getBBox().y - padding)
         .attr('width', text.node().getBBox().width + (padding * 2))
@@ -259,7 +272,8 @@ export default class Histogram extends React.Component {
         .attr('fill-opacity', 0.8)
         .attr('rx', 3)
         .attr('ry', 3);
-    }
+      g.append(() => text.remove().node());
+    };
     if (result && result.megabit <= 150) {
       svg
         .append('circle')
@@ -273,7 +287,7 @@ export default class Histogram extends React.Component {
       svg
         .append('text')
         .attr('x', result.megabit <= 60 ? xScale(result.megabit - 2) : xScale(result.megabit))
-        .attr('y', yScale(0) - 30)
+        .attr('y', yScale(0.35))
         .attr('fill', 'white')
         .attr('font-size', '16px')
         .attr('font-weight', '600')
@@ -285,7 +299,7 @@ export default class Histogram extends React.Component {
       svg
         .append('text')
         .attr('x', xScale(150))
-        .attr('y', yScale(0) - 40)
+        .attr('y', yScale(0.45))
         .attr('fill', 'white')
         .attr('font-size', '16px')
         .attr('font-weight', '600')
