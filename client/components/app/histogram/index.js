@@ -168,19 +168,23 @@ export default class Histogram extends React.Component {
         .attr('stroke-width', 2)
         .attr('d', ruralLine);
     }
+    const tickpoints = bins.filter(bin => [10, 24, 30, 80].includes(bin.megabit));
     svg
       .append('g')
       .attr('stroke', '#262a33')
       .attr('stroke-dasharray', '4, 4')
       .attr('stroke-width', 1)
       .selectAll()
-      .data([10, 24, 30, 80])
+      .data(tickpoints)
       .enter()
       .append('line')
-      .attr('x1', d => xScale(d) + 0.5)
-      .attr('y1', 0)
-      .attr('x2', d => xScale(d) + 0.5)
-      .attr('y2', height - margin.bottom);
+      .attr('x1', d => xScale(d.megabit) + 0.5)
+      .attr('y1', yScale(0))
+      .attr('x2', d => xScale(d.megabit) + 0.5)
+      .attr('y2', (d) => {
+        const location = region ? region.code : 'national';
+        return yScale(d[`${location}-rural`] + d[`${location}-urban`]);
+      });
     if (this.props.geography) {
       const line = D3.line()
         .x(d => xScale(d.megabit - 2) + (width - margin.left - margin.right) / bins.length / 2)
