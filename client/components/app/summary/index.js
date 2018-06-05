@@ -10,7 +10,7 @@ import './styles.scss';
 const Summary = (props) => {
   if (Object.keys(props.geography).length === 0) return null;
   const yourSpeed = props.geography['Average_download_speed_(Mbit/s)'];
-  const regionID = name => {
+  const regionID = (name) => {
     switch (name) {
       case 'London': return { code: 'london', phrasing: 'London' };
       case 'Scotland': return { code: 'scotland', phrasing: 'Scotland' };
@@ -27,20 +27,23 @@ const Summary = (props) => {
     }
   };
   const region = regionID(props.geography.region);
-  const regionPercentage = props.speeds.filter(speed => speed.megabit < yourSpeed).reduce((a, speed) => {
-    return a + speed[`${region.code}-rural`] + speed[`${region.code}-urban`];
-  }, 0);
-  const regionPercentageText = Math.round(regionPercentage) === 100 ? 'almost 100' : Math.round(regionPercentage);
-  const text = `My broadband is faster than ${regionPercentageText}% of other people in ${region.phrasing}.`
+  const regionPc = props.speeds
+    .filter(speed => speed.megabit < yourSpeed)
+    .reduce((a, speed) => a + speed[`${region.code}-rural`] + speed[`${region.code}-urban`], 0);
+  const regionPcRound = Math.round(regionPc);
+  const regionPcText = regionPcRound === 100 ? 'almost 100' : regionPcRound;
+  const text = `My broadband is faster than ${regionPcText}% of other people in ${region.phrasing}.`;
   const tweet = () => {
-    const contents = text + ' https://ft.com/';
+    const contents = `${text} https://ft.com/`;
     window.open(`https://twitter.com/intent/tweet?text=${encodeURI(contents)}`);
-  }
-  return <div className="summary">
-    <span>“{text}”</span>
-    <button onClick={tweet}>Tweet this</button>
-  </div>;
-}
+  };
+  return (
+    <div className="summary">
+      <span>“{text}”</span>
+      <button onClick={tweet}>Tweet this</button>
+    </div>
+  );
+};
 
 Summary.propTypes = {
   geography: PropTypes.any, // eslint-disable-line

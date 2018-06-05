@@ -38,7 +38,7 @@ export default class Histogram extends React.Component {
       bottom: 50,
       left: 5,
     };
-    const regionID = name => {
+    const regionID = (name) => {
       switch (name) {
         case 'London': return { code: 'london', phrasing: 'London' };
         case 'Scotland': return { code: 'scotland', phrasing: 'Scotland' };
@@ -54,7 +54,9 @@ export default class Histogram extends React.Component {
         default: throw new Error('Unknown area!');
       }
     };
-    const region = this.props.geography && this.props.geography.region ? regionID(this.props.geography.region) : null;
+    const region = this.props.geography && this.props.geography.region
+      ? regionID(this.props.geography.region)
+      : null;
     const bins = this.props.speeds.filter(d => d.megabit <= 150);
     const xScale = D3.scaleLinear()
       .domain([0, bins[bins.length - 1].megabit])
@@ -67,11 +69,11 @@ export default class Histogram extends React.Component {
       .tickSize(12);
     const yAxis = D3.axisRight(yScale)
       .ticks(5)
-      .tickFormat(d => {
+      .tickFormat((d) => {
         if (d === 0) return null;
         else if (d === 5 && region) return `${d}% of postcodes in ${region.phrasing}`.toUpperCase();
         else if (d === 5) return `${d}% of all postcodes`.toUpperCase();
-        else return d;
+        return d;
       });
     const svg = D3.select(this.node.current)
       .append('svg')
@@ -84,14 +86,15 @@ export default class Histogram extends React.Component {
       .attr('font-family', null)
       .attr('font-size', null);
     xAxisElement.selectAll('line,path').attr('stroke', '#939394');
-    xAxisElement.selectAll('text')
+    xAxisElement
+      .selectAll('text')
       .attr('fill', '#939394')
       .attr('font-family', 'MetricWeb, sans-serif')
       .attr('font-size', '16px');
     xAxisElement
       .append('text')
       .attr('dy', '-0.2em')
-      .attr('x', margin.left + ((width - margin.left - margin.right) / 2))
+      .attr('x', margin.left + (width - margin.left - margin.right) / 2)
       .attr('y', margin.bottom)
       .attr('fill', '#939394')
       .attr('font-size', '16px')
@@ -105,7 +108,8 @@ export default class Histogram extends React.Component {
       .attr('font-family', null)
       .attr('font-size', null);
     yAxisElement.selectAll('line,path').remove();
-    yAxisElement.selectAll('text')
+    yAxisElement
+      .selectAll('text')
       .attr('fill', '#939394')
       .attr('font-family', 'MetricWeb, sans-serif')
       .attr('font-size', '16px');
@@ -118,9 +122,10 @@ export default class Histogram extends React.Component {
       .append('line')
       .attr('x1', margin.left)
       .attr('y1', yScale)
-      .attr('x2', d => {
-        if (d === 5) return width - margin.right - yAxisElement.selectAll('text').nodes()[d].getBBox().width;
-        else return width - margin.right;
+      .attr('x2', (d) => {
+        const textWidth = yAxisElement.selectAll('text').nodes()[d].getBBox().width;
+        if (d === 5) return width - margin.right - textWidth;
+        return width - margin.right;
       })
       .attr('y2', yScale);
     const result = this.props.geography && Object.keys(this.props.geography).length > 0
@@ -178,7 +183,7 @@ export default class Histogram extends React.Component {
       .attr('y2', height - margin.bottom);
     if (this.props.geography) {
       const line = D3.line()
-        .x(d => xScale(d.megabit - 2) + (((width - margin.left - margin.right) / bins.length) / 2))
+        .x(d => xScale(d.megabit - 2) + (width - margin.left - margin.right) / bins.length / 2)
         .y(d => yScale(d['national-rural'] + d['national-urban']));
       svg
         .append('path')
@@ -189,41 +194,37 @@ export default class Histogram extends React.Component {
         .attr('stroke-dasharray', '6, 5')
         .attr('stroke-width', 2.5)
         .attr('d', line);
-      const labelsNational = D3Annotation
-        .annotation()
+      const labelsNational = D3Annotation.annotation()
         .accessors({
           x: d => xScale(d.megabit),
           y: d => yScale(d['national-rural'] + d['national-urban']),
         })
-        .annotations([{
-          type: D3Annotation.annotationLabel,
-          dx: 20,
-          dy: 0,
-          data: bins[37],
-          note: {
-            type: 'line',
-            align: 'middle',
-            orientation: 'leftRight',
-            label: 'National comparison'.toUpperCase(),
+        .annotations([
+          {
+            type: D3Annotation.annotationLabel,
+            dx: 20,
+            dy: 0,
+            data: bins[37],
+            note: {
+              type: 'line',
+              align: 'middle',
+              orientation: 'leftRight',
+              label: 'National comparison'.toUpperCase(),
+            },
           },
-      }]);
+        ]);
       const labelsNationalElements = svg
         .append('g')
         .attr('font-size', '14px')
         .call(labelsNational);
-      labelsNationalElements
-        .selectAll('.annotation-note-title, .annotation-note-bg')
-        .remove();
-      labelsNationalElements
-        .selectAll('.connector')
-        .attr('stroke', 'white');
+      labelsNationalElements.selectAll('.annotation-note-title, .annotation-note-bg').remove();
+      labelsNationalElements.selectAll('.connector').attr('stroke', 'white');
       labelsNationalElements
         .selectAll('.annotation-note-label')
         .attr('fill', 'white')
         .attr('letter-spacing', '0.3');
     } else if (!this.props.geography) {
-      const labelsNationally = svg
-        .append('g');
+      const labelsNationally = svg.append('g');
       labelsNationally
         .append('text')
         .attr('x', xScale(27))
@@ -253,44 +254,39 @@ export default class Histogram extends React.Component {
         .attr('fill', 'rgba(0, 0, 0, 0.8)')
         .attr('stroke', 'white')
         .attr('stroke-width', 2);
-      const labelsRegional = D3Annotation
-        .annotation()
+      const labelsRegional = D3Annotation.annotation()
         .accessors({
-          x: d => result.megabit <= 60 ? xScale(d.megabit - 2) : xScale(d.megabit),
+          x: d => (result.megabit <= 60 ? xScale(d.megabit - 2) : xScale(d.megabit)),
           y: d => yScale(0) - 40,
         })
-        .annotations([{
-          type: D3Annotation.annotationLabel,
-          data: result,
-          note: {
-            type: 'line',
-            align: result.megabit <= 50 ? 'left'
-              : result.megabit >= 100 ? 'right'
-              : 'middle',
-            orientation: 'topBottom',
-            wrap: width - margin.left - margin.right,
-            padding: 0,
-            label: `${this.props.geography['postcode_space']} speed is ${Math.round(this.props.geography['Average_download_speed_(Mbit/s)'])} Mbit/s`,
+        .annotations([
+          {
+            type: D3Annotation.annotationLabel,
+            data: result,
+            note: {
+              type: 'line',
+              align: result.megabit <= 50 ? 'left' : result.megabit >= 100 ? 'right' : 'middle',
+              orientation: 'topBottom',
+              wrap: width - margin.left - margin.right,
+              padding: 0,
+              label: `${this.props.geography['postcode_space']} speed is ${Math.round(this.props.geography['Average_download_speed_(Mbit/s)'])} Mbit/s`,
+            },
           },
-        }]);
+        ]);
       const labelsRegionalElements = svg
         .append('g')
         .attr('font-size', '16px')
         .attr('font-weight', '600')
         .attr('letter-spacing', '0.3')
         .call(labelsRegional);
-      labelsRegionalElements
-        .selectAll('.annotation-note-title, .annotation-connector')
-        .remove();
+      labelsRegionalElements.selectAll('.annotation-note-title, .annotation-connector').remove();
       labelsRegionalElements
         .selectAll('.annotation-note-bg')
         .attr('fill', 'black')
         .attr('fill-opacity', 0.8)
         .attr('rx', 3)
         .attr('ry', 3);
-      labelsRegionalElements
-        .selectAll('.annotation-note-label')
-        .attr('fill', 'white');
+      labelsRegionalElements.selectAll('.annotation-note-label').attr('fill', 'white');
     } else if (result) {
       const labelsRegionalElements = svg
         .append('g')
@@ -315,10 +311,16 @@ export default class Histogram extends React.Component {
   };
 
   render() {
-    return <div className="histogram">
-      <h2>{this.props.geography ? 'Compare your broadband speed against your area and nationally' : 'Static national broadband speed title here'}</h2>
-      <div ref={this.node}/>
-    </div>
+    return (
+      <div className="histogram">
+        <h2>
+          {this.props.geography
+            ? 'Compare your broadband speed against your area and nationally'
+            : 'Static national broadband speed title here'}
+        </h2>
+        <div ref={this.node} />
+      </div>
+    );
   }
 }
 
