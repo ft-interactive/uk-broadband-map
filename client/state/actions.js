@@ -81,6 +81,8 @@ export const getUserLocation = () => async (dispatch) => {
             ...postcodeData,
           },
         });
+
+        await dispatch(getPostcodeData(postcodeData.postcode));
       } else {
         await dispatch({
           type: GET_USER_LOCATION,
