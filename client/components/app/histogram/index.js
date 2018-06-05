@@ -194,6 +194,22 @@ export default class Histogram extends React.Component {
         .x(d => xScale(d.megabit - 2) + (width - margin.left - margin.right) / bins.length / 2)
         .y(d => yScale(d['national-rural'] + d['national-urban']));
       svg
+        .append('defs')
+        .append('filter')
+        .attr('id', 'blur')
+        .append('feGaussianBlur')
+        .attr('stdDeviation', 1);
+      svg
+        .append('path')
+        .datum(bins)
+        .attr('fill', 'none')
+        .attr('stroke', 'black')
+        .attr('stroke-linejoin', 'round')
+        .attr('stroke-dasharray', '6, 5')
+        .attr('stroke-width', 2.5)
+        .attr('filter', 'url(#blur)')
+        .attr('d', line);
+      svg
         .append('path')
         .datum(bins)
         .attr('fill', 'none')
