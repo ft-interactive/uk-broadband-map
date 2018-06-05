@@ -45,11 +45,13 @@ export default (state = INITIAL_STATE, { type, payload }) => {
       };
 
     case GET_USER_LOCATION:
+      const { postcode, region, ...rest } = payload;
       return {
         ...state,
         activeGeography: {
-          ...payload,
-          postcode: '<geolocated>',
+          postcode: postcode || 'unavailable',
+          region,
+          ...rest,
         },
       };
 
