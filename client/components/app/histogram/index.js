@@ -156,17 +156,6 @@ export default class Histogram extends React.Component {
         .attr('y', d => yScale(d['national-rural'] + d['national-urban']))
         .attr('width', (width - margin.left - margin.right) / bins.length)
         .attr('height', d => yScale(0) - yScale(d['national-rural'] + d['national-urban']));
-      const ruralLine = D3.line()
-        .curve(D3.curveStepAfter)
-        .x(d => xScale(d.megabit - 2))
-        .y(d => yScale(d['national-rural']));
-      svg
-        .append('path')
-        .datum(bins)
-        .attr('fill', 'none')
-        .attr('stroke', 'white')
-        .attr('stroke-width', 2)
-        .attr('d', ruralLine);
     }
     if (result || !this.props.geography) {
       const tickpoints = bins.filter(bin => [10, 24, 30, 80].includes(bin.megabit));
@@ -186,6 +175,19 @@ export default class Histogram extends React.Component {
           const location = region ? region.code : 'national';
           return yScale(d[`${location}-rural`] + d[`${location}-urban`]);
         });
+    }
+    if (!this.props.geography) {
+      const ruralLine = D3.line()
+        .curve(D3.curveStepAfter)
+        .x(d => xScale(d.megabit - 2))
+        .y(d => yScale(d['national-rural']));
+      svg
+        .append('path')
+        .datum(bins)
+        .attr('fill', 'none')
+        .attr('stroke', 'white')
+        .attr('stroke-width', 2)
+        .attr('d', ruralLine);
     }
     if (this.props.geography) {
       const line = D3.line()
@@ -244,7 +246,7 @@ export default class Histogram extends React.Component {
       labelsNationally
         .append('text')
         .attr('x', xScale(27))
-        .attr('y', yScale(2.3))
+        .attr('y', yScale(2.2))
         .attr('fill', 'white')
         .attr('font-size', 16)
         .attr('text-anchor', 'middle')
@@ -253,7 +255,7 @@ export default class Histogram extends React.Component {
       labelsNationally
         .append('text')
         .attr('x', xScale(27))
-        .attr('y', yScale(0.6))
+        .attr('y', yScale(0.5))
         .attr('fill', 'white')
         .attr('font-size', 16)
         .attr('text-anchor', 'middle')
