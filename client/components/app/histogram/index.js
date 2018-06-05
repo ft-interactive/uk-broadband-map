@@ -244,6 +244,18 @@ export default class Histogram extends React.Component {
         .attr('letter-spacing', 0.3)
         .text('Rural'.toUpperCase());
     }
+    const backgroundify = padding => {
+      return text => svg
+        .insert('rect', () => text.node())
+        .attr('x', text.node().getBBox().x - padding)
+        .attr('y', text.node().getBBox().y - padding)
+        .attr('width', text.node().getBBox().width + (padding * 2))
+        .attr('height', text.node().getBBox().height + (padding * 2))
+        .attr('fill', 'black')
+        .attr('fill-opacity', 0.8)
+        .attr('rx', 3)
+        .attr('ry', 3);
+    }
     if (result && result.megabit <= 150) {
       svg
         .append('circle')
@@ -254,59 +266,29 @@ export default class Histogram extends React.Component {
         .attr('fill', 'rgba(0, 0, 0, 0.8)')
         .attr('stroke', 'white')
         .attr('stroke-width', 2);
-      const labelsRegional = D3Annotation.annotation()
-        .accessors({
-          x: d => (result.megabit <= 60 ? xScale(d.megabit - 2) : xScale(d.megabit)),
-          y: d => yScale(0) - 40,
-        })
-        .annotations([
-          {
-            type: D3Annotation.annotationLabel,
-            data: result,
-            note: {
-              type: 'line',
-              align: result.megabit <= 50 ? 'left' : result.megabit >= 100 ? 'right' : 'middle',
-              orientation: 'topBottom',
-              wrap: width - margin.left - margin.right,
-              padding: 0,
-              label: `${this.props.geography['postcode_space']} speed is ${Math.round(this.props.geography['Average_download_speed_(Mbit/s)'])} Mbit/s`,
-            },
-          },
-        ]);
-      const labelsRegionalElements = svg
-        .append('g')
-        .attr('font-size', '16px')
-        .attr('font-weight', '600')
-        .attr('letter-spacing', '0.3')
-        .call(labelsRegional);
-      labelsRegionalElements.selectAll('.annotation-note-title, .annotation-connector').remove();
-      labelsRegionalElements
-        .selectAll('.annotation-note-bg')
-        .attr('fill', 'black')
-        .attr('fill-opacity', 0.8)
-        .attr('rx', 3)
-        .attr('ry', 3);
-      labelsRegionalElements.selectAll('.annotation-note-label').attr('fill', 'white');
-    } else if (result) {
-      const labelsRegionalElements = svg
-        .append('g')
-        .attr('transform', `translate(${xScale(150) - 200}, ${yScale(0) - 20 - 20})`);
-      labelsRegionalElements
-        .append('rect')
-        .attr('width', 200)
-        .attr('height', 20)
-        .attr('fill', 'black')
-        .attr('fill-opacity', 0.8)
-        .attr('rx', 3)
-        .attr('ry', 3);
-      labelsRegionalElements
+      svg
         .append('text')
-        .attr('dy', '1em')
+        .attr('x', result.megabit <= 60 ? xScale(result.megabit - 2) : xScale(result.megabit))
+        .attr('y', yScale(0) - 30)
         .attr('fill', 'white')
         .attr('font-size', '16px')
         .attr('font-weight', '600')
+        .attr('text-anchor', result.megabit <= 50 ? 'start' : result.megabit >= 100 ? 'end' : 'middle')
         .attr('letter-spacing', '0.3')
-        .text(`${this.props.geography['postcode_space']} speed is ${Math.round(this.props.geography['Average_download_speed_(Mbit/s)'])} Mbit/s`);
+        .text(`${this.props.geography['postcode_space']} speed is ${Math.round(this.props.geography['Average_download_speed_(Mbit/s)'])} Mbit/s`)
+        .call(backgroundify(5));
+    } else if (result) {
+      svg
+        .append('text')
+        .attr('x', xScale(150))
+        .attr('y', yScale(0) - 40)
+        .attr('fill', 'white')
+        .attr('font-size', '16px')
+        .attr('font-weight', '600')
+        .attr('text-anchor', 'end')
+        .attr('letter-spacing', '0.3')
+        .text(`${this.props.geography['postcode_space']} speed is ${Math.round(this.props.geography['Average_download_speed_(Mbit/s)'])} Mbit/s →`)
+        .call(backgroundify(5));
     }
   };
 
