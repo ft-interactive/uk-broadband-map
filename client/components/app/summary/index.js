@@ -31,12 +31,12 @@ const Summary = (props) => {
     .filter(speed => speed.megabit < yourSpeed)
     .reduce((a, speed) => a + speed[`${region.code}-rural`] + speed[`${region.code}-urban`], 0);
   const regionPcRound = Math.round(regionPc);
-  const regionPcText = regionPcRound === 100 ? 'almost 100' : regionPcRound;
-  const text = `My broadband is faster than ${regionPcText}% of postcodes in ${region.phrasing}.`;
-  const tweet = () => {
-    const contents = `${text} https://ft.com/`;
-    window.open(`https://twitter.com/intent/tweet?text=${encodeURI(contents)}`);
-  };
+  const regionPcNumber = regionPcRound >= 50 ? regionPcRound : 100 - regionPcRound;
+  const regionPcText = regionPcNumber === 100 ? 'almost 100' : regionPcNumber;
+  const direction = regionPc >= 50 ? 'faster' : 'slower';
+  const text = `My broadband is ${direction} than ${regionPcText}% of postcodes in ${region.phrasing}.`;
+  const message = `${text} https://ig.ft.com/gb-broadband-atlas`;
+  const tweet = () => window.open(`https://twitter.com/intent/tweet?text=${encodeURI(message)}`);
   return (
     <div className="summary">
       <span>“{text}”</span>

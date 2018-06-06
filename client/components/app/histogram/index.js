@@ -89,7 +89,6 @@ export default class Histogram extends React.Component {
     xAxisElement
       .selectAll('text')
       .attr('fill', '#939394')
-      .attr('font-family', 'MetricWeb, sans-serif')
       .attr('font-size', '16px');
     xAxisElement
       .append('text')
@@ -111,7 +110,6 @@ export default class Histogram extends React.Component {
     yAxisElement
       .selectAll('text')
       .attr('fill', '#939394')
-      .attr('font-family', 'MetricWeb, sans-serif')
       .attr('font-size', '16px');
     svg
       .append('g')
@@ -164,6 +162,7 @@ export default class Histogram extends React.Component {
         .attr('stroke', '#262a33')
         .attr('stroke-dasharray', '4, 4')
         .attr('stroke-width', 1)
+        .attr('stroke-opacity', 0.65)
         .selectAll()
         .data(tickpoints)
         .enter()
