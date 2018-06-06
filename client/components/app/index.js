@@ -16,8 +16,8 @@ import Histogram from './histogram';
 import Summary from './summary';
 import Loader from './loader';
 import ZoomControls from './zoom-controls';
-import GeolocateMe from './geolocate-me';
 import ImageGrid from './image-grid';
+import LocationsDropdown from './locations-dropdown';
 import './styles.scss';
 
 const MAPBOX_STYLE = 'mapbox://styles/financialtimes/cjg290kic7od82rn46o3o719e';
@@ -26,6 +26,7 @@ const threshold = 0;
 
 // @TODO replace
 const imageGrid1Images = require('./image-grid/placeholders.json');
+const presets = require('./locations-dropdown/locations.json');
 
 class App extends Component {
   constructor(props) {
@@ -171,6 +172,8 @@ class App extends Component {
       raisePostcodeError,
       speeds,
       viewport,
+      selectedPreset,
+      choosePreset,
       dragEnabled,
       setTransitionStatus,
       transitionInProgress,
@@ -179,22 +182,26 @@ class App extends Component {
 
     return (
       <Fragment>
-        {window.PRELOADED_COPY.map((el) => {
+        {window.PRELOADED_COPY.map((el, idx) => {
           switch (el) {
             case '<!-- Postcode input, Mapbox map and dynamic histogram -->':
               return (
-                <Fragment>
+                <Fragment key="map">
                   <div className="o-grid-container">
                     <div className="o-grid-row">
-                      <div data-o-grid-colspan="12 S11 Scenter M9 L8 XL7" className="locate-user">
+                      <div className="locate-user">
                         <GeographyLookup
                           goToViewport={this.goToViewport}
                           raisePostcodeError={raisePostcodeError}
                           getPostcodeData={getPostcodeData}
-                        />
-                        <GeolocateMe
                           getUserLocation={getUserLocation}
                           geolocatingInProgress={geolocatingInProgress}
+                        />
+                        <span>OR</span>
+                        <LocationsDropdown
+                          presets={presets}
+                          selectedPreset={selectedPreset}
+                          choosePreset={choosePreset}
                         />
                       </div>
                     </div>
@@ -243,21 +250,30 @@ class App extends Component {
                 </Fragment>
               );
             case '<!-- Lead urban/rural histogram here -->':
+            return (
+              <div className="o-grid-container">
+                <div className="o-grid-row">
+                  <div data-o-grid-colspan="12 S11 Scenter M11 L10 XL9">
+                    <Histogram speeds={speeds} />
+                  </div>
+                </div>
+              </div>
+            );
             case '<!-- Image grid 1 -->':
               return (
-                <ImageGrid images={imageGrid1Images}>
-                  {({ url, title, alt }) => <img src={url} alt={alt} title={title} />}
+                <ImageGrid images={imageGrid1Images} key="image-grid-1">
+                  {({ alt, ...props }) => <img alt={alt} {...props} />}
                 </ImageGrid>
               );
             case '<!-- Image grid 2 -->':
               return (
-                <ImageGrid images={imageGrid1Images}>
-                  {({ url, title, alt }) => <img src={url} alt={alt} title={title} />}
+                <ImageGrid images={imageGrid1Images} key="image-grid-2">
+                  {({ alt, ...props }) => <img alt={alt} {...props} />}
                 </ImageGrid>
               );
             default:
               return (
-                <div className="o-grid-container">
+                <div className="o-grid-container" key={idx}>
                   <div className="o-grid-row">
                     <div data-o-grid-colspan="12 S11 Scenter M9 L8 XL7">
                       {/* eslint-disable-next-line */}
@@ -321,6 +337,7 @@ App.propTypes = {
   mapLoaded: PropTypes.bool.isRequired,
   geolocatingInProgress: PropTypes.bool.isRequired,
   ukBounds: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)).isRequired,
+  selectedPreset: PropTypes.string.isRequired,
   dragEnabled: PropTypes.bool.isRequired,
   transitionInProgress: PropTypes.bool.isRequired,
 
@@ -333,6 +350,7 @@ App.propTypes = {
   getUserLocation: PropTypes.func.isRequired,
   setDraggableStatus: PropTypes.func.isRequired,
   setTransitionStatus: PropTypes.func.isRequired,
+  choosePreset: PropTypes.func.isRequired,
 };
 
 App.defaultProps = {

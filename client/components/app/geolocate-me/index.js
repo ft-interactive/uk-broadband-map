@@ -12,9 +12,11 @@ import './styles.scss';
 
 const GeolocateMe = ({ getUserLocation, geolocatingInProgress }) =>
   (geolocatingInProgress ? (
-    <Icon className="spin" icon={spinner2} />
+    <div className="locate-user__loading">
+      <Icon className="locate-user__spinner" icon={spinner2} />
+    </div>
   ) : (
-    <button>
+    <button className="locate-user__button">
       <Icon className="geolocate" icon={target} onClick={getUserLocation} />
     </button>
   ));

@@ -14,6 +14,7 @@ export const GET_USER_LOCATION = 'GET_USER_LOCATION';
 export const GEOLOCATING_IN_PROGRESS = 'GEOLOCATING_IN_PROGRESS';
 export const SET_DRAGGABLE_STATUS = 'SET_DRAGGABLE_STATUS';
 export const SET_TRANSITION_STATUS = 'SET_TRANSITION_STATUS';
+export const CHOOSE_PRESET = 'CHOOSE_PRESET';
 
 export const raisePostcodeError = err => ({
   type: RAISE_POSTCODE_ERROR,
@@ -66,13 +67,33 @@ export const getUserLocation = () => async (dispatch) => {
         throw new Error('Outside UK Bounds');
       }
 
-      await dispatch({
-        type: GET_USER_LOCATION,
-        payload: {
-          latitude: coords.latitude,
-          longitude: coords.longitude,
-        },
-      });
+      // Try to get postcode via lat/lng
+      const postcodesIOResponse = await fetch(
+        `https://api.postcodes.io/postcodes?lon=${coords.longitude}&lat=${coords.latitude}`,
+      ).then(res => res.json());
+
+      if (postcodesIOResponse.status === 200) {
+        const [postcodeData] = postcodesIOResponse.result;
+
+        await dispatch({
+          type: GET_USER_LOCATION,
+          payload: {
+            latitude: coords.latitude,
+            longitude: coords.longitude,
+            ...postcodeData,
+          },
+        });
+
+        await dispatch(getPostcodeData(postcodeData.postcode));
+      } else {
+        await dispatch({
+          type: GET_USER_LOCATION,
+          payload: {
+            latitude: coords.latitude,
+            longitude: coords.longitude,
+          },
+        });
+      }
 
       await dispatch({
         type: GEOLOCATING_IN_PROGRESS,
@@ -120,6 +141,11 @@ export const setDraggableStatus = isDraggable => ({
 export const setTransitionStatus = transitionInProgress => ({
   type: SET_TRANSITION_STATUS,
   payload: transitionInProgress,
+});
+
+export const choosePreset = preset => ({
+  type: CHOOSE_PRESET,
+  payload: preset,
 });
 
 export default '';

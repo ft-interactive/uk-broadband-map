@@ -1,6 +1,8 @@
 $o-buttons-is-silent: false;
 
 @import 'o-colors/main';
+@import 'o-grid/main';
+@import 'o-forms/main';
 @import 'o-buttons/main';
 
 $font-sans: MetricWeb, sans-serif;
@@ -27,6 +29,33 @@ $font-sans: MetricWeb, sans-serif;
             text-decoration: none;
           }
 
+          .mapboxgl-ctrl-group {
+            border: 1px solid #77787a;
+            border-radius: 0;
+            -webkit-box-shadow: none;
+            box-shadow: none;
+            overflow: hidden;
+            background: #262a33;
+
+            button {
+              & + button {
+                border-top: 1px solid #77787a;
+              }
+
+              &.mapboxgl-ctrl-zoom-in {
+                background-image: url(https://www.ft.com/__origami/service/image/v2/images/raw/fticon-v1%3Aplus?source=ig&tint=%23ffffff&format=svg&quality=highest);
+              }
+
+              &.mapboxgl-ctrl-zoom-out {
+                background-image: url(https://www.ft.com/__origami/service/image/v2/images/raw/fticon-v1%3Aminus?source=ig&tint=%23ffffff&format=svg&quality=highest);
+              }
+
+              &.mapboxgl-ctrl-compass {
+                .mapboxgl-ctrl-compass-arrow {
+                  background-image: url('data:image/svg+xml;charset=utf8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2020%2020%27%3E%0A%09%3Cpolygon%20fill%3D%27%231a1d23%27%20points%3D%276%2C9%2010%2C1%2014%2C9%27%2F%3E%0A%09%3Cpolygon%20fill%3D%27%23ffffff%27%20points%3D%276%2C11%2010%2C19%2014%2C11%20%27%2F%3E%0A%3C%2Fsvg%3E');
+                }
+              }
+          }
           &:focus {
             color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100);
             border-bottom-color: transparent;
@@ -37,8 +66,75 @@ $font-sans: MetricWeb, sans-serif;
     }
   }
 
+  @include oFormsBaseFeatures(locate-user);
+
   .locate-user {
     display: flex;
     flex-direction: row;
+    max-width: none;
+    flex: 1;
+    color: white;
+
+    &__form {
+      display: flex;
+      flex: 2;
+      flex-direction: row;
+    }
+
+    &__text {
+      &::placeholder {
+        color: white;
+      }
+      color: white;
+      background-color: #3b3d42;
+      margin-top: 0;
+      border-width: 1px 0px 1px 1px;
+    }
+
+    &__select {
+      display: flex;
+      flex: 2;
+      background-color: #3b3d42;
+      color: rgba(255, 255, 255, 0.8);
+      margin-top: 0;
+      background-image: url('https://www.ft.com/__origami/service/image/v2/images/raw/fticon-v1:arrow-down?source=o-icons&tint=white,white&format=svg');
+    }
+
+    &__suffix {
+      color: white;
+    }
+
+    &__affix-wrapper {
+      display: flex;
+      flex: 1;
+      align-items: center;
+    }
+
+    & > span {
+      display: flex;
+      flex: 1;
+      align-items: center;
+      justify-content: center;
+    }
+
+    &__button,
+    &__loading {
+      @include oButtons();
+      min-height: 40px;
+      background-color: #3b3d42;
+      border-color: #b3a9a0;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      min-width: 50px;
+
+      &:first-child {
+        border-width: 1px 0px;
+      }
+
+      &:nth-child(2) {
+        border-width: 1px 1px 1px 0px;
+      }
+    }
   }
 }

@@ -3,6 +3,9 @@
  * Root reducer for Redux store
  */
 
+import { easeCubic } from 'd3-ease';
+import { FlyToInterpolator } from 'react-map-gl';
+
 import {
   GEOLOCATING_IN_PROGRESS,
   GET_POSTCODE_DATA,
@@ -13,6 +16,7 @@ import {
   UPDATE_VIEWPORT,
   SET_DRAGGABLE_STATUS,
   SET_TRANSITION_STATUS,
+  CHOOSE_PRESET,
 } from './actions';
 
 export const UK_BOUNDS = [[-8.655, 49.9], [1.79, 60.85000000000001]];
@@ -37,6 +41,7 @@ const INITIAL_STATE = {
   ukBounds: UK_BOUNDS,
   dragEnabled: false,
   transitionInProgress: false,
+  selectedPreset: '',
 };
 
 export default (state = INITIAL_STATE, { type, payload }) => {
@@ -48,11 +53,13 @@ export default (state = INITIAL_STATE, { type, payload }) => {
       };
 
     case GET_USER_LOCATION:
+      const { postcode, region, ...rest } = payload;
       return {
         ...state,
         activeGeography: {
-          ...payload,
-          postcode: '<geolocated>',
+          postcode: postcode || 'unavailable',
+          region,
+          ...rest,
         },
       };
 
@@ -96,6 +103,19 @@ export default (state = INITIAL_STATE, { type, payload }) => {
       return {
         ...state,
         transitionInProgress: payload,
+      };
+
+    case CHOOSE_PRESET:
+      return {
+        ...state,
+        selectedPreset: payload.id,
+        viewport: {
+          ...state.viewport,
+          ...payload.viewport,
+          transitionDuration: 5000,
+          transitionInterpolator: new FlyToInterpolator(),
+          transitionEasing: easeCubic,
+        },
       };
 
     default:
