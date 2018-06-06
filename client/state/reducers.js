@@ -14,19 +14,22 @@ import {
   RAISE_POSTCODE_ERROR,
   SET_MAP_LOADED_STATUS,
   UPDATE_VIEWPORT,
+  SET_DRAGGABLE_STATUS,
+  SET_TRANSITION_STATUS,
   CHOOSE_PRESET,
 } from './actions';
 
-export const UK_BOUNDS = [[-7.57216793459, 49.959999905], [1.68153079591, 58.6350001085]];
+export const UK_BOUNDS = [[-8.655, 49.9], [1.79, 60.85000000000001]];
 
 const INITIAL_STATE = {
   viewport: {
     width: window.innerWidth,
-    height: window.innerHeight * 0.6,
-    longitude: -2.5,
-    latitude: 54.5,
+    height: window.innerHeight * 0.75,
+    longitude: -3.432,
+    latitude: 55.757,
     zoom: 0,
-    maxZoom: 14,
+    maxZoom: 15,
+    minZoom: 0,
   },
   activeGeography: {},
   speeds: [],
@@ -36,6 +39,8 @@ const INITIAL_STATE = {
   postcodeError: '',
   geolocatingInProgress: false,
   ukBounds: UK_BOUNDS,
+  dragEnabled: false,
+  transitionInProgress: false,
   selectedPreset: '',
 };
 
@@ -86,6 +91,18 @@ export default (state = INITIAL_STATE, { type, payload }) => {
       return {
         ...state,
         postcodeError: payload,
+      };
+
+    case SET_DRAGGABLE_STATUS:
+      return {
+        ...state,
+        dragEnabled: payload,
+      };
+
+    case SET_TRANSITION_STATUS:
+      return {
+        ...state,
+        transitionInProgress: payload,
       };
 
     case CHOOSE_PRESET:
