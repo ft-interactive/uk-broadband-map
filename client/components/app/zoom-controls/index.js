@@ -56,8 +56,6 @@ class ZoomControls extends PureComponent {
 
     this.slider.current.value = zoom;
 
-    console.log(zoomLevels);
-
     if (zoom === Number(zoomLevels[0].toFixed(5))) {
       const viewport = new WebMercatorViewport({
         width,
@@ -125,7 +123,6 @@ class ZoomControls extends PureComponent {
 
           <div className="slider-wrapper" ref={this.sliderWrapper}>
             <input
-              name="zoom"
               type="range"
               min={zoomLevels[0]}
               max={zoomLevels[zoomLevels.length - 1]}
