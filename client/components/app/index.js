@@ -87,19 +87,6 @@ class App extends Component {
     this.props.setDraggableStatus(dragEnabled);
   };
 
-  setPanBounds = () => {
-    console.log('Getting initial map bounds…');
-
-    const map = this.map.current.getMap();
-    const bounds = map.getBounds();
-
-    console.log('Got initial map bounds. Setting maximum bounds…');
-
-    map.setMaxBounds(bounds);
-
-    console.log(`Maximum bounds fixed at ${bounds._sw} (SW), ${bounds._ne} (NE).`); // eslint-disable-line
-  };
-
   resize = () => {
     console.log('Viewport will resize…');
 
@@ -131,7 +118,6 @@ class App extends Component {
     map.on('load', () => {
       console.log('Map resources loaded.');
 
-      // this.setPanBounds(map);
       this.props.setMapLoadedStatus(true);
     });
   };
@@ -250,15 +236,15 @@ class App extends Component {
                 </Fragment>
               );
             case '<!-- Lead urban/rural histogram here -->':
-            return (
-              <div className="o-grid-container">
-                <div className="o-grid-row">
-                  <div data-o-grid-colspan="12 S11 Scenter M11 L10 XL9">
-                    <Histogram speeds={speeds} />
+              return (
+                <div className="o-grid-container">
+                  <div className="o-grid-row">
+                    <div data-o-grid-colspan="12 S11 Scenter M11 L10 XL9">
+                      <Histogram speeds={speeds} />
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
+              );
             case '<!-- Image grid 1 -->':
               return (
                 <ImageGrid images={imageGrid1Images} key="image-grid-1">
