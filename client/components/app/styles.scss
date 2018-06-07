@@ -38,6 +38,28 @@ $font-sans: MetricWeb, sans-serif;
           }
         }
       }
+
+      .mapboxgl-ctrl-bottom-left {
+        top: 0;
+
+        .mapboxgl-ctrl:not(.mapboxgl-ctrl-scale) {
+          position: absolute;
+          bottom: 0;
+        }
+
+        .mapboxgl-ctrl-logo {
+          border-bottom: none;
+        }
+
+        .mapboxgl-ctrl-scale {
+          margin: 10px 0 0 10px;
+          border-width: medium 1px 1px;
+          border-color: #fff;
+          background-color: transparent;
+          color: #fff;
+          font-family: $font-sans;
+        }
+      }
     }
 
     .navigation-control-container {
