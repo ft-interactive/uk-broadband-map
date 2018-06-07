@@ -4,12 +4,13 @@
  */
 
 import React, { Component, Fragment } from 'react';
-import ReactMapGL, { FlyToInterpolator } from 'react-map-gl';
+import ReactMapGL, { FlyToInterpolator, NavigationControl } from 'react-map-gl';
 import * as d3 from 'd3-ease'; // eslint-disable-line
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import WebMercatorViewport from 'viewport-mercator-project';
 import { throttle } from 'lodash';
+import mapboxgl from 'mapbox-gl';
 import * as actions from '../../state/actions';
 import GeographyLookup from './geography-lookup';
 import Histogram from './histogram';
@@ -35,6 +36,7 @@ class App extends Component {
     this.state = {
       loaderComplete: false, // loaderComplete kept as part of state b/c impl. deet
     };
+    this.mapContainer = React.createRef();
     this.map = React.createRef();
   }
 
@@ -60,10 +62,9 @@ class App extends Component {
   }
 
   onViewportChange = (viewport) => {
-    const zoom = viewport.zoom || this.props.viewport.zoom;
-    const minZoom = viewport.minZoom || this.props.viewport.minZoom;
-    const dragEnabled = zoom.toFixed(5) !== minZoom.toFixed(5);
-
+    // const zoom = viewport.zoom || this.props.viewport.zoom;
+    // const minZoom = viewport.minZoom || this.props.viewport.minZoom;
+    // const dragEnabled = zoom.toFixed(5) !== minZoom.toFixed(5);
     const [bottomRight, topLeft] = this.props.ukBounds;
     const [minLon, minLat] = bottomRight;
     const [maxLon, maxLat] = topLeft;
@@ -84,27 +85,14 @@ class App extends Component {
     /* eslint-enable */
 
     this.props.updateViewport({ ...this.props.viewport, ...viewport });
-    this.props.setDraggableStatus(dragEnabled);
-  };
-
-  setPanBounds = () => {
-    console.log('Getting initial map bounds…');
-
-    const map = this.map.current.getMap();
-    const bounds = map.getBounds();
-
-    console.log('Got initial map bounds. Setting maximum bounds…');
-
-    map.setMaxBounds(bounds);
-
-    console.log(`Maximum bounds fixed at ${bounds._sw} (SW), ${bounds._ne} (NE).`); // eslint-disable-line
+    // this.props.setDraggableStatus(dragEnabled);
   };
 
   resize = () => {
     console.log('Viewport will resize…');
 
-    const width = window.innerWidth;
-    const height = window.innerHeight * 0.75;
+    const width = this.mapContainer.current.offsetWidth;
+    const height = this.mapContainer.current.offsetHeight;
     const viewport = new WebMercatorViewport({ width, height });
     const { zoom, minZoom } = this.props.viewport;
     const bound = viewport.fitBounds(this.props.ukBounds, { padding: 0 });
@@ -125,13 +113,15 @@ class App extends Component {
 
   initialiseMap = () => {
     const map = this.map.current.getMap();
+    const scale = new mapboxgl.ScaleControl({ maxWidth: window.innerWidth * 0.2 });
 
     console.log('Loading map resources…');
 
     map.on('load', () => {
       console.log('Map resources loaded.');
 
-      // this.setPanBounds(map);
+      map.addControl(scale);
+
       this.props.setMapLoadedStatus(true);
     });
   };
@@ -141,6 +131,7 @@ class App extends Component {
     latitude = this.props.viewport.latitude,
     zoom,
   }) => {
+    console.log('gotoviewport');
     const { zoom: currentZoom } = this.props.viewport;
     const transitionDuration = Math.abs((zoom - currentZoom) * 500);
 
@@ -174,13 +165,12 @@ class App extends Component {
       viewport,
       selectedPreset,
       choosePreset,
-      dragEnabled,
-      setTransitionStatus,
-      transitionInProgress,
       postcodeError,
       controlsHidden,
+      // dragEnabled,
+      // setTransitionStatus,
+      // transitionInProgress,
     } = this.props;
-    const { minZoom } = viewport;
 
     return (
       <Fragment>
@@ -210,7 +200,7 @@ class App extends Component {
                     </div>
                   </div>
 
-                  <div className="map-container">
+                  <div className="map-container" ref={this.mapContainer}>
                     {this.state.loaderComplete ? null : (
                       <Loader
                         mapLoaded={mapLoaded}
@@ -220,29 +210,32 @@ class App extends Component {
 
                     <ReactMapGL
                       {...viewport}
-                      mapStyle={MAPBOX_STYLE}
                       mapboxApiAccessToken={MAPBOX_TOKEN}
+                      mapStyle={MAPBOX_STYLE}
                       onViewportChange={this.onViewportChange}
                       scrollZoom={false}
-                      dragPan={dragEnabled}
+                      // dragPan={dragEnabled}
                       dragRotate={false}
-                      doubleClickZoom={false}
-                      touchZoom={false}
+                      doubleClickZoom
+                      touchZoom
                       touchRotate={false}
-                      onTransitionStart={() => setTransitionStatus(true)}
-                      onTransitionEnd={() => setTransitionStatus(false)}
+                      // onTransitionStart={() => setTransitionStatus(true)}
+                      // onTransitionEnd={() => setTransitionStatus(false)}
                       ref={this.map}
-                    />
+                    >
+                      <div className="navigation-control-container">
+                        <NavigationControl
+                          onViewportChange={(vp) => {
+                            const { maxZoom, minZoom, ...viewportNoMaxMin } = vp;
 
-                    <ZoomControls
-                      viewport={viewport}
-                      zoomLevels={[Number(minZoom.toFixed(5)), 6, 9, 12, 15]}
-                      onZoomChange={this.goToViewport}
-                      dragEnabled={dragEnabled}
-                      transitionInProgress={transitionInProgress}
-                      controlsHidden={controlsHidden}
-                    />
+                            return this.onViewportChange(viewportNoMaxMin);
+                          }}
+                          showCompass={false}
+                        />
+                      </div>
+                    </ReactMapGL>
                   </div>
+
                   <div className="o-grid-container">
                     <div className="o-grid-row">
                       <div data-o-grid-colspan="12 S11 Scenter M11 L10 XL9">

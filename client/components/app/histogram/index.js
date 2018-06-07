@@ -89,7 +89,6 @@ export default class Histogram extends React.Component {
     xAxisElement
       .selectAll('text')
       .attr('fill', '#939394')
-      .attr('font-family', 'MetricWeb, sans-serif')
       .attr('font-size', '16px');
     xAxisElement
       .append('text')
@@ -111,7 +110,6 @@ export default class Histogram extends React.Component {
     yAxisElement
       .selectAll('text')
       .attr('fill', '#939394')
-      .attr('font-family', 'MetricWeb, sans-serif')
       .attr('font-size', '16px');
     svg
       .append('g')
@@ -124,14 +122,14 @@ export default class Histogram extends React.Component {
       .attr('y1', yScale)
       .attr('x2', (d) => {
         const textWidth = yAxisElement.selectAll('text').nodes()[d].getBBox().width;
-        if (d === 5) return width - margin.right - textWidth;
+        if (d === 5) return width - margin.left - 6 - textWidth;
         return width - margin.right;
       })
       .attr('y2', yScale);
     const result = this.props.geography && Object.keys(this.props.geography).length > 0
       ? this.props.speeds.find(d => d.megabit > this.props.geography['Average_download_speed_(Mbit/s)'])
       : null;
-    const colours = value => D3.interpolateRgbBasis(['#981626', '#ce0f35', '#ff1a66', '#ff7760', '#ffffcc'])(value / bins.length);
+    const colours = value => D3.interpolateRgbBasis(['#981626', '#c41439', '#ef1757', '#ff5a5f', '#ff8d67', '#ffb67f', '#ffdca2', '#ffffcc'])(value / bins.length);
     if (result) {
       svg
         .append('g')
@@ -164,6 +162,7 @@ export default class Histogram extends React.Component {
         .attr('stroke', '#262a33')
         .attr('stroke-dasharray', '4, 4')
         .attr('stroke-width', 1)
+        .attr('stroke-opacity', 0.65)
         .selectAll()
         .data(tickpoints)
         .enter()
