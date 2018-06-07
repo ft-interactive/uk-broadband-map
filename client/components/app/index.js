@@ -62,9 +62,9 @@ class App extends Component {
   }
 
   onViewportChange = (viewport) => {
-    const zoom = viewport.zoom || this.props.viewport.zoom;
-    const minZoom = viewport.minZoom || this.props.viewport.minZoom;
-    const dragEnabled = zoom.toFixed(5) !== minZoom.toFixed(5);
+    // const zoom = viewport.zoom || this.props.viewport.zoom;
+    // const minZoom = viewport.minZoom || this.props.viewport.minZoom;
+    // const dragEnabled = zoom.toFixed(5) !== minZoom.toFixed(5);
     const [bottomRight, topLeft] = this.props.ukBounds;
     const [minLon, minLat] = bottomRight;
     const [maxLon, maxLat] = topLeft;
@@ -85,7 +85,7 @@ class App extends Component {
     /* eslint-enable */
 
     this.props.updateViewport({ ...this.props.viewport, ...viewport });
-    this.props.setDraggableStatus(dragEnabled);
+    // this.props.setDraggableStatus(dragEnabled);
   };
 
   resize = () => {
@@ -165,9 +165,9 @@ class App extends Component {
       viewport,
       selectedPreset,
       choosePreset,
-      dragEnabled,
-      setTransitionStatus,
-      transitionInProgress,
+      // dragEnabled,
+      // setTransitionStatus,
+      // transitionInProgress,
     } = this.props;
 
     return (
@@ -211,13 +211,13 @@ class App extends Component {
                       mapStyle={MAPBOX_STYLE}
                       onViewportChange={this.onViewportChange}
                       scrollZoom={false}
-                      dragPan={dragEnabled}
+                      // dragPan={dragEnabled}
                       dragRotate={false}
                       doubleClickZoom
                       touchZoom
                       touchRotate={false}
-                      onTransitionStart={() => setTransitionStatus(true)}
-                      onTransitionEnd={() => setTransitionStatus(false)}
+                      // onTransitionStart={() => setTransitionStatus(true)}
+                      // onTransitionEnd={() => setTransitionStatus(false)}
                       ref={this.map}
                     >
                       <div className="navigation-control-container">
