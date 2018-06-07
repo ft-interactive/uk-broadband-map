@@ -6,7 +6,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as D3 from 'd3';
-import * as D3Annotation from 'd3-svg-annotation';
 import './styles.scss';
 
 export default class Histogram extends React.Component {
@@ -276,6 +275,75 @@ export default class Histogram extends React.Component {
         .attr('text-anchor', 'middle')
         .attr('letter-spacing', 0.3)
         .text('Rural'.toUpperCase());
+      const labelify = g => g.datum().forEach((item) => {
+        const targetX = xScale(item.target.megabit - 1);
+        const targetY = yScale(item.target['national-rural'] + item.target['national-urban']);
+        const offsetX = xScale(item.target.megabit - 1 + item.offset[0]);
+        const offsetY = yScale(item.target['national-rural'] + item.target['national-urban'] - item.offset[1]);
+        const label = g.append('g');
+        label
+          .append('text')
+          .attr('x', offsetX)
+          .attr('y', offsetY)
+          .attr('font-size', 18)
+          .attr('font-weight', 600)
+          .attr('letter-spacing', 0.4)
+          .attr('fill', 'white')
+          .text(item.title);
+        label
+          .append('text')
+          .attr('x', offsetX)
+          .attr('y', offsetY)
+          .attr('dy', '1em')
+          .attr('font-size', 18)
+          .attr('letter-spacing', 0.4)
+          .attr('fill', 'white')
+          .text(item.label);
+        const curveSize = 20;
+        const curvePoints = [
+          [targetX, targetY - 2],
+          [targetX, offsetY + 3 + curveSize],
+          [targetX + curveSize, offsetY + 3],
+          [offsetX - 5, offsetY + 3],
+        ];
+        label
+          .append('path')
+          .datum(curvePoints)
+          .attr('fill', 'none')
+          .attr('stroke', 'white')
+          .attr('stroke-width', 1)
+          .attr('d', D3.line().curve(D3.curveBasis));
+        const arrowPoints = [
+          [targetX - 4, targetY - 7],
+          [targetX, targetY - 2],
+          [targetX + 4, targetY - 7],
+        ];
+        label
+          .append('path')
+          .datum(arrowPoints)
+          .attr('fill', 'none')
+          .attr('stroke', 'white')
+          .attr('stroke-width', 1)
+          .attr('d', D3.line().curve(D3.curveLinear))
+      });
+      const labels = [
+        {
+          title: 'WC1A 1DD',
+          label: 'Central London',
+          target: bins[7],
+          offset: [12, -2.25]
+        },
+        {
+          title: 'TF11 8AE',
+          label: 'Rural Shropshire',
+          target: bins[31],
+          offset: [10, -1.5]
+        },
+      ];
+      svg
+        .append('g')
+        .datum(labels)
+        .call(labelify);
     }
     const backgroundify = padding => text => {
       const g = svg.append('g');
