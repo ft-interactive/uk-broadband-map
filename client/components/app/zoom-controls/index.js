@@ -6,10 +6,8 @@ import { axisRight } from 'd3-axis'; // eslint-disable-line
 import * as d3 from 'd3-selection'; // eslint-disable-line
 import { range as d3Range, min as d3Min, max as d3Max } from 'd3-array'; // eslint-disable-line
 import { throttle } from 'lodash';
+import GeolocateMe from '../geolocate-me';
 import './styles.scss';
-
-// TODO: figure out how to set this without using state
-const controlsHidden = false;
 
 class ZoomControls extends PureComponent {
   constructor(props) {
@@ -102,7 +100,7 @@ class ZoomControls extends PureComponent {
         value={value}
         onClick={this.handleButtonClick}
         className={`o-buttons o-buttons--inverse zoom-${num > 0 ? 'plus' : 'minus'} ${
-          controlsHidden ? 'hidden' : ''
+          this.props.controlsHidden ? 'hidden' : ''
         }`}
         disabled={!value || transitionInProgress}
       >
@@ -118,6 +116,8 @@ class ZoomControls extends PureComponent {
     return (
       <Fragment>
         <div className="zoom-control-container" ref={this.zoomControlContainer}>
+          <GeolocateMe />
+
           {/* Map an array of one positive and one negative integer */}
           {[1, -1].map(x => this.renderZoomButton(x))}
 
@@ -151,6 +151,7 @@ ZoomControls.propTypes = {
   zoomLevels: PropTypes.arrayOf(PropTypes.number).isRequired,
   onZoomChange: PropTypes.func.isRequired,
   transitionInProgress: PropTypes.bool.isRequired,
+  controlsHidden: PropTypes.bool.isRequired,
 };
 
 export default ZoomControls;

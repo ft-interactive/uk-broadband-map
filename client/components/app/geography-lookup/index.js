@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from 'react-icons-kit';
 import { search } from 'react-icons-kit/icomoon/search';
-import GeolocateMe from '../geolocate-me';
+import './styles.scss';
 
 const postcodeRegex = /^([Gg][Ii][Rr] ?0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9]?[A-Za-z])))) ?[0-9][A-Za-z]{2})$/i;
 
@@ -35,7 +35,12 @@ class GeographyLookup extends Component {
 
   render() {
     return (
-      <form className="locate-user__form" onSubmit={this.handleSubmit}>
+      <form
+        className={`locate-user__form${
+          this.props.postcodeError ? ' locate-user__form--validation-error' : ''
+        }`}
+        onSubmit={this.handleSubmit}
+      >
         <div className="locate-user__affix-wrapper">
           <input
             type="text"
@@ -48,22 +53,18 @@ class GeographyLookup extends Component {
             <button type="button" className="locate-user__button">
               <Icon className="geolocate" icon={search} />
             </button>
-            <GeolocateMe
-              getUserLocation={this.props.getUserLocation}
-              geolocatingInProgress={this.props.geolocatingInProgress}
-            />
           </div>
         </div>
+        <div className="locate-user__validation-error-text">{this.props.postcodeError}</div>
       </form>
     );
   }
 }
 
 GeographyLookup.propTypes = {
+  postcodeError: PropTypes.string.isRequired,
   getPostcodeData: PropTypes.func.isRequired,
   raisePostcodeError: PropTypes.func.isRequired,
-  getUserLocation: PropTypes.func.isRequired,
-  geolocatingInProgress: PropTypes.bool.isRequired,
 };
 
 export default GeographyLookup;

@@ -17,6 +17,7 @@ import {
   SET_DRAGGABLE_STATUS,
   SET_TRANSITION_STATUS,
   CHOOSE_PRESET,
+  RAISE_GEOLOCATION_ERROR,
 } from './actions';
 
 export const UK_BOUNDS = [[-8.655, 49.9], [1.79, 60.85000000000001]];
@@ -37,11 +38,13 @@ const INITIAL_STATE = {
   loaderComplete: false,
   isTouch: !document.body.classList.contains('no-touchevents'),
   postcodeError: '',
+  geolocationError: '',
   geolocatingInProgress: false,
   ukBounds: UK_BOUNDS,
   dragEnabled: false,
   transitionInProgress: false,
   selectedPreset: '',
+  controlsHidden: false,
 };
 
 export default (state = INITIAL_STATE, { type, payload }) => {
@@ -91,6 +94,12 @@ export default (state = INITIAL_STATE, { type, payload }) => {
       return {
         ...state,
         postcodeError: payload,
+      };
+
+    case RAISE_GEOLOCATION_ERROR:
+      return {
+        ...state,
+        geolocationError: payload,
       };
 
     case SET_DRAGGABLE_STATUS:

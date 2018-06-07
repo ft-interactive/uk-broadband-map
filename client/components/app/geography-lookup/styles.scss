@@ -1,0 +1,103 @@
+@import 'o-forms/main';
+@import 'o-buttons/main';
+
+$warning: #ffec1a;
+
+@include oFormsBaseFeatures(locate-user);
+
+.app {
+  .locate-user {
+    display: flex;
+    flex-direction: row;
+    max-width: none;
+    flex: 1;
+    color: white;
+
+    &__form {
+      display: flex;
+      flex: 2;
+      flex-direction: column;
+      max-width: 380px;
+      height: 64px;
+      justify-content: flex-start;
+
+      &--validation-error {
+        .locate-user__text {
+          border-color: $warning;
+        }
+
+        .locate-user__button {
+          border-color: $warning $warning $warning #3b3d42;
+        }
+
+        .locate-user__validation-error-text {
+          color: $warning;
+          font-size: 0.8em;
+          display: flex;
+          align-items: flex-end;
+          padding-left: 9px;
+        }
+      }
+    }
+
+    &__text {
+      &::placeholder {
+        color: white;
+      }
+
+      color: white;
+      background-color: #3b3d42;
+      margin-top: 0;
+      border-width: 1px 0px 1px 1px;
+    }
+
+    &__select {
+      display: flex;
+      flex: 2;
+      background-color: #3b3d42;
+      color: rgba(255, 255, 255, 0.8);
+      margin-top: 0;
+      margin-bottom: 1.6em;
+      background-image: url('https://www.ft.com/__origami/service/image/v2/images/raw/fticon-v1:arrow-down?source=o-icons&tint=white,white&format=svg');
+    }
+
+    &__suffix {
+      color: white;
+    }
+
+    &__affix-wrapper {
+      display: flex;
+      flex: 1;
+      align-items: center;
+    }
+
+    & > span {
+      display: flex;
+      flex: 1;
+      align-items: center;
+      justify-content: center;
+      padding-bottom: 1.6em;
+    }
+
+    &__button,
+    &__loading {
+      @include oButtons();
+      min-height: 40px;
+      background-color: #3b3d42;
+      border-color: #b3a9a0;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      min-width: 50px;
+    }
+
+    &__button {
+      border-width: 1px 1px 1px 0;
+      border-color: #b3a9a0 #b3a9a0 #b3a9a0 transparent;
+    }
+
+    &__validation-error-text {
+      height: 1.6em;
+    }
+  }
+}

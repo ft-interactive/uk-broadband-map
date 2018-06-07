@@ -2,7 +2,6 @@ $o-buttons-is-silent: false;
 
 @import 'o-colors/main';
 @import 'o-grid/main';
-@import 'o-forms/main';
 @import 'o-buttons/main';
 
 $font-sans: MetricWeb, sans-serif;
@@ -38,76 +37,10 @@ $font-sans: MetricWeb, sans-serif;
       }
     }
   }
+}
 
-  @include oFormsBaseFeatures(locate-user);
-
-  .locate-user {
-    display: flex;
-    flex-direction: row;
-    max-width: none;
-    flex: 1;
-    color: white;
-
-    &__form {
-      display: flex;
-      flex: 2;
-      flex-direction: row;
-    }
-
-    &__text {
-      &::placeholder {
-        color: white;
-      }
-      color: white;
-      background-color: #3b3d42;
-      margin-top: 0;
-      border-width: 1px 0px 1px 1px;
-    }
-
-    &__select {
-      display: flex;
-      flex: 2;
-      background-color: #3b3d42;
-      color: rgba(255, 255, 255, 0.8);
-      margin-top: 0;
-      background-image: url('https://www.ft.com/__origami/service/image/v2/images/raw/fticon-v1:arrow-down?source=o-icons&tint=white,white&format=svg');
-    }
-
-    &__suffix {
-      color: white;
-    }
-
-    &__affix-wrapper {
-      display: flex;
-      flex: 1;
-      align-items: center;
-    }
-
-    & > span {
-      display: flex;
-      flex: 1;
-      align-items: center;
-      justify-content: center;
-    }
-
-    &__button,
-    &__loading {
-      @include oButtons();
-      min-height: 40px;
-      background-color: #3b3d42;
-      border-color: #b3a9a0;
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      min-width: 50px;
-
-      &:first-child {
-        border-width: 1px 0px;
-      }
-
-      &:nth-child(2) {
-        border-width: 1px 1px 1px 0px;
-      }
-    }
-  }
+// Disable all of Origami's focus styles
+:focus {
+  box-shadow: none !important;
+  outline: none !important;
 }

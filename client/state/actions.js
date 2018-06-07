@@ -10,6 +10,7 @@ export const GET_SPEED_DATA = 'GET_SPEED_DATA';
 export const UPDATE_VIEWPORT = 'UPDATE_VIEWPORT';
 export const SET_MAP_LOADED_STATUS = 'SET_MAP_LOADED_STATUS';
 export const RAISE_POSTCODE_ERROR = 'RAISE_POSTCODE_ERROR';
+export const RAISE_GEOLOCATION_ERROR = 'RAISE_GEOLOCATION_ERROR';
 export const GET_USER_LOCATION = 'GET_USER_LOCATION';
 export const GEOLOCATING_IN_PROGRESS = 'GEOLOCATING_IN_PROGRESS';
 export const SET_DRAGGABLE_STATUS = 'SET_DRAGGABLE_STATUS';
@@ -19,6 +20,16 @@ export const CHOOSE_PRESET = 'CHOOSE_PRESET';
 export const raisePostcodeError = err => ({
   type: RAISE_POSTCODE_ERROR,
   payload: err.message,
+});
+
+export const clearPostcodeError = () => ({
+  type: RAISE_POSTCODE_ERROR,
+  payload: '',
+});
+
+export const raiseGeolocationError = err => ({
+  type: RAISE_GEOLOCATION_ERROR,
+  payload: err.message || 'Unable to geolocate',
 });
 
 export const getPostcodeData = postcode => dispatch =>
@@ -31,6 +42,8 @@ export const getPostcodeData = postcode => dispatch =>
       if (data['Maximum_download_speed_(Mbit/s)'] === 'NA') {
         throw new Error('Data is redacted due to small population size');
       }
+
+      dispatch(clearPostcodeError());
 
       return dispatch({
         type: GET_POSTCODE_DATA,
@@ -105,6 +118,7 @@ export const getUserLocation = () => async (dispatch) => {
   } catch (e) {
     if (e.message === 'Outside UK Bounds') {
       console.log('Outside UK bounds. Setting to FT offices');
+      await dispatch(raiseGeolocationError(e));
       await dispatch({
         type: GET_USER_LOCATION,
         payload: {
@@ -118,7 +132,11 @@ export const getUserLocation = () => async (dispatch) => {
         payload: false,
       });
     } else {
-      console.error(e);
+      await dispatch(raiseGeolocationError(e));
+      await dispatch({
+        type: GEOLOCATING_IN_PROGRESS,
+        payload: false,
+      });
     }
   }
 };

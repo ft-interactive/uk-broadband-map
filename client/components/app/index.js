@@ -177,6 +177,8 @@ class App extends Component {
       dragEnabled,
       setTransitionStatus,
       transitionInProgress,
+      postcodeError,
+      controlsHidden,
     } = this.props;
     const { minZoom } = viewport;
 
@@ -196,6 +198,7 @@ class App extends Component {
                           getPostcodeData={getPostcodeData}
                           getUserLocation={getUserLocation}
                           geolocatingInProgress={geolocatingInProgress}
+                          postcodeError={postcodeError}
                         />
                         <span>OR</span>
                         <LocationsDropdown
@@ -237,6 +240,7 @@ class App extends Component {
                       onZoomChange={this.goToViewport}
                       dragEnabled={dragEnabled}
                       transitionInProgress={transitionInProgress}
+                      controlsHidden={controlsHidden}
                     />
                   </div>
                   <div className="o-grid-container">
@@ -250,15 +254,15 @@ class App extends Component {
                 </Fragment>
               );
             case '<!-- Lead urban/rural histogram here -->':
-            return (
-              <div className="o-grid-container">
-                <div className="o-grid-row">
-                  <div data-o-grid-colspan="12 S11 Scenter M11 L10 XL9">
-                    <Histogram speeds={speeds} />
+              return (
+                <div className="o-grid-container">
+                  <div className="o-grid-row">
+                    <div data-o-grid-colspan="12 S11 Scenter M11 L10 XL9">
+                      <Histogram speeds={speeds} />
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
+              );
             case '<!-- Image grid 1 -->':
               return (
                 <ImageGrid images={imageGrid1Images} key="image-grid-1">
@@ -340,6 +344,8 @@ App.propTypes = {
   selectedPreset: PropTypes.string.isRequired,
   dragEnabled: PropTypes.bool.isRequired,
   transitionInProgress: PropTypes.bool.isRequired,
+  postcodeError: PropTypes.string.isRequired,
+  controlsHidden: PropTypes.bool.isRequired,
 
   // Action dispatchers from Redux
   updateViewport: PropTypes.func.isRequired,
