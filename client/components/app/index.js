@@ -169,7 +169,6 @@ class App extends Component {
       setTransitionStatus,
       transitionInProgress,
     } = this.props;
-    const { minZoom } = viewport;
 
     return (
       <Fragment>
@@ -208,8 +207,8 @@ class App extends Component {
 
                     <ReactMapGL
                       {...viewport}
-                      mapStyle={MAPBOX_STYLE}
                       mapboxApiAccessToken={MAPBOX_TOKEN}
+                      mapStyle={MAPBOX_STYLE}
                       onViewportChange={this.onViewportChange}
                       scrollZoom={false}
                       dragPan={dragEnabled}
@@ -223,7 +222,11 @@ class App extends Component {
                     >
                       <div className="navigation-control-container">
                         <NavigationControl
-                          onViewportChange={this.onViewportChange}
+                          onViewportChange={(vp) => {
+                            const { maxZoom, minZoom, ...viewportNoMaxMin } = vp;
+
+                            return this.onViewportChange(viewportNoMaxMin);
+                          }}
                           showCompass={false}
                         />
                       </div>
