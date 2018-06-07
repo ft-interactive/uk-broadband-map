@@ -246,7 +246,7 @@ export default class Histogram extends React.Component {
       };
       svg
         .append('text')
-        .datum(bins[37])
+        .datum(bins[38])
         .attr('x', d => xScale(d.megabit))
         .attr('y', d => yScale(d['national-rural'] + d['national-urban']))
         .attr('fill', 'white')
