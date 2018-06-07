@@ -303,12 +303,12 @@ export default class Histogram extends React.Component {
         .attr('stroke-width', 2);
       svg
         .append('text')
-        .attr('x', result.megabit <= 60 ? xScale(result.megabit - 2) : xScale(result.megabit))
+        .attr('x', result.megabit <= 50 ? xScale(result.megabit - 2) : result.megabit >= 80 ? xScale(result.megabit) : xScale(result.megabit - 1))
         .attr('y', yScale(0.35))
         .attr('fill', 'white')
         .attr('font-size', '16px')
         .attr('font-weight', '600')
-        .attr('text-anchor', result.megabit <= 50 ? 'start' : result.megabit >= 100 ? 'end' : 'middle')
+        .attr('text-anchor', result.megabit <= 50 ? 'start' : result.megabit >= 80 ? 'end' : 'middle')
         .attr('letter-spacing', '0.3')
         .text(`${this.props.geography['postcode_space']} speed is ${Math.round(this.props.geography['Average_download_speed_(Mbit/s)'])} Mbit/s`)
         .call(backgroundify(5));
