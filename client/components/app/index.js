@@ -4,7 +4,7 @@
  */
 
 import React, { Component, Fragment } from 'react';
-import ReactMapGL, { FlyToInterpolator } from 'react-map-gl';
+import ReactMapGL, { FlyToInterpolator, NavigationControl } from 'react-map-gl';
 import * as d3 from 'd3-ease'; // eslint-disable-line
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -214,21 +214,20 @@ class App extends Component {
                       scrollZoom={false}
                       dragPan={dragEnabled}
                       dragRotate={false}
-                      doubleClickZoom={false}
-                      touchZoom={false}
+                      doubleClickZoom
+                      touchZoom
                       touchRotate={false}
                       onTransitionStart={() => setTransitionStatus(true)}
                       onTransitionEnd={() => setTransitionStatus(false)}
                       ref={this.map}
-                    />
-
-                    <ZoomControls
-                      viewport={viewport}
-                      zoomLevels={[Number(minZoom.toFixed(5)), 6, 9, 12, 15]}
-                      onZoomChange={this.goToViewport}
-                      dragEnabled={dragEnabled}
-                      transitionInProgress={transitionInProgress}
-                    />
+                    >
+                      <div className="navigation-control-container">
+                        <NavigationControl
+                          onViewportChange={this.onViewportChange}
+                          showCompass={false}
+                        />
+                      </div>
+                    </ReactMapGL>
                   </div>
 
                   <div className="o-grid-container">
