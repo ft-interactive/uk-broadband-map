@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import './styles.scss';
 
 const Summary = (props) => {
-  if (Object.keys(props.geography).length === 0) return null;
+  if (!props.geography || Object.keys(props.geography).length === 0 || props.geography['Average_download_speed_(Mbit/s)'] === 'NA') return null;
   const yourSpeed = props.geography['Average_download_speed_(Mbit/s)'];
   const regionID = (name) => {
     switch (name) {
