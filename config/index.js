@@ -1,11 +1,17 @@
+import structuredGoogleDoc from 'structured-google-docs-client';
+import sanitise from './sanitise';
 import article from './article';
 import getFlags from './flags';
 import getOnwardJourney from './onward-journey';
 
+if (process.env.NODE_ENV !== 'production') require('dotenv').config(); // eslint-disable-line
+
 export default async (environment = 'development') => {
+  const copy = await sanitise(await structuredGoogleDoc(process.env.DOC_KEY));
   const d = await article(environment);
   const flags = await getFlags(environment);
   const onwardJourney = await getOnwardJourney(environment);
+  const mapboxToken = process.env.MAPBOX_TOKEN || '';
   /*
   An experimental demo that gets content from the API
   and overwrites some model values. This requires the Link File
@@ -32,5 +38,7 @@ export default async (environment = 'development') => {
     ...d,
     flags,
     onwardJourney,
+    mapboxToken,
+    copy,
   };
 };

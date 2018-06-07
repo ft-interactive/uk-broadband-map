@@ -3,5 +3,9 @@
 
 extends: airbnb
 root: true
+parser: babel-eslint
+parserOptions:
+  ecmaVersion: 2018
 rules:
   import/no-extraneous-dependencies: [2, {}]
+  no-console: [0]

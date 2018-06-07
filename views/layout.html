@@ -1,7 +1,7 @@
 <!doctype html>
 {% set test_comments_uuid = "3a499586-b2e0-11e4-a058-00144feab7de" if not flags.prod and flags.comments else "" %}
 {% import "./macros.html" as macros %}
-<html lang="en-GB" class="core"
+<html lang="en-GB" class="core {% if flags.dark %}dark{% endif %}"
     data-buildtime="{{ now() | isotime }}"
     data-content-id="{{ id if id else test_comments_uuid }}">
   <head>
@@ -24,23 +24,23 @@
     <main role="main">
       <article class="article" itemscope itemtype="http://schema.org/Article">
         <div class="article-head o-grid-container">
-          <div class="o-grid-row">
-            <header data-o-grid-colspan="12 S11 Scenter M9 L8 XL7">
-              {% block article_head %}
-              {% include "includes/article-head.html" %}
-              {% endblock %}
-            </header>
-          </div>
+          <header>
+            {% block article_head %}
+            {% include "includes/article-head.html" %}
+            {% endblock %}
+          </header>
         </div>
+
         <div class="article-body o-typography-wrapper" itemprop="articleBody">
+          <div id="root" class="app">
+            {% for par in copy %}
+            <p>{{ par | safe }}</p>
+            {% endfor %}
+          </div>
 
           <div class="o-grid-container">
             <div class="o-grid-row">
-              <div data-o-grid-colspan="12 S11 Scenter M9 L8 XL7">
-                <div>
-                  {% block article_body %}{% endblock %}
-                </div>
-              </div>
+              {% block article_body %}{% endblock %}
             </div>
           </div>
 
@@ -48,13 +48,13 @@
             <div class="o-grid-container">
               <div class="o-grid-row">
                 <div data-o-grid-colspan="12 S11 Scenter M9 L8 XL7">
-                  <small><a href="http://www.ft.com/servicestools/help/copyright" data-trackable="link-copyright">Copyright</a>
-                   <span itemprop="name">The Financial Times</span> Limited {{ now() | strftime('%Y') }}. All rights reserved. You may share using our article tools. Please don't cut articles from FT.com and redistribute by email or post to the web.</small>
+                  <small>
+                    <a href="http://www.ft.com/servicestools/help/copyright" data-trackable="link-copyright">Copyright</a><span itemprop="name"> The Financial Times</span> Limited {{ now() | strftime('%Y') }}. All rights reserved. You may share using our article tools. Please don't cut articles from FT.com and redistribute by email or post to the web.
+                  </small>
                 </div>
               </div>
             </div>
           </footer>
-
         </div>
       </article>
     </main>

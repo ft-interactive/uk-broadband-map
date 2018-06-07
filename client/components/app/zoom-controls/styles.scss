@@ -1,0 +1,100 @@
+@import 'o-grid/main';
+
+$button-size: 30px;
+
+.drag-indicator-container,
+.zoom-control-container {
+  position: absolute;
+  top: 10px;
+
+  @include oGridRespondTo(M) {
+    top: 20px;
+  }
+}
+
+.drag-indicator-container {
+  left: 10px;
+
+  div:first-child {
+    display: inline;
+  }
+
+  .drag-indicator {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: red;
+  }
+
+  .enabled {
+    background-color: green;
+  }
+
+  @include oGridRespondTo(M) {
+    left: 20px;
+  }
+}
+
+.zoom-control-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  right: 10px;
+  height: 160px;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.6);
+
+  @include oGridRespondTo(M) {
+    right: 20px;
+  }
+
+  .o-buttons.o-buttons--inverse {
+    min-width: $button-size;
+    height: $button-size;
+    background-color: rgba(38, 42, 51, 0.8);
+
+    &.zoom-plus {
+      order: 0;
+    }
+
+    &.zoom-minus {
+      order: 2;
+    }
+  }
+
+  .slider-wrapper {
+    order: 1;
+    // transform-origin: 75px 75px;
+    transform: rotate(-90deg);
+
+    input[type='range'] {
+      width: 100px;
+    }
+  }
+
+  svg {
+    position: absolute;
+    width: 20px;
+    top: 40px;
+    right: 0;
+    padding: 3px;
+
+    .zoom-axis {
+      path {
+        fill: none;
+        stroke: #ffffff;
+        stroke-width: 1px;
+      }
+
+      line {
+        stroke: #ffffff;
+      }
+
+      text {
+        fill: #ffffff;
+        stroke: none;
+      }
+    }
+  }
+}

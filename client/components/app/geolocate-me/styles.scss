@@ -1,0 +1,13 @@
+.locate-user__spinner {
+  animation: rotate 1.5s linear infinite;
+}
+
+.geolocate {
+  cursor: pointer;
+}
+
+@keyframes rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
