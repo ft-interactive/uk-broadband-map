@@ -129,7 +129,7 @@ export default class Histogram extends React.Component {
     const result = this.props.geography && Object.keys(this.props.geography).length > 0
       ? this.props.speeds.find(d => d.megabit > this.props.geography['Average_download_speed_(Mbit/s)'])
       : null;
-    const colours = value => D3.interpolateRgbBasis(['#981626', '#ce0f35', '#ff1a66', '#ff7760', '#ffffcc'])(value / bins.length);
+    const colours = value => D3.interpolateRgbBasis(['#981626', '#c41439', '#ef1757', '#ff5a5f', '#ff8d67', '#ffb67f', '#ffdca2', '#ffffcc'])(value / bins.length);
     if (result) {
       svg
         .append('g')
