@@ -23,8 +23,8 @@ export const UK_BOUNDS = [[-8.655, 49.9], [1.79, 60.85000000000001]];
 
 const INITIAL_STATE = {
   viewport: {
-    width: window.innerWidth,
-    height: window.innerHeight * 0.75,
+    width: 0,
+    height: 0,
     longitude: -3.432,
     latitude: 55.757,
     zoom: 0,

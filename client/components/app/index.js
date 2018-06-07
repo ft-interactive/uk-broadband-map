@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import WebMercatorViewport from 'viewport-mercator-project';
 import { throttle } from 'lodash';
+import mapboxgl from 'mapbox-gl';
 import * as actions from '../../state/actions';
 import GeographyLookup from './geography-lookup';
 import Histogram from './histogram';
@@ -35,6 +36,7 @@ class App extends Component {
     this.state = {
       loaderComplete: false, // loaderComplete kept as part of state b/c impl. deet
     };
+    this.mapContainer = React.createRef();
     this.map = React.createRef();
   }
 
@@ -63,7 +65,6 @@ class App extends Component {
     const zoom = viewport.zoom || this.props.viewport.zoom;
     const minZoom = viewport.minZoom || this.props.viewport.minZoom;
     const dragEnabled = zoom.toFixed(5) !== minZoom.toFixed(5);
-
     const [bottomRight, topLeft] = this.props.ukBounds;
     const [minLon, minLat] = bottomRight;
     const [maxLon, maxLat] = topLeft;
@@ -90,8 +91,8 @@ class App extends Component {
   resize = () => {
     console.log('Viewport will resize…');
 
-    const width = window.innerWidth;
-    const height = window.innerHeight * 0.75;
+    const width = this.mapContainer.current.offsetWidth;
+    const height = this.mapContainer.current.offsetHeight;
     const viewport = new WebMercatorViewport({ width, height });
     const { zoom, minZoom } = this.props.viewport;
     const bound = viewport.fitBounds(this.props.ukBounds, { padding: 0 });
@@ -112,11 +113,14 @@ class App extends Component {
 
   initialiseMap = () => {
     const map = this.map.current.getMap();
+    const scale = new mapboxgl.ScaleControl({ maxWidth: window.innerWidth * 0.2 });
 
     console.log('Loading map resources…');
 
     map.on('load', () => {
       console.log('Map resources loaded.');
+
+      map.addControl(scale);
 
       this.props.setMapLoadedStatus(true);
     });
@@ -127,6 +131,7 @@ class App extends Component {
     latitude = this.props.viewport.latitude,
     zoom,
   }) => {
+    console.log('gotoviewport');
     const { zoom: currentZoom } = this.props.viewport;
     const transitionDuration = Math.abs((zoom - currentZoom) * 500);
 
@@ -193,7 +198,7 @@ class App extends Component {
                     </div>
                   </div>
 
-                  <div className="map-container">
+                  <div className="map-container" ref={this.mapContainer}>
                     {this.state.loaderComplete ? null : (
                       <Loader
                         mapLoaded={mapLoaded}
@@ -225,6 +230,7 @@ class App extends Component {
                       transitionInProgress={transitionInProgress}
                     />
                   </div>
+
                   <div className="o-grid-container">
                     <div className="o-grid-row">
                       <div data-o-grid-colspan="12 S11 Scenter M11 L10 XL9">
