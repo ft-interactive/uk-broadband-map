@@ -153,6 +153,20 @@ class App extends Component {
     this.setState({ loaderComplete: true });
   };
 
+  handleFullscreenClick = (event) => {
+    event.preventDefault();
+
+    const { fullscreenEnabled } = this.props;
+
+    this.mapContainer.current.classList.toggle('fullscreen');
+
+    document.body.classList.toggle('fullscreen-map');
+
+    this.resize();
+
+    this.props.setFullscreenStatus(!fullscreenEnabled);
+  };
+
   render() {
     const {
       activeGeography,
@@ -168,6 +182,7 @@ class App extends Component {
       // dragEnabled,
       // setTransitionStatus,
       // transitionInProgress,
+      fullscreenEnabled,
     } = this.props;
 
     return (
@@ -210,7 +225,7 @@ class App extends Component {
                       mapboxApiAccessToken={MAPBOX_TOKEN}
                       mapStyle={MAPBOX_STYLE}
                       onViewportChange={this.onViewportChange}
-                      scrollZoom={false}
+                      scrollZoom={fullscreenEnabled}
                       // dragPan={dragEnabled}
                       dragRotate={false}
                       doubleClickZoom
@@ -229,6 +244,8 @@ class App extends Component {
                           }}
                           showCompass={false}
                         />
+
+                        <button onClick={this.handleFullscreenClick}>fullscreen</button>
                       </div>
                     </ReactMapGL>
                   </div>
@@ -334,6 +351,7 @@ App.propTypes = {
   selectedPreset: PropTypes.string.isRequired,
   dragEnabled: PropTypes.bool.isRequired,
   transitionInProgress: PropTypes.bool.isRequired,
+  fullscreenEnabled: PropTypes.bool.isRequired,
 
   // Action dispatchers from Redux
   updateViewport: PropTypes.func.isRequired,
@@ -345,6 +363,7 @@ App.propTypes = {
   setDraggableStatus: PropTypes.func.isRequired,
   setTransitionStatus: PropTypes.func.isRequired,
   choosePreset: PropTypes.func.isRequired,
+  setFullscreenStatus: PropTypes.func.isRequired,
 };
 
 App.defaultProps = {
