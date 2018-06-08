@@ -97,10 +97,11 @@ class App extends Component {
     const { zoom, minZoom } = this.props.viewport;
     const bound = viewport.fitBounds(this.props.ukBounds, { padding: 0 });
 
-    if (zoom === minZoom) {
+    if (zoom.toFixed(5) === minZoom.toFixed(5)) {
       this.onViewportChange({
         ...bound,
         minZoom: bound.zoom,
+        transitionDuration: 0,
       });
     } else {
       this.onViewportChange({
