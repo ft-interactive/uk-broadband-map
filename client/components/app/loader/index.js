@@ -9,7 +9,8 @@ import './styles.scss';
 
 const Loader = ({ mapLoaded, handleLoaderComplete }) => (
   <div className={`loader ${mapLoaded ? 'map-loaded' : ''}`} onTransitionEnd={handleLoaderComplete}>
-    <p>Loading…</p>
+    <h3>Loading map…</h3>
+    <div className="o-loading o-loading--light o-loading--small" />
   </div>
 );
 
