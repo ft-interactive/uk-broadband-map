@@ -114,7 +114,7 @@ class App extends Component {
 
   initialiseMap = () => {
     const map = this.map.current.getMap();
-    const scale = new mapboxgl.ScaleControl({ unit: 'imperial' });
+    const scale = new mapboxgl.ScaleControl();
 
     console.log('Loading map resources…');
 
