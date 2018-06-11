@@ -15,6 +15,7 @@ export const GEOLOCATING_IN_PROGRESS = 'GEOLOCATING_IN_PROGRESS';
 export const SET_DRAGGABLE_STATUS = 'SET_DRAGGABLE_STATUS';
 export const SET_TRANSITION_STATUS = 'SET_TRANSITION_STATUS';
 export const CHOOSE_PRESET = 'CHOOSE_PRESET';
+export const SET_FULLSCREEN_STATUS = 'SET_FULLSCREEN_STATUS';
 
 export const raisePostcodeError = err => ({
   type: RAISE_POSTCODE_ERROR,
@@ -146,6 +147,11 @@ export const setTransitionStatus = transitionInProgress => ({
 export const choosePreset = preset => ({
   type: CHOOSE_PRESET,
   payload: preset,
+});
+
+export const setFullscreenStatus = isFullscreen => ({
+  type: SET_FULLSCREEN_STATUS,
+  payload: isFullscreen,
 });
 
 export default '';

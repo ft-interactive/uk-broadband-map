@@ -57,130 +57,158 @@ $font-sans: MetricWeb, sans-serif;
           }
 
           .mapboxgl-ctrl-scale {
+            height: 10px;
             margin: 10px 0 0 10px;
-            border-width: medium 1px 1px;
+            border-width: 1px 1px medium;
+            border-style: solid solid none;
             border-color: #fff;
             background-color: transparent;
             color: #fff;
             font-family: $font-sans;
+            font-size: 14px;
+            text-align: center;
+            font-feature-settings: 'tnum';
+            -webkit-font-feature-settings: 'tnum';
+            -moz-font-feature-settings: 'tnum';
+
+            &::after {
+              content: '';
+              position: absolute;
+              z-index: -1;
+              top: 5px;
+              right: -5px;
+              left: 5px;
+              height: 25px;
+              background-color: #1a1d23;
+              opacity: 0.8;
+            }
+          }
+        }
+
+        .navigation-control-container {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+
+          .mapboxgl-ctrl-group {
+            border: 1px solid #77787a;
+            border-radius: 0;
+            -webkit-box-shadow: none;
+            box-shadow: none;
+            background: #262a33;
+
+            button {
+              & + button {
+                border-top: 1px solid #77787a;
+              }
+
+              &.mapboxgl-ctrl-zoom-in {
+                background-image: url(https://www.ft.com/__origami/service/image/v2/images/raw/fticon-v1%3Aplus?source=ig&tint=%23ffffff&format=svg&quality=highest);
+              }
+
+              &.mapboxgl-ctrl-zoom-out {
+                background-image: url(https://www.ft.com/__origami/service/image/v2/images/raw/fticon-v1%3Aminus?source=ig&tint=%23ffffff&format=svg&quality=highest);
+              }
+            }
           }
         }
       }
 
-      .navigation-control-container {
-        position: absolute;
-        top: 10px;
-        right: 10px;
+      .histogram-container {
+        display: inline-block;
+        width: 100%;
+        // height: 67vh;
 
-        @include oGridRespondTo(M) {
-          top: 20px;
-          right: 20px;
-        }
-
-        .mapboxgl-ctrl-group {
-          border: 1px solid #77787a;
-          border-radius: 0;
-          -webkit-box-shadow: none;
-          box-shadow: none;
-          background: #262a33;
-
-          button {
-            & + button {
-              border-top: 1px solid #77787a;
-            }
-
-            &.mapboxgl-ctrl-zoom-in {
-              background-image: url(https://www.ft.com/__origami/service/image/v2/images/raw/fticon-v1%3Aplus?source=ig&tint=%23ffffff&format=svg&quality=highest);
-            }
-
-            &.mapboxgl-ctrl-zoom-out {
-              background-image: url(https://www.ft.com/__origami/service/image/v2/images/raw/fticon-v1%3Aminus?source=ig&tint=%23ffffff&format=svg&quality=highest);
-            }
-          }
+        @include oGridRespondTo(L) {
+          width: 33%;
         }
       }
     }
 
-    .histogram-container {
-      display: inline-block;
-      width: 100%;
-      // height: 67vh;
-
-      @include oGridRespondTo(L) {
-        width: 33%;
-      }
+    .fullscreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      height: 100%;
+      z-index: 999;
     }
-  }
 
-  @include oFormsBaseFeatures(locate-user);
+    @include oFormsBaseFeatures(locate-user);
 
-  .locate-user {
-    display: flex;
-    flex-direction: row;
-    max-width: none;
-    flex: 1;
-    color: white;
-
-    &__form {
+    .locate-user {
       display: flex;
-      flex: 2;
       flex-direction: row;
-    }
+      max-width: none;
+      flex: 1;
+      color: white;
 
-    &__text {
-      &::placeholder {
+      &__form {
+        display: flex;
+        flex: 2;
+        flex-direction: row;
+      }
+
+      &__text {
+        &::placeholder {
+          color: white;
+        }
+        color: white;
+        background-color: #3b3d42;
+        margin-top: 0;
+        border-width: 1px 0px 1px 1px;
+      }
+
+      &__select {
+        display: flex;
+        flex: 2;
+        background-color: #3b3d42;
+        color: rgba(255, 255, 255, 0.8);
+        margin-top: 0;
+        background-image: url('https://www.ft.com/__origami/service/image/v2/images/raw/fticon-v1:arrow-down?source=o-icons&tint=white,white&format=svg');
+      }
+
+      &__suffix {
         color: white;
       }
-      color: white;
-      background-color: #3b3d42;
-      margin-top: 0;
-      border-width: 1px 0px 1px 1px;
-    }
 
-    &__select {
-      display: flex;
-      flex: 2;
-      background-color: #3b3d42;
-      color: rgba(255, 255, 255, 0.8);
-      margin-top: 0;
-      background-image: url('https://www.ft.com/__origami/service/image/v2/images/raw/fticon-v1:arrow-down?source=o-icons&tint=white,white&format=svg');
-    }
-
-    &__suffix {
-      color: white;
-    }
-
-    &__affix-wrapper {
-      display: flex;
-      flex: 1;
-      align-items: center;
-    }
-
-    & > span {
-      display: flex;
-      flex: 1;
-      align-items: center;
-      justify-content: center;
-    }
-
-    &__button,
-    &__loading {
-      @include oButtons();
-      min-height: 40px;
-      background-color: #3b3d42;
-      border-color: #b3a9a0;
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      min-width: 50px;
-
-      &:first-child {
-        border-width: 1px 0px;
+      &__affix-wrapper {
+        display: flex;
+        flex: 1;
+        align-items: center;
       }
 
-      &:nth-child(2) {
-        border-width: 1px 1px 1px 0px;
+      & > span {
+        display: flex;
+        flex: 1;
+        align-items: center;
+        justify-content: center;
+      }
+
+      &__button,
+      &__loading {
+        @include oButtons();
+        min-height: 40px;
+        background-color: #3b3d42;
+        border-color: #b3a9a0;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        min-width: 50px;
+
+        &:first-child {
+          border-width: 1px 0px;
+        }
+
+        &:nth-child(2) {
+          border-width: 1px 1px 1px 0px;
+        }
       }
     }
   }
+}
+
+.fullscreen-map {
+  overflow: hidden;
 }
