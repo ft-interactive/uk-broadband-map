@@ -238,11 +238,9 @@ class App extends Component {
                       >
                         <div className="navigation-control-container">
                           <NavigationControl
-                            onViewportChange={(vp) => {
-                              const { maxZoom, minZoom, ...viewportNoMaxMin } = vp;
-
-                              return this.onViewportChange(viewportNoMaxMin);
-                            }}
+                            onViewportChange={({ maxZoom, minZoom, ...rest }) =>
+                              this.onViewportChange(rest)
+                            }
                             showCompass={false}
                           />
 
