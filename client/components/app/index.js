@@ -185,11 +185,10 @@ class App extends Component {
       viewport,
       selectedPreset,
       choosePreset,
-      dragEnabled,
-      setTransitionStatus,
-      transitionInProgress,
       postcodeError,
-      controlsHidden,
+      // dragEnabled,
+      // setTransitionStatus,
+      // transitionInProgress,
     } = this.props;
 
     return (
