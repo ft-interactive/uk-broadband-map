@@ -1,7 +1,10 @@
 @import 'o-forms/main';
 @import 'o-buttons/main';
+@import 'o-grid/main';
 
 $warning: #ffec1a;
+$bg: #3b3d42;
+$border: #b3a9a0;
 
 @include oFormsBaseFeatures(locate-user);
 
@@ -9,17 +12,34 @@ $warning: #ffec1a;
   .locate-user {
     display: flex;
     flex-direction: row;
+    justify-content: center;
+    align-items: center;
     max-width: none;
     flex: 1;
     color: white;
+    margin-left: 10px; /* God I hate o-grid */
+
+    @include oGridRespondTo($until: L) {
+      flex-direction: column;
+    }
 
     &__form {
       display: flex;
-      flex: 2;
+      flex: 1;
       flex-direction: column;
       max-width: 380px;
-      height: 64px;
+      height: auto;
       justify-content: flex-start;
+
+      @include oGridRespondTo($until: L) {
+        max-width: auto;
+        width: 100%;
+        margin-bottom: 0.5em;
+      }
+
+      label {
+        padding-bottom: 0.5em;
+      }
 
       &--validation-error {
         .locate-user__text {
@@ -27,15 +47,12 @@ $warning: #ffec1a;
         }
 
         .locate-user__button {
-          border-color: $warning $warning $warning #3b3d42;
+          border-color: $warning $warning $warning $bg;
+          color: $warning;
         }
 
         .locate-user__validation-error-text {
           color: $warning;
-          font-size: 0.8em;
-          display: flex;
-          align-items: flex-end;
-          padding-left: 9px;
         }
       }
     }
@@ -46,19 +63,9 @@ $warning: #ffec1a;
       }
 
       color: white;
-      background-color: #3b3d42;
+      background-color: $bg;
       margin-top: 0;
       border-width: 1px 0px 1px 1px;
-    }
-
-    &__select {
-      display: flex;
-      flex: 2;
-      background-color: #3b3d42;
-      color: rgba(255, 255, 255, 0.8);
-      margin-top: 0;
-      margin-bottom: 1.6em;
-      background-image: url('https://www.ft.com/__origami/service/image/v2/images/raw/fticon-v1:arrow-down?source=o-icons&tint=white,white&format=svg');
     }
 
     &__suffix {
@@ -69,22 +76,25 @@ $warning: #ffec1a;
       display: flex;
       flex: 1;
       align-items: center;
+      background-color: $bg;
     }
 
     & > span {
       display: flex;
-      flex: 1;
       align-items: center;
-      justify-content: center;
-      padding-bottom: 1.6em;
+      text-align: center;
+      padding: 0 1.6em;
+      @include oGridRespondTo($until: L) {
+        display: none;
+      }
     }
 
     &__button,
     &__loading {
       @include oButtons();
       min-height: 40px;
-      background-color: #3b3d42;
-      border-color: #b3a9a0;
+      background-color: $bg;
+      border-color: $border;
       display: inline-flex;
       justify-content: center;
       align-items: center;
@@ -93,11 +103,24 @@ $warning: #ffec1a;
 
     &__button {
       border-width: 1px 1px 1px 0;
-      border-color: #b3a9a0 #b3a9a0 #b3a9a0 transparent;
+      border-color: $border $border $border transparent;
+
+      &:hover {
+        background: none;
+        border: $border;
+      }
     }
 
     &__validation-error-text {
       height: 1.6em;
+      font-size: 0.8em;
+      display: flex;
+      align-items: flex-end;
+      padding-left: 9px;
+    }
+
+    &__error-icon {
+      color: $warning !important;
     }
   }
 }

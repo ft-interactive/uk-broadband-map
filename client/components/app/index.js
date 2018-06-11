@@ -9,14 +9,15 @@ import * as d3 from 'd3-ease'; // eslint-disable-line
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import WebMercatorViewport from 'viewport-mercator-project';
+import MapboxGlGeocoder from '@mapbox/mapbox-gl-geocoder';
 import { throttle } from 'lodash';
 import mapboxgl from 'mapbox-gl';
+import BoundedGeolocateControl from './bounded-geolocate';
 import * as actions from '../../state/actions';
 import GeographyLookup from './geography-lookup';
 import Histogram from './histogram';
 import Summary from './summary';
 import Loader from './loader';
-import ZoomControls from './zoom-controls';
 import ImageGrid from './image-grid';
 import LocationsDropdown from './locations-dropdown';
 import './styles.scss';
@@ -114,12 +115,31 @@ class App extends Component {
   initialiseMap = () => {
     const map = this.map.current.getMap();
     const scale = new mapboxgl.ScaleControl({ maxWidth: window.innerWidth * 0.2 });
+    const geolocation = new BoundedGeolocateControl({
+      maxZoom: this.props.viewport.maxZoom,
+    });
+    const geocoder = new MapboxGlGeocoder({
+      accessToken: MAPBOX_TOKEN,
+    });
+
+    geolocation.on('error', (e) => {
+      if (e.message === 'Outside UK Bounds') {
+        this.props.raiseGeolocationError(e);
+      }
+    });
+
+    geolocation.on('geolocate', (position) => {
+      this.props.clearGeolocationError();
+      this.props.getUserLocation(position.coords);
+    });
 
     console.log('Loading map resources…');
 
     map.on('load', () => {
       console.log('Map resources loaded.');
 
+      map.addControl(geolocation);
+      map.addControl(geocoder);
       map.addControl(scale);
 
       this.props.setMapLoadedStatus(true);
@@ -350,6 +370,8 @@ App.propTypes = {
   setDraggableStatus: PropTypes.func.isRequired,
   setTransitionStatus: PropTypes.func.isRequired,
   choosePreset: PropTypes.func.isRequired,
+  raiseGeolocationError: PropTypes.func.isRequired,
+  clearGeolocationError: PropTypes.func.isRequired,
 };
 
 App.defaultProps = {

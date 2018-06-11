@@ -32,6 +32,11 @@ export const raiseGeolocationError = err => ({
   payload: err.message || 'Unable to geolocate',
 });
 
+export const clearGeolocationError = () => ({
+  type: RAISE_GEOLOCATION_ERROR,
+  payload: '',
+});
+
 export const getPostcodeData = postcode => dispatch =>
   fetch(`${process.env.ENDPOINT || ''}postcode/${postcode.replace(/\s/g, '').toUpperCase()}.json`)
     .then((res) => {
@@ -64,80 +69,51 @@ export const getSpeedData = () => dispatch =>
     }),
   );
 
-export const getUserLocation = () => async (dispatch) => {
+export const getUserLocation = coords => async (dispatch) => {
   try {
     await dispatch({
       type: GEOLOCATING_IN_PROGRESS,
       payload: true,
     });
 
-    if ('geolocation' in navigator) {
-      const { coords } = await new Promise((resolve, reject) =>
-        navigator.geolocation.getCurrentPosition(resolve, reject),
-      );
+    // Try to get postcode via lat/lng
+    const postcodesIOResponse = await fetch(
+      `https://api.postcodes.io/postcodes?lon=${coords.longitude}&lat=${coords.latitude}`,
+    ).then(res => res.json());
 
-      if (isOutsideTheUK(coords)) {
-        throw new Error('Outside UK Bounds');
-      }
+    if (postcodesIOResponse.status === 200) {
+      const [postcodeData] = postcodesIOResponse.result;
 
-      // Try to get postcode via lat/lng
-      const postcodesIOResponse = await fetch(
-        `https://api.postcodes.io/postcodes?lon=${coords.longitude}&lat=${coords.latitude}`,
-      ).then(res => res.json());
-
-      if (postcodesIOResponse.status === 200) {
-        const [postcodeData] = postcodesIOResponse.result;
-
-        await dispatch({
-          type: GET_USER_LOCATION,
-          payload: {
-            latitude: coords.latitude,
-            longitude: coords.longitude,
-            ...postcodeData,
-          },
-        });
-
-        await dispatch(getPostcodeData(postcodeData.postcode));
-      } else {
-        await dispatch({
-          type: GET_USER_LOCATION,
-          payload: {
-            latitude: coords.latitude,
-            longitude: coords.longitude,
-          },
-        });
-      }
-
-      await dispatch({
-        type: GEOLOCATING_IN_PROGRESS,
-        payload: false,
-      });
-    } else {
-      throw new Error('Geolocation is unavailable');
-    }
-  } catch (e) {
-    if (e.message === 'Outside UK Bounds') {
-      console.log('Outside UK bounds. Setting to FT offices');
-      await dispatch(raiseGeolocationError(e));
       await dispatch({
         type: GET_USER_LOCATION,
         payload: {
-          latitude: 51.5089683,
-          longitude: -0.0961675,
+          latitude: coords.latitude,
+          longitude: coords.longitude,
+          ...postcodeData,
         },
       });
 
-      await dispatch({
-        type: GEOLOCATING_IN_PROGRESS,
-        payload: false,
-      });
+      await dispatch(getPostcodeData(postcodeData.postcode));
     } else {
-      await dispatch(raiseGeolocationError(e));
       await dispatch({
-        type: GEOLOCATING_IN_PROGRESS,
-        payload: false,
+        type: GET_USER_LOCATION,
+        payload: {
+          latitude: coords.latitude,
+          longitude: coords.longitude,
+        },
       });
     }
+
+    await dispatch({
+      type: GEOLOCATING_IN_PROGRESS,
+      payload: false,
+    });
+  } catch (e) {
+    await dispatch(raiseGeolocationError(e));
+    await dispatch({
+      type: GEOLOCATING_IN_PROGRESS,
+      payload: false,
+    });
   }
 };
 

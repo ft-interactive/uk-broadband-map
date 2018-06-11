@@ -1,0 +1,37 @@
+@import 'o-forms/main';
+@import 'o-grid/main';
+
+$bg: #3b3d42;
+
+@include oFormsBaseFeatures(locate-user-presets);
+
+.locate-user-presets {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.6em;
+  padding: 0 !important;
+  width: 100%;
+
+  @include oGridRespondTo($until: L) {
+    margin-bottom: 0;
+  }
+
+  label {
+    padding-bottom: 0.5em;
+  }
+
+  &__select {
+    display: flex;
+    flex: 1;
+    width: 380px;
+    background-color: $bg;
+    color: rgba(255, 255, 255, 0.8);
+    margin-top: 0;
+    margin-bottom: 0;
+    background-image: url('https://www.ft.com/__origami/service/image/v2/images/raw/fticon-v1:arrow-down?source=o-icons&tint=white,white&format=svg');
+
+    @include oGridRespondTo($until: L) {
+      width: auto;
+    }
+  }
+}

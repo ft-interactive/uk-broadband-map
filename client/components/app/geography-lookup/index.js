@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from 'react-icons-kit';
+import { notification } from 'react-icons-kit/icomoon/notification';
 import { search } from 'react-icons-kit/icomoon/search';
 import './styles.scss';
 
@@ -41,6 +42,7 @@ class GeographyLookup extends Component {
         }`}
         onSubmit={this.handleSubmit}
       >
+        <label htmlFor="locate-user__text">Find a place or postcode</label>
         <div className="locate-user__affix-wrapper">
           <input
             type="text"
@@ -48,11 +50,18 @@ class GeographyLookup extends Component {
             ref={this.textInput}
             id="geography"
             className="locate-user__text"
+            name="locate-user__text"
           />
           <div className="locate-user__suffix">
-            <button type="button" className="locate-user__button">
-              <Icon className="geolocate" icon={search} />
-            </button>
+            {this.props.postcodeError ? (
+              <div className="locate-user__button">
+                <Icon className="locate-user__error-icon" icon={notification} />
+              </div>
+            ) : (
+              <button type="button" className="locate-user__button">
+                <Icon className="geolocate" icon={search} />
+              </button>
+            )}
           </div>
         </div>
         <div className="locate-user__validation-error-text">{this.props.postcodeError}</div>
