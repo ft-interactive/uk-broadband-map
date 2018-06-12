@@ -22,6 +22,7 @@ $font-sans: MetricWeb, sans-serif;
       position: relative;
       width: 100%;
       height: 60vh;
+      background-color: #000000;
 
       @include oGridRespondTo(L) {
         flex: 2;
