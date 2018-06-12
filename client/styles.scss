@@ -9,7 +9,7 @@ $o-typography-is-silent: false;
 .article {
   &-head {
     margin-top: 55px;
-    text-align: center;
+    text-align: left;
 
     header {
       width: 100%;
@@ -35,6 +35,9 @@ $o-typography-is-silent: false;
       }
     }
 
+    @include oGridRespondTo(L) {
+      text-align: center;
+    }
   }
 
   .cities {

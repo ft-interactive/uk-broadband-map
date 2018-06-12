@@ -16,9 +16,9 @@ import GeographyLookup from './geography-lookup';
 import Histogram from './histogram';
 import Summary from './summary';
 import Loader from './loader';
-import ZoomControls from './zoom-controls';
 import ImageGrid from './image-grid';
 import LocationsDropdown from './locations-dropdown';
+import FullscreenControl from './fullscreen-control';
 import './styles.scss';
 
 const MAPBOX_STYLE = 'mapbox://styles/financialtimes/cjg290kic7od82rn46o3o719e';
@@ -91,16 +91,17 @@ class App extends Component {
   resize = () => {
     console.log('Viewport will resize…');
 
-    const width = this.mapContainer.current.offsetWidth;
-    const height = this.mapContainer.current.offsetHeight;
+    const width = this.mapContainer.current.clientWidth;
+    const height = this.mapContainer.current.clientHeight;
     const viewport = new WebMercatorViewport({ width, height });
     const { zoom, minZoom } = this.props.viewport;
     const bound = viewport.fitBounds(this.props.ukBounds, { padding: 0 });
 
-    if (zoom === minZoom) {
+    if (zoom.toFixed(5) === minZoom.toFixed(5)) {
       this.onViewportChange({
         ...bound,
         minZoom: bound.zoom,
+        transitionDuration: 0,
       });
     } else {
       this.onViewportChange({
@@ -113,7 +114,7 @@ class App extends Component {
 
   initialiseMap = () => {
     const map = this.map.current.getMap();
-    const scale = new mapboxgl.ScaleControl({ maxWidth: window.innerWidth * 0.2 });
+    const scale = new mapboxgl.ScaleControl();
 
     console.log('Loading map resources…');
 
@@ -131,7 +132,6 @@ class App extends Component {
     latitude = this.props.viewport.latitude,
     zoom,
   }) => {
-    console.log('gotoviewport');
     const { zoom: currentZoom } = this.props.viewport;
     const transitionDuration = Math.abs((zoom - currentZoom) * 500);
 
@@ -168,6 +168,8 @@ class App extends Component {
       // dragEnabled,
       // setTransitionStatus,
       // transitionInProgress,
+      fullscreenEnabled,
+      setFullscreenStatus,
     } = this.props;
 
     return (
@@ -197,48 +199,51 @@ class App extends Component {
                     </div>
                   </div>
 
-                  <div className="map-container" ref={this.mapContainer}>
-                    {this.state.loaderComplete ? null : (
-                      <Loader
-                        mapLoaded={mapLoaded}
-                        handleLoaderComplete={this.handleLoaderComplete}
-                      />
-                    )}
-
-                    <ReactMapGL
-                      {...viewport}
-                      mapboxApiAccessToken={MAPBOX_TOKEN}
-                      mapStyle={MAPBOX_STYLE}
-                      onViewportChange={this.onViewportChange}
-                      scrollZoom={false}
-                      // dragPan={dragEnabled}
-                      dragRotate={false}
-                      doubleClickZoom
-                      touchZoom
-                      touchRotate={false}
-                      // onTransitionStart={() => setTransitionStatus(true)}
-                      // onTransitionEnd={() => setTransitionStatus(false)}
-                      ref={this.map}
-                    >
-                      <div className="navigation-control-container">
-                        <NavigationControl
-                          onViewportChange={(vp) => {
-                            const { maxZoom, minZoom, ...viewportNoMaxMin } = vp;
-
-                            return this.onViewportChange(viewportNoMaxMin);
-                          }}
-                          showCompass={false}
+                  <div className="interactive-wrapper">
+                    <div className="map-container" ref={this.mapContainer}>
+                      {this.state.loaderComplete ? null : (
+                        <Loader
+                          mapLoaded={mapLoaded}
+                          handleLoaderComplete={this.handleLoaderComplete}
                         />
-                      </div>
-                    </ReactMapGL>
-                  </div>
+                      )}
 
-                  <div className="o-grid-container">
-                    <div className="o-grid-row">
-                      <div data-o-grid-colspan="12 S11 Scenter M11 L10 XL9">
-                        <Histogram geography={activeGeography} speeds={speeds} />
-                        <Summary geography={activeGeography} speeds={speeds} />
-                      </div>
+                      <ReactMapGL
+                        {...viewport}
+                        mapboxApiAccessToken={MAPBOX_TOKEN}
+                        mapStyle={MAPBOX_STYLE}
+                        onViewportChange={this.onViewportChange}
+                        scrollZoom={fullscreenEnabled}
+                        // dragPan={dragEnabled}
+                        dragRotate={false}
+                        doubleClickZoom
+                        touchZoom
+                        touchRotate={false}
+                        // onTransitionStart={() => setTransitionStatus(true)}
+                        // onTransitionEnd={() => setTransitionStatus(false)}
+                        ref={this.map}
+                      >
+                        <div className="navigation-control-container">
+                          <NavigationControl
+                            onViewportChange={({ maxZoom, minZoom, ...rest }) =>
+                              this.onViewportChange(rest)
+                            }
+                            showCompass={false}
+                          />
+
+                          <FullscreenControl
+                            targetElement={this.mapContainer.current}
+                            onFullscreenChange={setFullscreenStatus}
+                            onResize={this.resize}
+                            fullscreenStatus={fullscreenEnabled}
+                          />
+                        </div>
+                      </ReactMapGL>
+                    </div>
+
+                    <div className="histogram-container">
+                      <Histogram geography={activeGeography} speeds={speeds} />
+                      <Summary geography={activeGeography} speeds={speeds} />
                     </div>
                   </div>
                 </Fragment>
@@ -334,6 +339,7 @@ App.propTypes = {
   selectedPreset: PropTypes.string.isRequired,
   dragEnabled: PropTypes.bool.isRequired,
   transitionInProgress: PropTypes.bool.isRequired,
+  fullscreenEnabled: PropTypes.bool.isRequired,
 
   // Action dispatchers from Redux
   updateViewport: PropTypes.func.isRequired,
@@ -345,6 +351,7 @@ App.propTypes = {
   setDraggableStatus: PropTypes.func.isRequired,
   setTransitionStatus: PropTypes.func.isRequired,
   choosePreset: PropTypes.func.isRequired,
+  setFullscreenStatus: PropTypes.func.isRequired,
 };
 
 App.defaultProps = {
