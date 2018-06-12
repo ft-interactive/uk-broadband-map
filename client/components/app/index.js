@@ -232,10 +232,10 @@ class App extends Component {
                           />
 
                           <FullscreenControl
-                            mapContainer={this.mapContainer.current}
-                            onResize={this.resize}
+                            targetElement={this.mapContainer.current}
                             onFullscreenChange={setFullscreenStatus}
-                            fullscreenEnabled={fullscreenEnabled}
+                            onResize={this.resize}
+                            fullscreenStatus={fullscreenEnabled}
                           />
                         </div>
                       </ReactMapGL>
