@@ -94,6 +94,7 @@
     "start": "nodemon -e html,njk,js --watch views --watch config --exec webpack-dev-server"
   },
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "d3": "^5.4.0",
     "deck.gl": "^5.1.2",
     "fscreen": "^1.0.2",
