@@ -16,9 +16,9 @@ import GeographyLookup from './geography-lookup';
 import Histogram from './histogram';
 import Summary from './summary';
 import Loader from './loader';
-import ZoomControls from './zoom-controls';
 import ImageGrid from './image-grid';
 import LocationsDropdown from './locations-dropdown';
+import FullscreenControl from './fullscreen-control';
 import './styles.scss';
 
 const MAPBOX_STYLE = 'mapbox://styles/financialtimes/cjg290kic7od82rn46o3o719e';
@@ -153,20 +153,6 @@ class App extends Component {
     this.setState({ loaderComplete: true });
   };
 
-  handleFullscreenClick = (event) => {
-    event.preventDefault();
-
-    const { fullscreenEnabled } = this.props;
-
-    this.mapContainer.current.classList.toggle('fullscreen');
-
-    document.body.classList.toggle('fullscreen-map');
-
-    this.resize();
-
-    this.props.setFullscreenStatus(!fullscreenEnabled);
-  };
-
   render() {
     const {
       activeGeography,
@@ -183,6 +169,7 @@ class App extends Component {
       // setTransitionStatus,
       // transitionInProgress,
       fullscreenEnabled,
+      setFullscreenStatus,
     } = this.props;
 
     return (
@@ -244,7 +231,12 @@ class App extends Component {
                             showCompass={false}
                           />
 
-                          <button onClick={this.handleFullscreenClick}>fullscreen</button>
+                          <FullscreenControl
+                            mapContainer={this.mapContainer.current}
+                            onResize={this.resize}
+                            onFullscreenChange={setFullscreenStatus}
+                            fullscreenEnabled={fullscreenEnabled}
+                          />
                         </div>
                       </ReactMapGL>
                     </div>
