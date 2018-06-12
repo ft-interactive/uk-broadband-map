@@ -200,7 +200,7 @@ class App extends Component {
                 <Fragment key="map">
                   <div className="o-grid-container">
                     <div className="o-grid-row">
-                      <div className="locate-user">
+                      <div className="locate-user" data-o-grid-colspan="12 S11 Scenter M11 L10 XL9">
                         <GeographyLookup
                           goToViewport={this.goToViewport}
                           raisePostcodeError={raisePostcodeError}
