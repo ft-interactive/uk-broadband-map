@@ -120,6 +120,15 @@ class App extends Component {
     });
     const geocoder = new MapboxGlGeocoder({
       accessToken: MAPBOX_TOKEN,
+      zoom: this.props.viewport.maxZoom,
+    });
+
+    geocoder.on('result', ({ result }) => {
+      setTimeout(() => {
+        console.log(result);
+        console.log(map.queryRenderedFeatures(result.bbox));
+        console.log(map.querySourceFeatures(result.bbox));
+      }, 5000);
     });
 
     geolocation.on('error', (e) => {
@@ -237,6 +246,62 @@ class App extends Component {
                       dragRotate={false}
                       doubleClickZoom
                       touchZoom
+                      onClick={(e) => {
+                        const testbbox = [
+                          [-0.0720506417, 51.5044412801],
+                          [-0.0764401337, 51.5021162463],
+                        ];
+
+                        const testbbox2 = [
+                          [-0.0720506417, 51.5044412801],
+                          [-0.0764401337, 51.5009269039],
+                        ];
+
+                        const testbbox3 = [
+                          [-0.077442355, 51.506255035],
+                          [-0.0818318471, 51.5027407987],
+                        ];
+
+                        const testbbox4 = [[-0.101178, 51.52272], [-0.105568, 51.519207]];
+
+                        const testbbox5 = [[-0.068, 51.558533], [-0.06361, 51.562043]];
+                        console.log(
+                          'testbbox: ',
+                          this.map.current
+                            .getMap()
+                            .queryRenderedFeatures(testbbox)
+                            .find(d => d.layer.id === 'drop-smallest-z0-16').properties.mean,
+                        );
+                        console.log(
+                          'testbbox2: ',
+                          this.map.current
+                            .getMap()
+                            .queryRenderedFeatures(testbbox2)
+                            .find(d => d.layer.id === 'drop-smallest-z0-16').properties.mean,
+                        );
+                        console.log(
+                          'testbbox3: ',
+                          this.map.current
+                            .getMap()
+                            .queryRenderedFeatures(testbbox3)
+                            .find(d => d.layer.id === 'drop-smallest-z0-16').properties.mean,
+                        );
+                        console.log(
+                          'testbbox4: ',
+                          this.map.current
+                            .getMap()
+                            .queryRenderedFeatures(testbbox4)
+                            .find(d => d.layer.id === 'drop-smallest-z0-16').properties.mean,
+                        );
+                        console.log(
+                          'testbbox5: ',
+                          this.map.current
+                            .getMap()
+                            .queryRenderedFeatures(testbbox5)
+                            .find(d => d.layer.id === 'drop-smallest-z0-16').properties.mean,
+                        );
+                        console.log('point: ', e.features[0].properties.mean);
+                      }}
                       touchRotate={false}
                       // onTransitionStart={() => setTransitionStatus(true)}
                       // onTransitionEnd={() => setTransitionStatus(false)}
