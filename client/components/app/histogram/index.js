@@ -27,12 +27,13 @@ export default class Histogram extends React.Component {
     D3.select(this.node.current)
       .selectAll('*')
       .remove();
+    const breakpoint = 735;
     const width = D3.select(this.node.current)
       .node()
       .getBoundingClientRect().width;
-    const height = matchMedia('(max-width: 46.24em)').matches ? width * 1.2 : width * 0.65;
+    const height = width * (width < breakpoint ? 0.9 : 0.65);
     const margin = {
-      top: 110,
+      top: this.props.geography ? 30 : -20,
       right: 20,
       bottom: 50,
       left: 5,
@@ -57,21 +58,24 @@ export default class Histogram extends React.Component {
       ? regionID(this.props.geography.region)
       : null;
     const bins = this.props.speeds.filter(d => d.megabit <= 150);
+    const xTicks = [0, 10, 24, 30, 80, 150];
+    const yTicks = [1, 2, 3, 4, 5, 6];
     const xScale = D3.scaleLinear()
       .domain([0, bins[bins.length - 1].megabit])
       .range([margin.left, width - margin.right]);
     const yScale = D3.scaleLinear()
-      .domain([0, 5])
+      .domain([0, 6])
       .range([height - margin.bottom, margin.top]);
     const xAxis = D3.axisBottom(xScale)
-      .tickValues([0, 10, 24, 30, 80, 150])
+      .tickValues(xTicks)
       .tickSize(12);
     const yAxis = D3.axisRight(yScale)
-      .ticks(5)
+      .ticks(yTicks.length)
       .tickFormat((d) => {
-        if (d === 0) return null;
-        else if (d === 5 && region) return `${d}% of postcodes in ${region.phrasing}`.toUpperCase();
-        else if (d === 5) return `${d}% of all postcodes`.toUpperCase();
+        if (d === 0 || d > 5) return null;
+        else if (d === 5 && width > breakpoint && region) return `${d}% of postcodes in ${region.phrasing}`.toUpperCase();
+        else if (d === 5 && width > breakpoint) return `${d}% of all postcodes`.toUpperCase();
+        else if (d === 5) return `${d}%`;
         return d;
       });
     const svg = D3.select(this.node.current)
@@ -110,6 +114,20 @@ export default class Histogram extends React.Component {
       .selectAll('text')
       .attr('fill', '#939394')
       .attr('font-size', '16px');
+    if (this.props.geography && width < breakpoint) {
+      yAxisElement
+        .append('text')
+        .attr('y', yScale(6))
+        .attr('dx', '0.5em')
+        .attr('dy', '0.35em')
+        .attr('fill', '#939394')
+        .attr('font-size', '16px')
+        .attr('text-anchor', 'end')
+        .text(() => {
+          if (region) return `Postcodes in ${region.phrasing}`.toUpperCase();
+          else return 'All postcodes'.toUpperCase();
+        });
+    }
     svg
       .append('g')
       .attr('stroke', '#616468')
@@ -155,7 +173,7 @@ export default class Histogram extends React.Component {
         .attr('height', d => yScale(0) - yScale(d['national-rural'] + d['national-urban']));
     }
     if (result || !this.props.geography) {
-      const tickpoints = bins.filter(bin => [10, 24, 30, 80].includes(bin.megabit));
+      const tickpoints = bins.filter(bin => xTicks.slice(1, xTicks.length - 1).includes(bin.megabit));
       svg
         .append('g')
         .attr('stroke', '#262a33')
@@ -285,6 +303,8 @@ export default class Histogram extends React.Component {
           .append('text')
           .attr('x', offsetX)
           .attr('y', offsetY)
+          .attr('dx', '-1em')
+          .attr('dy', '-1em')
           .attr('font-size', 18)
           .attr('font-weight', 600)
           .attr('letter-spacing', 0.4)
@@ -294,21 +314,18 @@ export default class Histogram extends React.Component {
           .append('text')
           .attr('x', offsetX)
           .attr('y', offsetY)
-          .attr('dy', '1em')
+          .attr('dx', '-1em')
           .attr('font-size', 18)
           .attr('letter-spacing', 0.4)
           .attr('fill', 'white')
           .text(item.label);
-        const curveSize = 20;
-        const curvePoints = [
-          [targetX, targetY - 2],
-          [targetX, offsetY + 3 + curveSize],
-          [targetX + curveSize, offsetY + 3],
-          [offsetX - 5, offsetY + 3],
+        const connectorPoints = [
+          [targetX, targetY - 3],
+          [offsetX, offsetY + 8],
         ];
         label
           .append('path')
-          .datum(curvePoints)
+          .datum(connectorPoints)
           .attr('fill', 'none')
           .attr('stroke', 'white')
           .attr('stroke-width', 1)
@@ -331,13 +348,13 @@ export default class Histogram extends React.Component {
           title: 'WC1A 1DD',
           label: 'Central London',
           target: bins[7],
-          offset: [12, -2.25]
+          offset: [0, -2.05]
         },
         {
           title: 'TF11 8AE',
           label: 'Rural Shropshire',
           target: bins[31],
-          offset: [10, -1.5]
+          offset: [0, -1.35]
         },
       ];
       svg
@@ -349,9 +366,9 @@ export default class Histogram extends React.Component {
       const g = svg.append('g');
       g
         .append('rect')
-        .attr('x', text.node().getBBox().x - padding)
+        .attr('x', text.node().getBBox().x - (padding * 2))
         .attr('y', text.node().getBBox().y - padding)
-        .attr('width', text.node().getBBox().width + (padding * 2))
+        .attr('width', text.node().getBBox().width + (padding * 4))
         .attr('height', text.node().getBBox().height + (padding * 2))
         .attr('fill', 'black')
         .attr('fill-opacity', 0.8)
@@ -372,7 +389,7 @@ export default class Histogram extends React.Component {
       svg
         .append('text')
         .attr('x', result.megabit <= 50 ? xScale(result.megabit - 2) : result.megabit >= 80 ? xScale(result.megabit) : xScale(result.megabit - 1))
-        .attr('y', yScale(0.35))
+        .attr('y', yScale(0.45))
         .attr('fill', 'white')
         .attr('font-size', '16px')
         .attr('font-weight', '600')
@@ -383,7 +400,7 @@ export default class Histogram extends React.Component {
     } else if (result) {
       svg
         .append('text')
-        .attr('x', xScale(150))
+        .attr('x', xScale(150) - 10)
         .attr('y', yScale(0.45))
         .attr('fill', 'white')
         .attr('font-size', '16px')
@@ -397,14 +414,7 @@ export default class Histogram extends React.Component {
 
   render() {
     return (
-      <div className="histogram">
-        <h2>
-          {this.props.geography
-            ? 'Compare your broadband speed against your area and nationally'
-            : 'Britain\'s broadband speeds: not just an urban/rural divide'}
-        </h2>
-        <div ref={this.node} />
-      </div>
+      <div className="histogram" ref={this.node}></div>
     );
   }
 }

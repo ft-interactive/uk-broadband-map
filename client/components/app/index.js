@@ -252,7 +252,12 @@ class App extends Component {
               return (
                 <div className="o-grid-container">
                   <div className="o-grid-row">
-                    <div data-o-grid-colspan="12 S11 Scenter M11 L10 XL9">
+                    <div data-o-grid-colspan="12 S11 Scenter M9 L8 XL7">
+                      <h2>Britain’s broadband speeds: not just an urban/rural divide</h2>
+                    </div>
+                  </div>
+                  <div className="o-grid-row histogram-national">
+                    <div data-o-grid-colspan="12 S11 Scenter M12 L11 XL10">
                       <Histogram speeds={speeds} />
                     </div>
                   </div>
