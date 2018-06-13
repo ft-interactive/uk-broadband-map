@@ -31,9 +31,10 @@ export default class Histogram extends React.Component {
     const width = D3.select(this.node.current)
       .node()
       .getBoundingClientRect().width;
-    const height = width * (width < breakpoint ? 1.05 : 0.6);
+    const multiplier = width * (width < breakpoint ? 1.05 : 0.6);
+    const height = this.props.geography ? multiplier : multiplier - (multiplier / 5);
     const margin = {
-      top: this.props.geography ? 5 : 0,
+      top: 5,
       right: 20,
       bottom: 50,
       left: 5,
@@ -59,12 +60,12 @@ export default class Histogram extends React.Component {
       : null;
     const bins = this.props.speeds.filter(d => d.megabit <= 150);
     const xTicks = [0, 10, 24, 30, 80, 150];
-    const yTicks = [1, 2, 3, 4, 5, 6];
+    const yTicks = this.props.geography ? [1, 2, 3, 4, 5, 6] : [1, 2, 3, 4, 5];
     const xScale = D3.scaleLinear()
       .domain([0, bins[bins.length - 1].megabit])
       .range([margin.left, width - margin.right]);
     const yScale = D3.scaleLinear()
-      .domain([0, 6])
+      .domain([0, yTicks.length])
       .range([height - margin.bottom, margin.top]);
     const xAxis = D3.axisBottom(xScale)
       .tickValues(xTicks)
@@ -73,8 +74,7 @@ export default class Histogram extends React.Component {
       .ticks(yTicks.length)
       .tickFormat((d) => {
         if (d === 0 || d > 5) return null;
-        else if (d === 5 && width > breakpoint && region) return `${d}% of postcodes in ${region.phrasing}`.toUpperCase();
-        else if (d === 5 && width > breakpoint) return `${d}% of all postcodes`.toUpperCase();
+        else if (d === 5 && !this.props.geography) return `${d}% of all postcodes`.toUpperCase();
         else if (d === 5) return `${d}%`;
         return d;
       });
@@ -115,7 +115,7 @@ export default class Histogram extends React.Component {
       .selectAll('text')
       .attr('fill', '#939394')
       .attr('font-size', width < breakpoint ? 14 : 16);
-    if (this.props.geography && width < breakpoint) {
+    if (this.props.geography) {
       yAxisElement
         .append('text')
         .attr('y', yScale(6))
