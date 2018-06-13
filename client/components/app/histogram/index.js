@@ -92,14 +92,14 @@ export default class Histogram extends React.Component {
     xAxisElement
       .selectAll('text')
       .attr('fill', '#939394')
-      .attr('font-size', '16px');
+      .attr('font-size', width < breakpoint ? 14 : 16);
     xAxisElement
       .append('text')
       .attr('dy', '-0.2em')
       .attr('x', margin.left + (width - margin.left - margin.right) / 2)
       .attr('y', margin.bottom)
       .attr('fill', '#939394')
-      .attr('font-size', '16px')
+      .attr('font-size', width < breakpoint ? 14 : 16)
       .attr('text-anchor', 'middle')
       .text('Average download speed (Mbit/s)'.toUpperCase());
     const yAxisElement = svg
@@ -113,7 +113,7 @@ export default class Histogram extends React.Component {
     yAxisElement
       .selectAll('text')
       .attr('fill', '#939394')
-      .attr('font-size', '16px');
+      .attr('font-size', width < breakpoint ? 14 : 16);
     if (this.props.geography && width < breakpoint) {
       yAxisElement
         .append('text')
@@ -121,7 +121,7 @@ export default class Histogram extends React.Component {
         .attr('dx', '0.5em')
         .attr('dy', '0.35em')
         .attr('fill', '#939394')
-        .attr('font-size', '16px')
+        .attr('font-size', width < breakpoint ? 14 : 16)
         .attr('text-anchor', 'end')
         .text(() => {
           if (region) return `Postcodes in ${region.phrasing}`.toUpperCase();
@@ -237,20 +237,20 @@ export default class Histogram extends React.Component {
       const labelify = text => {
         const g = svg
           .append('g')
-          .attr('transform', 'translate(30, 0)');
+          .attr('transform', 'translate(20, 0)');
         g
           .append('line')
           .attr('stroke', 'black')
           .attr('x1', Number(text.attr('x')) - 5 + 1)
           .attr('y1', Number(text.attr('y')) - (text.node().getBBox().height / 4) + 1)
-          .attr('x2', Number(text.attr('x')) - 25 + 1)
+          .attr('x2', Number(text.attr('x')) - 20 + 1)
           .attr('y2', Number(text.attr('y')) - (text.node().getBBox().height / 4) + 1);
         g
           .append('line')
           .attr('stroke', 'white')
           .attr('x1', Number(text.attr('x')) - 5)
           .attr('y1', Number(text.attr('y')) - (text.node().getBBox().height / 4))
-          .attr('x2', Number(text.attr('x')) - 25)
+          .attr('x2', Number(text.attr('x')) - 20)
           .attr('y2', Number(text.attr('y')) - (text.node().getBBox().height / 4));
         g
           .append('text')
@@ -264,11 +264,11 @@ export default class Histogram extends React.Component {
       };
       svg
         .append('text')
-        .datum(bins[38])
+        .datum(bins[36])
         .attr('x', d => xScale(d.megabit))
         .attr('y', d => yScale(d['national-rural'] + d['national-urban']))
         .attr('fill', 'white')
-        .attr('font-size', '14px')
+        .attr('font-size', 14)
         .attr('text-anchor', 'start')
         .attr('letter-spacing', '0.3')
         .text('National comparison'.toUpperCase())
@@ -280,7 +280,7 @@ export default class Histogram extends React.Component {
         .attr('x', xScale(27))
         .attr('y', yScale(2.2))
         .attr('fill', 'white')
-        .attr('font-size', 16)
+        .attr('font-size', width < breakpoint ? 14 : 16)
         .attr('text-anchor', 'middle')
         .attr('letter-spacing', 0.3)
         .text('Urban'.toUpperCase());
@@ -289,7 +289,7 @@ export default class Histogram extends React.Component {
         .attr('x', xScale(27))
         .attr('y', yScale(0.5))
         .attr('fill', 'white')
-        .attr('font-size', 16)
+        .attr('font-size', width < breakpoint ? 14 : 16)
         .attr('text-anchor', 'middle')
         .attr('letter-spacing', 0.3)
         .text('Rural'.toUpperCase());
@@ -305,7 +305,7 @@ export default class Histogram extends React.Component {
           .attr('y', offsetY)
           .attr('dx', '-1em')
           .attr('dy', '-1em')
-          .attr('font-size', 18)
+          .attr('font-size', width < breakpoint ? 16 : 18)
           .attr('font-weight', 600)
           .attr('letter-spacing', 0.4)
           .attr('fill', 'white')
@@ -315,7 +315,7 @@ export default class Histogram extends React.Component {
           .attr('x', offsetX)
           .attr('y', offsetY)
           .attr('dx', '-1em')
-          .attr('font-size', 18)
+          .attr('font-size', width < breakpoint ? 16 : 18)
           .attr('letter-spacing', 0.4)
           .attr('fill', 'white')
           .text(item.label);
@@ -389,9 +389,9 @@ export default class Histogram extends React.Component {
       svg
         .append('text')
         .attr('x', result.megabit <= 50 ? xScale(result.megabit - 2) : result.megabit >= 80 ? xScale(result.megabit) : xScale(result.megabit - 1))
-        .attr('y', yScale(0.45))
+        .attr('y', width < breakpoint ? yScale(0.45) : yScale(0.35))
         .attr('fill', 'white')
-        .attr('font-size', '16px')
+        .attr('font-size', width < breakpoint ? 14 : 16)
         .attr('font-weight', '600')
         .attr('text-anchor', result.megabit <= 50 ? 'start' : result.megabit >= 80 ? 'end' : 'middle')
         .attr('letter-spacing', '0.3')
@@ -401,9 +401,9 @@ export default class Histogram extends React.Component {
       svg
         .append('text')
         .attr('x', xScale(150) - 10)
-        .attr('y', yScale(0.45))
+        .attr('y', width < breakpoint ? yScale(0.45) : yScale(0.35))
         .attr('fill', 'white')
-        .attr('font-size', '16px')
+        .attr('font-size', width < breakpoint ? 14 : 16)
         .attr('font-weight', '600')
         .attr('text-anchor', 'end')
         .attr('letter-spacing', '0.3')
