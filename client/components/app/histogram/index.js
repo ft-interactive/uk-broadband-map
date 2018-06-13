@@ -269,9 +269,9 @@ export default class Histogram extends React.Component {
         .attr('x', d => xScale(d.megabit))
         .attr('y', d => yScale(d['national-rural'] + d['national-urban']))
         .attr('fill', 'white')
-        .attr('font-size', 14)
+        .attr('font-size', width < breakpoint ? 12 : 14)
         .attr('text-anchor', 'start')
-        .attr('letter-spacing', 0.3)
+        .attr('letter-spacing', width < breakpoint ? 0.2 : 0.3)
         .text('National comparison'.toUpperCase())
         .call(labelify);
     } else if (!this.props.geography) {
