@@ -2,7 +2,7 @@
 
 .summary {
   max-width: none !important;
-  margin-top: 64px;
+  margin-top: 48px;
   padding: 24px;
   background: #303540;
   text-align: center;
@@ -42,7 +42,7 @@
 @include oGridRespondTo($until: M) {
 
   .summary {
-    margin-top: 54px;
+    margin-top: 28px;
     padding: 18px;
   }
 
