@@ -390,7 +390,7 @@ export default class Histogram extends React.Component {
       svg
         .append('text')
         .attr('x', result.megabit <= 50 ? xScale(result.megabit - 2) : result.megabit >= 80 ? xScale(result.megabit) : xScale(result.megabit - 1))
-        .attr('y', width < breakpoint ? yScale(0.45) : yScale(0.35))
+        .attr('y', width < breakpoint ? yScale(0.3) : yScale(0.4))
         .attr('fill', 'white')
         .attr('font-size', width < breakpoint ? 14 : 16)
         .attr('font-weight', 600)
@@ -402,7 +402,7 @@ export default class Histogram extends React.Component {
       svg
         .append('text')
         .attr('x', xScale(150) - 10)
-        .attr('y', width < breakpoint ? yScale(0.45) : yScale(0.35))
+        .attr('y', width < breakpoint ? yScale(0.3) : yScale(0.4))
         .attr('fill', 'white')
         .attr('font-size', width < breakpoint ? 14 : 16)
         .attr('font-weight', 600)
