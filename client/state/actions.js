@@ -3,8 +3,6 @@
  * Redux actions
  */
 
-import { isOutsideTheUK } from '../helpers';
-
 export const GET_POSTCODE_DATA = 'GET_POSTCODE_DATA';
 export const GET_SPEED_DATA = 'GET_SPEED_DATA';
 export const UPDATE_VIEWPORT = 'UPDATE_VIEWPORT';
@@ -44,14 +42,9 @@ export const getPostcodeData = postcode => dispatch =>
       if (!res.ok) throw new Error('Invalid postcode');
       return res.json();
     })
-    .then((data) => {
-      if (data['Maximum_download_speed_(Mbit/s)'] === 'NA') {
-        throw new Error('Data is redacted due to small population size');
-      }
-
-      dispatch(clearPostcodeError());
-
-      return dispatch({
+    .then(async (data) => {
+      await dispatch(clearPostcodeError());
+      await dispatch({
         type: GET_POSTCODE_DATA,
         payload: {
           ...data,
@@ -59,6 +52,10 @@ export const getPostcodeData = postcode => dispatch =>
           longitude: Number(data.longitude), // Ensure type safety
         },
       });
+
+      if (data['Maximum_download_speed_(Mbit/s)'] === 'NA') {
+        throw new Error('Data is redacted due to small population size');
+      }
     })
     .catch(err => dispatch(raisePostcodeError(err)));
 

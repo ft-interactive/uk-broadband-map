@@ -32,6 +32,9 @@ const INITIAL_STATE = {
     zoom: 0,
     maxZoom: 15,
     minZoom: 0,
+    transitionDuration: 5000,
+    transitionInterpolator: new FlyToInterpolator(),
+    transitionEasing: easeCubic,
   },
   activeGeography: {},
   speeds: [],
@@ -83,7 +86,10 @@ export default (state = INITIAL_STATE, { type, payload }) => {
     case UPDATE_VIEWPORT:
       return {
         ...state,
-        viewport: payload,
+        viewport: {
+          ...state.viewport,
+          ...payload,
+        },
       };
 
     case SET_MAP_LOADED_STATUS:
@@ -123,9 +129,6 @@ export default (state = INITIAL_STATE, { type, payload }) => {
         viewport: {
           ...state.viewport,
           ...payload.viewport,
-          transitionDuration: 5000,
-          transitionInterpolator: new FlyToInterpolator(),
-          transitionEasing: easeCubic,
         },
       };
 
