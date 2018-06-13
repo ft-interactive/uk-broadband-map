@@ -1,0 +1,126 @@
+@import 'o-forms/main';
+@import 'o-buttons/main';
+@import 'o-grid/main';
+
+$warning: #ffec1a;
+$bg: #3b3d42;
+$border: #b3a9a0;
+
+@include oFormsBaseFeatures(locate-user);
+
+.app {
+  .locate-user {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    max-width: none;
+    flex: 1;
+    color: white;
+    margin-left: 10px; /* God I hate o-grid */
+
+    @include oGridRespondTo($until: L) {
+      flex-direction: column;
+    }
+
+    &__form {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      max-width: 380px;
+      height: auto;
+      justify-content: flex-start;
+
+      @include oGridRespondTo($until: L) {
+        max-width: auto;
+        width: 100%;
+        margin-bottom: 0.5em;
+      }
+
+      label {
+        padding-bottom: 0.5em;
+      }
+
+      &--validation-error {
+        .locate-user__text {
+          border-color: $warning;
+        }
+
+        .locate-user__button {
+          border-color: $warning $warning $warning $bg;
+          color: $warning;
+        }
+
+        .locate-user__validation-error-text {
+          color: $warning;
+        }
+      }
+    }
+
+    &__text {
+      &::placeholder {
+        color: white;
+      }
+
+      color: white;
+      background-color: $bg;
+      margin-top: 0;
+      border-width: 1px 0px 1px 1px;
+    }
+
+    &__suffix {
+      color: white;
+    }
+
+    &__affix-wrapper {
+      display: flex;
+      flex: 1;
+      align-items: center;
+      background-color: $bg;
+    }
+
+    & > span {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      padding: 0 1.6em;
+      @include oGridRespondTo($until: L) {
+        display: none;
+      }
+    }
+
+    &__button,
+    &__loading {
+      @include oButtons();
+      min-height: 40px;
+      background-color: $bg;
+      border-color: $border;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      min-width: 50px;
+    }
+
+    &__button {
+      border-width: 1px 1px 1px 0;
+      border-color: $border $border $border transparent;
+
+      &:hover {
+        background: none;
+        border: $border;
+      }
+    }
+
+    &__validation-error-text {
+      height: 1.6em;
+      font-size: 0.8em;
+      display: flex;
+      align-items: flex-end;
+      padding-left: 9px;
+    }
+
+    &__error-icon {
+      color: $warning !important;
+    }
+  }
+}

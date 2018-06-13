@@ -10,6 +10,7 @@ export const GET_SPEED_DATA = 'GET_SPEED_DATA';
 export const UPDATE_VIEWPORT = 'UPDATE_VIEWPORT';
 export const SET_MAP_LOADED_STATUS = 'SET_MAP_LOADED_STATUS';
 export const RAISE_POSTCODE_ERROR = 'RAISE_POSTCODE_ERROR';
+export const RAISE_GEOLOCATION_ERROR = 'RAISE_GEOLOCATION_ERROR';
 export const GET_USER_LOCATION = 'GET_USER_LOCATION';
 export const GEOLOCATING_IN_PROGRESS = 'GEOLOCATING_IN_PROGRESS';
 export const SET_DRAGGABLE_STATUS = 'SET_DRAGGABLE_STATUS';
@@ -22,6 +23,21 @@ export const raisePostcodeError = err => ({
   payload: err.message,
 });
 
+export const clearPostcodeError = () => ({
+  type: RAISE_POSTCODE_ERROR,
+  payload: '',
+});
+
+export const raiseGeolocationError = err => ({
+  type: RAISE_GEOLOCATION_ERROR,
+  payload: err.message || 'Unable to geolocate',
+});
+
+export const clearGeolocationError = () => ({
+  type: RAISE_GEOLOCATION_ERROR,
+  payload: '',
+});
+
 export const getPostcodeData = postcode => dispatch =>
   fetch(`${process.env.ENDPOINT || ''}postcode/${postcode.replace(/\s/g, '').toUpperCase()}.json`)
     .then((res) => {
@@ -32,6 +48,8 @@ export const getPostcodeData = postcode => dispatch =>
       if (data['Maximum_download_speed_(Mbit/s)'] === 'NA') {
         throw new Error('Data is redacted due to small population size');
       }
+
+      dispatch(clearPostcodeError());
 
       return dispatch({
         type: GET_POSTCODE_DATA,
@@ -52,75 +70,51 @@ export const getSpeedData = () => dispatch =>
     }),
   );
 
-export const getUserLocation = () => async (dispatch) => {
+export const getUserLocation = coords => async (dispatch) => {
   try {
     await dispatch({
       type: GEOLOCATING_IN_PROGRESS,
       payload: true,
     });
 
-    if ('geolocation' in navigator) {
-      const { coords } = await new Promise((resolve, reject) =>
-        navigator.geolocation.getCurrentPosition(resolve, reject),
-      );
+    // Try to get postcode via lat/lng
+    const postcodesIOResponse = await fetch(
+      `https://api.postcodes.io/postcodes?lon=${coords.longitude}&lat=${coords.latitude}`,
+    ).then(res => res.json());
 
-      if (isOutsideTheUK(coords)) {
-        throw new Error('Outside UK Bounds');
-      }
+    if (postcodesIOResponse.status === 200) {
+      const [postcodeData] = postcodesIOResponse.result;
 
-      // Try to get postcode via lat/lng
-      const postcodesIOResponse = await fetch(
-        `https://api.postcodes.io/postcodes?lon=${coords.longitude}&lat=${coords.latitude}`,
-      ).then(res => res.json());
-
-      if (postcodesIOResponse.status === 200) {
-        const [postcodeData] = postcodesIOResponse.result;
-
-        await dispatch({
-          type: GET_USER_LOCATION,
-          payload: {
-            latitude: coords.latitude,
-            longitude: coords.longitude,
-            ...postcodeData,
-          },
-        });
-
-        await dispatch(getPostcodeData(postcodeData.postcode));
-      } else {
-        await dispatch({
-          type: GET_USER_LOCATION,
-          payload: {
-            latitude: coords.latitude,
-            longitude: coords.longitude,
-          },
-        });
-      }
-
-      await dispatch({
-        type: GEOLOCATING_IN_PROGRESS,
-        payload: false,
-      });
-    } else {
-      throw new Error('Geolocation is unavailable');
-    }
-  } catch (e) {
-    if (e.message === 'Outside UK Bounds') {
-      console.log('Outside UK bounds. Setting to FT offices');
       await dispatch({
         type: GET_USER_LOCATION,
         payload: {
-          latitude: 51.5089683,
-          longitude: -0.0961675,
+          latitude: coords.latitude,
+          longitude: coords.longitude,
+          ...postcodeData,
         },
       });
 
-      await dispatch({
-        type: GEOLOCATING_IN_PROGRESS,
-        payload: false,
-      });
+      await dispatch(getPostcodeData(postcodeData.postcode));
     } else {
-      console.error(e);
+      await dispatch({
+        type: GET_USER_LOCATION,
+        payload: {
+          latitude: coords.latitude,
+          longitude: coords.longitude,
+        },
+      });
     }
+
+    await dispatch({
+      type: GEOLOCATING_IN_PROGRESS,
+      payload: false,
+    });
+  } catch (e) {
+    await dispatch(raiseGeolocationError(e));
+    await dispatch({
+      type: GEOLOCATING_IN_PROGRESS,
+      payload: false,
+    });
   }
 };
 

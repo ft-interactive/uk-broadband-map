@@ -1,0 +1,30 @@
+@import 'o-buttons/main';
+
+$size: 15px;
+$warning: #ffec1a;
+
+.app {
+  .mapboxgl-ctrl-geolocate-error-message {
+    position: absolute;
+    background: #3b3d42;
+    left: -80px;
+    top: 20px;
+    line-height: 1em;
+    padding: 0.25em;
+    color: $warning !important;
+    border: 1px solid $warning;
+    border-radius: 3px;
+    font-size: 0.8em;
+
+    &::after {
+      content: ' ';
+      position: absolute;
+      top: 50%;
+      left: 100%; /* To the right of the tooltip */
+      margin-top: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: transparent transparent transparent $warning;
+    }
+  }
+}

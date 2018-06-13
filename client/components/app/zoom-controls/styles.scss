@@ -73,28 +73,28 @@ $button-size: 30px;
     }
   }
 
-  svg {
-    position: absolute;
-    width: 20px;
-    top: 40px;
-    right: 0;
-    padding: 3px;
-
-    .zoom-axis {
-      path {
-        fill: none;
-        stroke: #ffffff;
-        stroke-width: 1px;
-      }
-
-      line {
-        stroke: #ffffff;
-      }
-
-      text {
-        fill: #ffffff;
-        stroke: none;
-      }
-    }
-  }
+  // svg {
+  //   position: absolute;
+  //   width: 20px;
+  //   top: 40px;
+  //   right: 0;
+  //   padding: 3px;
+  //
+  //   .zoom-axis {
+  //     path {
+  //       fill: none;
+  //       stroke: #ffffff;
+  //       stroke-width: 1px;
+  //     }
+  //
+  //     line {
+  //       stroke: #ffffff;
+  //     }
+  //
+  //     text {
+  //       fill: #ffffff;
+  //       stroke: none;
+  //     }
+  //   }
+  // }
 }

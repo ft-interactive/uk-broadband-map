@@ -9,8 +9,10 @@ import * as d3 from 'd3-ease'; // eslint-disable-line
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import WebMercatorViewport from 'viewport-mercator-project';
+import MapboxGlGeocoder from '@mapbox/mapbox-gl-geocoder';
 import { throttle } from 'lodash';
 import mapboxgl from 'mapbox-gl';
+import BoundedGeolocateControl from './bounded-geolocate';
 import * as actions from '../../state/actions';
 import GeographyLookup from './geography-lookup';
 import Histogram from './histogram';
@@ -115,12 +117,40 @@ class App extends Component {
   initialiseMap = () => {
     const map = this.map.current.getMap();
     const scale = new mapboxgl.ScaleControl();
+    const geolocation = new BoundedGeolocateControl({
+      maxZoom: this.props.viewport.maxZoom,
+    });
+    const geocoder = new MapboxGlGeocoder({
+      accessToken: MAPBOX_TOKEN,
+      zoom: this.props.viewport.maxZoom,
+    });
+
+    geocoder.on('result', ({ result }) => {
+      setTimeout(() => {
+        console.log(result);
+        console.log(map.queryRenderedFeatures(result.bbox));
+        console.log(map.querySourceFeatures(result.bbox));
+      }, 5000);
+    });
+
+    geolocation.on('error', (e) => {
+      if (e.message === 'Outside UK Bounds') {
+        this.props.raiseGeolocationError(e);
+      }
+    });
+
+    geolocation.on('geolocate', (position) => {
+      this.props.clearGeolocationError();
+      this.props.getUserLocation(position.coords);
+    });
 
     console.log('Loading map resources…');
 
     map.on('load', () => {
       console.log('Map resources loaded.');
 
+      map.addControl(geolocation);
+      map.addControl(geocoder);
       map.addControl(scale);
 
       this.props.setMapLoadedStatus(true);
@@ -165,6 +195,7 @@ class App extends Component {
       viewport,
       selectedPreset,
       choosePreset,
+      postcodeError,
       // dragEnabled,
       // setTransitionStatus,
       // transitionInProgress,
@@ -181,13 +212,14 @@ class App extends Component {
                 <Fragment key="map">
                   <div className="o-grid-container">
                     <div className="o-grid-row">
-                      <div className="locate-user">
+                      <div className="locate-user" data-o-grid-colspan="12 S11 Scenter M11 L10 XL9">
                         <GeographyLookup
                           goToViewport={this.goToViewport}
                           raisePostcodeError={raisePostcodeError}
                           getPostcodeData={getPostcodeData}
                           getUserLocation={getUserLocation}
                           geolocatingInProgress={geolocatingInProgress}
+                          postcodeError={postcodeError}
                         />
                         <span>OR</span>
                         <LocationsDropdown
@@ -344,6 +376,8 @@ App.propTypes = {
   selectedPreset: PropTypes.string.isRequired,
   dragEnabled: PropTypes.bool.isRequired,
   transitionInProgress: PropTypes.bool.isRequired,
+  postcodeError: PropTypes.string.isRequired,
+  controlsHidden: PropTypes.bool.isRequired,
   fullscreenEnabled: PropTypes.bool.isRequired,
 
   // Action dispatchers from Redux
@@ -356,6 +390,8 @@ App.propTypes = {
   setDraggableStatus: PropTypes.func.isRequired,
   setTransitionStatus: PropTypes.func.isRequired,
   choosePreset: PropTypes.func.isRequired,
+  raiseGeolocationError: PropTypes.func.isRequired,
+  clearGeolocationError: PropTypes.func.isRequired,
   setFullscreenStatus: PropTypes.func.isRequired,
 };
 
