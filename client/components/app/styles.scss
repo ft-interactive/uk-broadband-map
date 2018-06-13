@@ -23,10 +23,17 @@ $font-sans: MetricWeb, sans-serif;
 
   .histogram-national {
     margin-bottom: 56px;
+    @include oGridRespondTo($until: M) {
+      margin-bottom: 24px;
+    }
   }
 
   .interactive-wrapper {
     margin: 0 0 60px 0;
+
+    @include oGridRespondTo($until: M) {
+      margin-bottom: 24px;
+    }
 
     @include oGridRespondTo(L) {
       display: flex;
