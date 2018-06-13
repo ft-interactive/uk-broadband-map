@@ -34,7 +34,7 @@ export default class Histogram extends React.Component {
     const multiplier = width * (width < breakpoint ? 1.05 : 0.6);
     const height = this.props.geography ? multiplier : multiplier - (multiplier / 5);
     const margin = {
-      top: 5,
+      top: this.props.geography ? 34 : 4,
       right: 20,
       bottom: 50,
       left: 5,

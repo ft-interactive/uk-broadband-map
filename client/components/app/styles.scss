@@ -159,12 +159,12 @@ $font-sans: MetricWeb, sans-serif;
       }
       @include oGridRespondTo($until: M) {
         width: 91.66667%;
-        margin: 20px auto 0 auto;
+        margin: 4px auto 0 auto;
         padding-left: 10px;
       }
       @include oGridRespondTo($until: S) {
         width: auto;
-        margin: 20px 10px 0 10px;
+        margin: 4px 10px 0 10px;
         padding-left: 0;
       }
     }
