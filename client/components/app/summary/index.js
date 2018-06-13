@@ -12,7 +12,6 @@ const Summary = (props) => {
       || Object.keys(props.geography).length === 0
       || props.geography['Average_download_speed_(Mbit/s)'] === 'NA'
       || props.geography['Average_download_speed_(Mbit/s)'] === undefined) return null;
-  console.log('--',props.geography['Average_download_speed_(Mbit/s)']) ////
   const yourSpeed = props.geography['Average_download_speed_(Mbit/s)'];
   const regionID = (name) => {
     switch (name) {
