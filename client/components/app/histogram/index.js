@@ -397,7 +397,7 @@ export default class Histogram extends React.Component {
         .attr('text-anchor', result.megabit <= 50 ? 'start' : result.megabit >= 80 ? 'end' : 'middle')
         .attr('letter-spacing', 0.3)
         .text(`${this.props.geography['postcode_space']} speed is ${Math.round(this.props.geography['Average_download_speed_(Mbit/s)'])} Mbit/s`)
-        .call(backgroundify(5));
+        .call(backgroundify(width < breakpoint ? 2.5 : 5));
     } else if (result) {
       svg
         .append('text')
@@ -409,7 +409,7 @@ export default class Histogram extends React.Component {
         .attr('text-anchor', 'end')
         .attr('letter-spacing', 0.3)
         .text(`${this.props.geography['postcode_space']} speed is ${Math.round(this.props.geography['Average_download_speed_(Mbit/s)'])} Mbit/s →`)
-        .call(backgroundify(5));
+        .call(backgroundify(width < breakpoint ? 2.5 : 5));
     }
   };
 
