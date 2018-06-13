@@ -101,6 +101,7 @@ export default class Histogram extends React.Component {
       .attr('fill', '#939394')
       .attr('font-size', width < breakpoint ? 14 : 16)
       .attr('text-anchor', 'middle')
+      .attr('letter-spacing', 0.6)
       .text('Average download speed (Mbit/s)'.toUpperCase());
     const yAxisElement = svg
       .append('g')
@@ -270,7 +271,7 @@ export default class Histogram extends React.Component {
         .attr('fill', 'white')
         .attr('font-size', 14)
         .attr('text-anchor', 'start')
-        .attr('letter-spacing', '0.3')
+        .attr('letter-spacing', 0.3)
         .text('National comparison'.toUpperCase())
         .call(labelify);
     } else if (!this.props.geography) {
@@ -392,9 +393,9 @@ export default class Histogram extends React.Component {
         .attr('y', width < breakpoint ? yScale(0.45) : yScale(0.35))
         .attr('fill', 'white')
         .attr('font-size', width < breakpoint ? 14 : 16)
-        .attr('font-weight', '600')
+        .attr('font-weight', 600)
         .attr('text-anchor', result.megabit <= 50 ? 'start' : result.megabit >= 80 ? 'end' : 'middle')
-        .attr('letter-spacing', '0.3')
+        .attr('letter-spacing', 0.3)
         .text(`${this.props.geography['postcode_space']} speed is ${Math.round(this.props.geography['Average_download_speed_(Mbit/s)'])} Mbit/s`)
         .call(backgroundify(5));
     } else if (result) {
@@ -404,9 +405,9 @@ export default class Histogram extends React.Component {
         .attr('y', width < breakpoint ? yScale(0.45) : yScale(0.35))
         .attr('fill', 'white')
         .attr('font-size', width < breakpoint ? 14 : 16)
-        .attr('font-weight', '600')
+        .attr('font-weight', 600)
         .attr('text-anchor', 'end')
-        .attr('letter-spacing', '0.3')
+        .attr('letter-spacing', 0.3)
         .text(`${this.props.geography['postcode_space']} speed is ${Math.round(this.props.geography['Average_download_speed_(Mbit/s)'])} Mbit/s →`)
         .call(backgroundify(5));
     }
