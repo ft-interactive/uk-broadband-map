@@ -31,9 +31,9 @@ export default class Histogram extends React.Component {
     const width = D3.select(this.node.current)
       .node()
       .getBoundingClientRect().width;
-    const height = width * (width < breakpoint ? 0.9 : 0.65);
+    const height = width * (width < breakpoint ? 1.05 : 0.6);
     const margin = {
-      top: this.props.geography ? 30 : -20,
+      top: this.props.geography ? 5 : 0,
       right: 20,
       bottom: 50,
       left: 5,
