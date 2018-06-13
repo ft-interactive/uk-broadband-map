@@ -1,6 +1,7 @@
 @import 'o-forms/main';
 @import 'o-buttons/main';
 @import 'o-grid/main';
+@import 'o-colors/main';
 
 $warning: #ffec1a;
 $bg: #3b3d42;
@@ -16,7 +17,7 @@ $border: #b3a9a0;
     align-items: center;
     max-width: none;
     flex: 1;
-    color: white;
+    color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 60);
     margin-left: 10px; /* God I hate o-grid */
 
     @include oGridRespondTo($until: L) {
@@ -104,10 +105,12 @@ $border: #b3a9a0;
     &__button {
       border-width: 1px 1px 1px 0;
       border-color: $border $border $border transparent;
-
-      &:hover {
+      color: $border;
+      &:not([disabled]):hover {
         background: none;
-        border: $border;
+        border-width: 1px 1px 1px 0;
+        border-color: $border $border $border transparent;
+        color: #0d7680 !important;
       }
     }
 

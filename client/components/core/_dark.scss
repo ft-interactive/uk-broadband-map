@@ -37,8 +37,9 @@
     }
 
     p,
-    div,
     .o-date,
+    .byline,
+    small,
     figcaption {
       color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 60);
     }

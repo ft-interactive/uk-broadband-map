@@ -10,10 +10,12 @@ $bg: #3b3d42;
   flex-direction: column;
   margin-bottom: 1.6em;
   padding: 0 !important;
-  width: 100%;
+  width: auto;
 
   @include oGridRespondTo($until: L) {
     margin-bottom: 0;
+    width: 100%;
+    max-width: 380px !important;
   }
 
   label {

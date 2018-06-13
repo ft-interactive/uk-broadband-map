@@ -58,7 +58,7 @@ class GeographyLookup extends Component {
                 <Icon className="locate-user__error-icon" icon={notification} />
               </div>
             ) : (
-              <button type="button" className="locate-user__button">
+              <button type="button" className="locate-user__button" onClick={this.handleSubmit}>
                 <Icon className="geolocate" icon={search} />
               </button>
             )}
