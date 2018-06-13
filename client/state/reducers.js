@@ -18,6 +18,7 @@ import {
   SET_TRANSITION_STATUS,
   CHOOSE_PRESET,
   RAISE_GEOLOCATION_ERROR,
+  SET_FULLSCREEN_STATUS,
 } from './actions';
 
 export const UK_BOUNDS = [[-8.655, 49.9], [1.79, 60.85000000000001]];
@@ -45,6 +46,7 @@ const INITIAL_STATE = {
   transitionInProgress: false,
   selectedPreset: '',
   controlsHidden: false,
+  fullscreenEnabled: false,
 };
 
 export default (state = INITIAL_STATE, { type, payload }) => {
@@ -125,6 +127,12 @@ export default (state = INITIAL_STATE, { type, payload }) => {
           transitionInterpolator: new FlyToInterpolator(),
           transitionEasing: easeCubic,
         },
+      };
+
+    case SET_FULLSCREEN_STATUS:
+      return {
+        ...state,
+        fullscreenEnabled: payload,
       };
 
     default:

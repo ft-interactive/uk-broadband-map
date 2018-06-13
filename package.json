@@ -95,8 +95,10 @@
   },
   "dependencies": {
     "@mapbox/mapbox-gl-geocoder": "^2.2.0",
+    "babel-polyfill": "^6.26.0",
     "d3": "^5.4.0",
     "deck.gl": "^5.1.2",
+    "fscreen": "^1.0.2",
     "lodash": "^4.17.10",
     "mapbox-gl": "^0.44.1",
     "prop-types": "^15.6.1",

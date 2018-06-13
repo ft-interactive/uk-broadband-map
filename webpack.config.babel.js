@@ -9,7 +9,7 @@ import * as nunjucksFilters from './views/filters';
 
 module.exports = async (env = 'development') => ({
   entry: {
-    bundle: ['./client/index.js'],
+    bundle: ['babel-polyfill', './client/index.js'],
   },
   resolve: {
     modules: ['node_modules', 'bower_components'],
@@ -37,7 +37,9 @@ module.exports = async (env = 'development') => ({
               [
                 'env',
                 {
-                  browsers: 'defaults',
+                  targets: {
+                    browsers: ['defaults', 'iOS 9'],
+                  },
                 },
               ],
               'react',
