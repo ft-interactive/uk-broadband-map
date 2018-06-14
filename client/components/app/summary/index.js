@@ -38,7 +38,7 @@ const Summary = (props) => {
   const regionPcText = regionPcNumber === 100 ? 'almost 100' : regionPcNumber;
   const direction = regionPc >= 50 ? 'faster' : 'slower';
   const text = `My broadband is ${direction} than ${regionPcText}% of postcodes in ${region.phrasing}.`;
-  const message = `${text} https://ig.ft.com/gb-broadband-speed-map`;
+  const message = `${text} Check how yours compares on the @FT's map: https://ig.ft.com/gb-broadband-speed-map`;
   const tweet = () => window.open(`https://twitter.com/intent/tweet?text=${encodeURI(message)}`);
   return (
     <div className="summary">
