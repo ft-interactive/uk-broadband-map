@@ -23,7 +23,7 @@ import {
 
 export const UK_BOUNDS = [[-8.655, 49.9], [1.79, 60.85000000000001]];
 
-const INITIAL_STATE = {
+export const INITIAL_STATE = {
   viewport: {
     width: 0,
     height: 0,
