@@ -21,6 +21,7 @@ import Loader from './loader';
 import ImageGrid from './image-grid';
 import LocationsDropdown from './locations-dropdown';
 import FullscreenControl from './fullscreen-control';
+import { INITIAL_STATE } from '../../state/reducers';
 import './styles.scss';
 
 const MAPBOX_STYLE = 'mapbox://styles/financialtimes/cjg290kic7od82rn46o3o719e';
@@ -163,7 +164,8 @@ class App extends Component {
     zoom,
   }) => {
     const { zoom: currentZoom } = this.props.viewport;
-    const transitionDuration = Math.abs((zoom - currentZoom) * 500);
+    const transitionDuration = Math.abs((zoom - currentZoom) * 500)
+      || INITIAL_STATE.viewport.transitionDuration;
 
     console.log(`Transition duration: ${transitionDuration}`);
 
