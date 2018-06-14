@@ -19,6 +19,7 @@ import {
   CHOOSE_PRESET,
   RAISE_GEOLOCATION_ERROR,
   SET_FULLSCREEN_STATUS,
+  HIDE_LOADING_SCREEN,
 } from './actions';
 
 export const UK_BOUNDS = [[-8.655, 49.9], [1.79, 60.85000000000001]];
@@ -39,7 +40,7 @@ export const INITIAL_STATE = {
   activeGeography: {},
   speeds: [],
   mapLoaded: false,
-  loaderComplete: false,
+  doneLoading: false,
   isTouch: !document.body.classList.contains('no-touchevents'),
   postcodeError: '',
   geolocationError: '',
@@ -136,6 +137,12 @@ export default (state = INITIAL_STATE, { type, payload }) => {
       return {
         ...state,
         fullscreenEnabled: payload,
+      };
+
+    case HIDE_LOADING_SCREEN:
+      return {
+        ...state,
+        doneLoading: payload,
       };
 
     default:

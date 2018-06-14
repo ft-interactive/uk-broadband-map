@@ -34,7 +34,7 @@
         <div class="article-body o-typography-wrapper" itemprop="articleBody">
           <div id="root" class="app">
             {% for par in copy %}
-            <p>{{ par | safe }}</p>
+            <p>{{ par.content | safe }}</p>
             {% endfor %}
           </div>
 

@@ -39,6 +39,6 @@ export default async (environment = 'development') => {
     flags,
     onwardJourney,
     mapboxToken,
-    copy,
+    copy: copy.map((par, idx) => ({ id: idx, content: par })),
   };
 };

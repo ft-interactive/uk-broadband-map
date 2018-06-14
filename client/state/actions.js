@@ -15,6 +15,7 @@ export const SET_DRAGGABLE_STATUS = 'SET_DRAGGABLE_STATUS';
 export const SET_TRANSITION_STATUS = 'SET_TRANSITION_STATUS';
 export const CHOOSE_PRESET = 'CHOOSE_PRESET';
 export const SET_FULLSCREEN_STATUS = 'SET_FULLSCREEN_STATUS';
+export const HIDE_LOADING_SCREEN = 'HIDE_LOADING_SCREEN';
 
 export const raisePostcodeError = err => ({
   type: RAISE_POSTCODE_ERROR,
@@ -34,6 +35,11 @@ export const raiseGeolocationError = err => ({
 export const clearGeolocationError = () => ({
   type: RAISE_GEOLOCATION_ERROR,
   payload: '',
+});
+
+export const loadingComplete = () => ({
+  type: HIDE_LOADING_SCREEN,
+  payload: true,
 });
 
 export const getPostcodeData = postcode => dispatch =>
