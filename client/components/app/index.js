@@ -4,7 +4,7 @@
  */
 
 import React, { Component, Fragment } from 'react';
-import ReactMapGL, { FlyToInterpolator, NavigationControl } from 'react-map-gl';
+import ReactMapGL, { FlyToInterpolator, NavigationControl, Marker } from 'react-map-gl';
 import * as d3 from 'd3-ease'; // eslint-disable-line
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -13,6 +13,8 @@ import MapboxGlGeocoder from '@mapbox/mapbox-gl-geocoder';
 import { throttle } from 'lodash';
 import mapboxgl from 'mapbox-gl';
 import BoundedGeolocateControl from './bounded-geolocate';
+import { Icon } from 'react-icons-kit';
+import { location2 } from 'react-icons-kit/icomoon/location2';
 import * as actions from '../../state/actions';
 import GeographyLookup from './geography-lookup';
 import Histogram from './histogram';
@@ -35,10 +37,6 @@ const presets = require('./locations-dropdown/locations.json');
 class App extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      loaderComplete: false, // loaderComplete kept as part of state b/c impl. deet
-    };
     this.mapContainer = React.createRef();
     this.map = React.createRef();
   }
@@ -164,8 +162,8 @@ class App extends Component {
     zoom,
   }) => {
     const { zoom: currentZoom } = this.props.viewport;
-    const transitionDuration = Math.abs((zoom - currentZoom) * 500)
-      || INITIAL_STATE.viewport.transitionDuration;
+    const transitionDuration =
+      Math.abs((zoom - currentZoom) * 500) || INITIAL_STATE.viewport.transitionDuration;
 
     console.log(`Transition duration: ${transitionDuration}`);
 
@@ -179,39 +177,36 @@ class App extends Component {
     });
   };
 
-  handleLoaderComplete = () => {
-    console.log('Loader opacity transition complete. Unmounting Loader…');
-
-    this.setState({ loaderComplete: true });
-  };
-
   render() {
     const {
+      // State
       activeGeography,
       geolocatingInProgress,
-      getPostcodeData,
-      getUserLocation,
       mapLoaded,
-      raisePostcodeError,
       speeds,
       viewport,
       selectedPreset,
-      choosePreset,
+      transitionInProgress,
       postcodeError,
-      // dragEnabled,
-      // setTransitionStatus,
-      // transitionInProgress,
       fullscreenEnabled,
+      // dragEnabled,
+
+      // Actions
+      getPostcodeData,
+      getUserLocation,
+      raisePostcodeError,
+      choosePreset,
+      setTransitionStatus,
       setFullscreenStatus,
     } = this.props;
 
     return (
       <Fragment>
-        {window.PRELOADED_COPY.map((el, idx) => {
-          switch (el) {
+        {window.PRELOADED_COPY.map(({ id, content }) => {
+          switch (content) {
             case '<!-- Postcode input, Mapbox map and dynamic histogram -->':
               return (
-                <Fragment key="map">
+                <Fragment key={`map__${id}`}>
                   <div className="o-grid-container">
                     <div className="o-grid-row">
                       <div className="locate-user" data-o-grid-colspan="12 S11 Lcenter M11 L10 XL9">
@@ -235,10 +230,10 @@ class App extends Component {
 
                   <div className="interactive-wrapper">
                     <div className="map-container" ref={this.mapContainer}>
-                      {this.state.loaderComplete ? null : (
+                      {this.props.doneLoading || (
                         <Loader
                           mapLoaded={mapLoaded}
-                          handleLoaderComplete={this.handleLoaderComplete}
+                          handleLoaderComplete={this.props.loadingComplete}
                         />
                       )}
 
@@ -253,10 +248,28 @@ class App extends Component {
                         doubleClickZoom
                         touchZoom
                         touchRotate={false}
-                        // onTransitionStart={() => setTransitionStatus(true)}
-                        // onTransitionEnd={() => setTransitionStatus(false)}
+                        onTransitionStart={() => {
+                          setTransitionStatus(true);
+                        }}
+                        onTransitionEnd={() => {
+                          setTransitionStatus(false);
+                        }}
                         ref={this.map}
                       >
+                        {activeGeography.latitude &&
+                          activeGeography.longitude &&
+                          !transitionInProgress && (
+                          <div style={{ color: 'white' }}>
+                            <Marker
+                              latitude={activeGeography.latitude}
+                              longitude={activeGeography.longitude}
+                              offsetTop={-16}
+                              offsetLeft={-8}
+                            >
+                              <Icon icon={location2} size={32} />
+                            </Marker>
+                          </div>
+                        )}
                         <div className="navigation-control-container">
                           <NavigationControl
                             onViewportChange={({ maxZoom, minZoom, ...rest }) =>
@@ -284,7 +297,7 @@ class App extends Component {
               );
             case '<!-- Lead urban/rural histogram here -->':
               return (
-                <div className="o-grid-container">
+                <div className="o-grid-container" key={`histogram__${id}`}>
                   <div className="o-grid-row">
                     <div data-o-grid-colspan="12 S11 Scenter M9 L8 XL7">
                       <h2>Britain’s broadband speeds: not just an urban/rural divide</h2>
@@ -299,23 +312,23 @@ class App extends Component {
               );
             case '<!-- Image grid 1 -->':
               return (
-                <ImageGrid images={imageGrid1Images} key="image-grid-1">
+                <ImageGrid images={imageGrid1Images} key={`image-grid__${id}`}>
                   {({ alt, ...props }) => <img alt={alt} {...props} />}
                 </ImageGrid>
               );
             case '<!-- Image grid 2 -->':
               return (
-                <ImageGrid images={imageGrid1Images} key="image-grid-2">
+                <ImageGrid images={imageGrid1Images} key={`image-grid__${id}`}>
                   {({ alt, ...props }) => <img alt={alt} {...props} />}
                 </ImageGrid>
               );
             default:
               return (
-                <div className="o-grid-container" key={idx}>
+                <div className="o-grid-container" key={`copy__${id}`}>
                   <div className="o-grid-row">
                     <div data-o-grid-colspan="12 S11 Scenter M9 L8 XL7">
                       {/* eslint-disable-next-line */}
-                      <p dangerouslySetInnerHTML={{ __html: el }} />
+                      <p dangerouslySetInnerHTML={{ __html: content }} />
                     </div>
                   </div>
                 </div>
@@ -381,6 +394,7 @@ App.propTypes = {
   postcodeError: PropTypes.string.isRequired,
   controlsHidden: PropTypes.bool.isRequired,
   fullscreenEnabled: PropTypes.bool.isRequired,
+  doneLoading: PropTypes.bool.isRequired,
 
   // Action dispatchers from Redux
   updateViewport: PropTypes.func.isRequired,
@@ -395,6 +409,7 @@ App.propTypes = {
   raiseGeolocationError: PropTypes.func.isRequired,
   clearGeolocationError: PropTypes.func.isRequired,
   setFullscreenStatus: PropTypes.func.isRequired,
+  loadingComplete: PropTypes.func.isRequired,
 };
 
 App.defaultProps = {
