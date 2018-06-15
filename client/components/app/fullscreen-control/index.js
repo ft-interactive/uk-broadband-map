@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import fscreen from 'fscreen';
 import './styles.scss';
@@ -70,7 +70,7 @@ class FullscreenControl extends PureComponent {
 }
 
 FullscreenControl.propTypes = {
-  targetElement: PropTypes.shape.isRequired,
+  targetElement: PropTypes.instanceOf(window.HTMLElement).isRequired,
   onFullscreenChange: PropTypes.func.isRequired,
   onResize: PropTypes.func.isRequired,
   fullscreenStatus: PropTypes.bool.isRequired,
