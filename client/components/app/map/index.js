@@ -105,7 +105,7 @@ class Map extends Component {
     const map = this.map.current.getMap();
     const scale = new mapboxgl.ScaleControl();
     const geolocation = new BoundedGeolocateControl({
-      maxZoom: this.props.viewport.maxZoom,
+      maxZoom: 12,
     });
     const geocoder = new MapboxGlGeocoder({
       accessToken: MAPBOX_TOKEN,
