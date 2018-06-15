@@ -9,10 +9,10 @@ import { connect } from 'react-redux';
 import { Icon } from 'react-icons-kit';
 import { target } from 'react-icons-kit/icomoon/target';
 import { spinner2 } from 'react-icons-kit/icomoon/spinner2';
-import * as actions from '../../../state/actions';
+import { getUserLocation } from '../../../state/actions';
 import './styles.scss';
 
-const GeolocateMe = ({ getUserLocation, geolocatingInProgress, geolocationError }) =>
+const GeolocateMe = ({ geolocate, geolocatingInProgress, geolocationError }) =>
   (geolocatingInProgress ? (
     <div className="geolocate__button geolocate__loading">
       <Icon className="geolocate__spinner" icon={spinner2} />
@@ -23,7 +23,7 @@ const GeolocateMe = ({ getUserLocation, geolocatingInProgress, geolocationError 
         className={`geolocate__button${geolocationError && ' geolocate__button--disabled'}`}
         disabled={geolocationError}
       >
-        <Icon className="geolocate__icon" icon={target} onClick={getUserLocation} />
+        <Icon className="geolocate__icon" icon={target} onClick={geolocate} />
       </button>
       {geolocationError && <div className="geolocate__error-message">{geolocationError}</div>}
     </Fragment>
@@ -32,7 +32,10 @@ const GeolocateMe = ({ getUserLocation, geolocatingInProgress, geolocationError 
 GeolocateMe.propTypes = {
   geolocationError: PropTypes.string.isRequired,
   geolocatingInProgress: PropTypes.bool.isRequired,
-  getUserLocation: PropTypes.func.isRequired,
+  geolocate: PropTypes.func.isRequired,
 };
 
-export default connect(state => state, actions)(GeolocateMe);
+export default connect(
+  ({ geolocationError, geolocatingInProgress }) => ({ geolocationError, geolocatingInProgress }),
+  { geolocate: getUserLocation },
+)(GeolocateMe);

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from 'react-icons-kit';
 import { notification } from 'react-icons-kit/icomoon/notification';
@@ -7,11 +7,8 @@ import './styles.scss';
 
 const postcodeRegex = /^([Gg][Ii][Rr] ?0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9]?[A-Za-z])))) ?[0-9][A-Za-z]{2})$/i;
 
-class GeographyLookup extends Component {
-  constructor(props) {
-    super(props);
-    this.textInput = React.createRef();
-  }
+class GeographyLookup extends PureComponent {
+  textInput = React.createRef();
 
   handleSubmit = (event) => {
     event.preventDefault();
