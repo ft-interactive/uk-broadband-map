@@ -475,5 +475,5 @@ Histogram.propTypes = {
 };
 
 Histogram.defaultProps = {
-  geography: {},
+  geography: undefined,
 };
