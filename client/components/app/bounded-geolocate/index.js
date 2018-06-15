@@ -6,7 +6,7 @@
 import { GeolocateControl, LngLat } from 'mapbox-gl';
 import { isOutsideTheUK } from '../../../helpers';
 
-/* eslint-disable underscore-dangle */
+/* eslint-disable no-underscore-dangle */
 
 class BoundedGeolocateControl extends GeolocateControl {
   _updateCamera(position) {

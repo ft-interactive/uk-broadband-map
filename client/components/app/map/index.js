@@ -30,12 +30,6 @@ const MAPBOX_TOKEN = window.mapboxToken;
 const presets = require('../locations-dropdown/locations.json');
 
 class Map extends Component {
-  constructor(props) {
-    super(props);
-    this.mapContainer = React.createRef();
-    this.map = React.createRef();
-  }
-
   componentDidMount() {
     window.addEventListener('resize', throttle(this.resize, 500));
     this.resize();
@@ -79,6 +73,9 @@ class Map extends Component {
 
     this.props.updateViewport({ ...this.props.viewport, ...viewport });
   };
+
+  mapContainer = React.createRef();
+  map = React.createRef();
 
   resize = () => {
     console.log('Viewport will resize…');
