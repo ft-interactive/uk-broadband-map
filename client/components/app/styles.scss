@@ -13,11 +13,14 @@ $font-serif: FinancierDisplayWeb, serif;
     margin: 40px 0 66px 0;
     color: white;
     font-family: $font-serif;
-    font-size: 34px;
+    font-size: 32px;
     font-weight: normal;
+    line-height: 1.18em;
+
     @include oGridRespondTo($until: M) {
       margin: 0 0 28px 0;
       font-size: 28px;
+      line-height: 32px;
     }
   }
 
@@ -27,10 +30,4 @@ $font-serif: FinancierDisplayWeb, serif;
       margin-bottom: 24px;
     }
   }
-}
-
-// Disable all of Origami's focus styles
-:focus {
-  box-shadow: none !important;
-  outline: none !important;
 }
