@@ -128,7 +128,6 @@ $font-sans: MetricWeb, sans-serif;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      max-width: none;
 
       @include oGridRespondTo(L) {
         flex: 1;
