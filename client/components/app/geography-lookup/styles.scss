@@ -119,8 +119,9 @@ $border: #b3a9a0;
     }
 
     &__validation-error-text {
-      height: 1.6em;
-      font-size: 0.8em;
+      height: 20px;
+      font-size: 12px;
+      line-height: 16px;
       display: flex;
       align-items: flex-end;
       padding-left: 9px;
