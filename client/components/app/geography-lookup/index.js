@@ -39,11 +39,11 @@ class GeographyLookup extends PureComponent {
         }`}
         onSubmit={this.handleSubmit}
       >
-        <label htmlFor="locate-user__text">Find a place or postcode</label>
+        <label htmlFor="locate-user__text">Go to a postcode</label>
         <div className="locate-user__affix-wrapper">
           <input
             type="text"
-            placeholder="Enter your postcode to search your area..."
+            placeholder="Enter your postcode…"
             ref={this.textInput}
             id="geography"
             className="locate-user__text"
