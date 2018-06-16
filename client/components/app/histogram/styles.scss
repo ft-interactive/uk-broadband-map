@@ -2,4 +2,8 @@
 
 .histogram {
   max-width: none !important;
+
+  @include oGridRespondTo(L) {
+    order: 1;
+  }
 }

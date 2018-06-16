@@ -23,6 +23,7 @@ $font-sans: MetricWeb, sans-serif;
 
       @include oGridRespondTo(L) {
         flex: 2;
+        order: 1;
         margin: 0 20px 0 0;
         height: 600px;
       }
@@ -131,6 +132,7 @@ $font-sans: MetricWeb, sans-serif;
 
       @include oGridRespondTo(L) {
         flex: 1;
+        order: 2;
       }
     }
   }
