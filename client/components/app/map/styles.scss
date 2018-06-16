@@ -8,7 +8,7 @@ $font-sans: MetricWeb, sans-serif;
     margin: 0 0 24px;
 
     @include oGridRespondTo(M) {
-      margin-bottom: 60px;
+      margin-bottom: 56px;
     }
 
     @include oGridRespondTo(L) {
