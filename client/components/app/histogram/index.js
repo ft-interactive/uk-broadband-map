@@ -134,16 +134,14 @@ export default class Histogram extends React.Component {
         .text('USO*');
     } else {
       xAxisElement
-        .selectAll('.tick:nth-of-type(1) text, .tick:nth-of-type(2) text, .tick:nth-of-type(3) text')
+        .selectAll(
+          '.tick:nth-of-type(1) text, .tick:nth-of-type(2) text, .tick:nth-of-type(3) text',
+        )
         .attr('dx', '-0.4em')
         .attr('text-anchor', 'start');
     }
-    xAxisElement
-      .select('.tick:nth-of-type(2) text')
-      .attr('y', 33);
-    xAxisElement
-      .select('.tick:nth-of-type(2) line')
-      .attr('y2', 28);
+    xAxisElement.select('.tick:nth-of-type(2) text').attr('y', 33);
+    xAxisElement.select('.tick:nth-of-type(2) line').attr('y2', 28);
     xAxisElement
       .append('text')
       .attr('x', xScale(75))
@@ -160,7 +158,7 @@ export default class Histogram extends React.Component {
       .attr('fill', '#979797')
       .attr('font-size', width < breakpoint ? 14 : 16)
       .attr('text-anchor', 'start')
-      .text('* Universal service obligation  ** Superfast')
+      .text('* Universal service obligation  ** Superfast');
     const yAxisElement = svg
       .append('g')
       .attr('transform', `translate(${margin.left + width - margin.right}, 0)`)
@@ -437,7 +435,10 @@ export default class Histogram extends React.Component {
         .datum(result)
         .attr('cx', d => xScale(d.megabit - 1))
         .attr('cy', yScale(0))
-        .attr('r', (width - margin.left - margin.right) / bins.length / (width < breakpoint ? 0.8 : 1.5))
+        .attr(
+          'r',
+          (width - margin.left - margin.right) / bins.length / (width < breakpoint ? 0.8 : 1.5),
+        )
         .attr('fill', 'rgba(0, 0, 0, 0.8)')
         .attr('stroke', 'white')
         .attr('stroke-width', 2);
