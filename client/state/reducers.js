@@ -136,6 +136,9 @@ export default (state = INITIAL_STATE, { type, payload }) => {
       return {
         ...state,
         selectedPreset: payload.id,
+        activeGeography: {
+          region: payload.region,
+        },
         viewport: {
           ...state.viewport,
           ...payload.viewport,
