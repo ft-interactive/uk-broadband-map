@@ -1,6 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import fscreen from 'fscreen';
+import { Icon } from 'react-icons-kit';
+import { ic_fullscreen } from 'react-icons-kit/md/ic_fullscreen'; // eslint-disable-line camelcase
+import { ic_fullscreen_exit } from 'react-icons-kit/md/ic_fullscreen_exit'; // eslint-disable-line camelcase
 import './styles.scss';
 
 class FullscreenControl extends PureComponent {
@@ -58,13 +61,22 @@ class FullscreenControl extends PureComponent {
   };
 
   render() {
+    const { fullscreenStatus } = this.props;
+
     return (
-      <button
-        onClick={fscreen.fullscreenEnabled ? this.handleClick : this.handleClickNoAPI}
-        title="Enter Full Screen with Scroll Zoom"
-      >
-        {fscreen.fullscreenEnabled ? 'fullscreen' : 'faux fullscreen'}
-      </button>
+      <div className="mapboxgl-ctrl mapboxgl-ctrl-group fullscreen-control">
+        <button
+          onClick={fscreen.fullscreenEnabled ? this.handleClick : this.handleClickNoAPI}
+          title={fullscreenStatus ? 'Exit Full Screen' : 'Enter Full Screen with Scroll Zoom'}
+          style={{ color: '#ffffff' }}
+        >
+          {fullscreenStatus ? (
+            <Icon icon={ic_fullscreen_exit} size={30} /> // eslint-disable-line camelcase
+          ) : (
+            <Icon icon={ic_fullscreen} size={30} /> // eslint-disable-line camelcase
+          )}
+        </button>
+      </div>
     );
   }
 }
