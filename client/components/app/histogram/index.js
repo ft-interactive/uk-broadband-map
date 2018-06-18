@@ -218,7 +218,6 @@ export default class Histogram extends React.Component {
         .append('g')
         .attr('stroke', '#262a33')
         .attr('stroke-dasharray', '4, 4')
-        .attr('stroke-width', 1)
         .attr('stroke-opacity', 0.65)
         .selectAll()
         .data(tickpoints)
@@ -242,7 +241,8 @@ export default class Histogram extends React.Component {
         .datum(bins)
         .attr('fill', 'none')
         .attr('stroke', 'white')
-        .attr('stroke-width', 2)
+        .attr('stroke-dasharray', '4, 3')
+        .attr('stroke-opacity', 0.9)
         .attr('d', ruralLine);
     }
     if (this.props.geography) {
@@ -278,25 +278,25 @@ export default class Histogram extends React.Component {
         const g = svg.append('g').attr('transform', 'translate(20, 0)');
         g
           .append('line')
-          .attr('stroke', 'black')
           .attr('x1', Number(text.attr('x')) - 5 + 1)
           .attr('y1', Number(text.attr('y')) - text.node().getBBox().height / 4 + 1)
           .attr('x2', Number(text.attr('x')) - 20 + 1)
-          .attr('y2', Number(text.attr('y')) - text.node().getBBox().height / 4 + 1);
+          .attr('y2', Number(text.attr('y')) - text.node().getBBox().height / 4 + 1)
+          .attr('stroke', 'black');
         g
           .append('line')
-          .attr('stroke', 'white')
           .attr('x1', Number(text.attr('x')) - 5)
           .attr('y1', Number(text.attr('y')) - text.node().getBBox().height / 4)
           .attr('x2', Number(text.attr('x')) - 20)
-          .attr('y2', Number(text.attr('y')) - text.node().getBBox().height / 4);
+          .attr('y2', Number(text.attr('y')) - text.node().getBBox().height / 4)
+          .attr('stroke', 'white');
         g
           .append('text')
-          .attr('font-size', text.attr('font-size'))
-          .attr('letter-spacing', text.attr('letter-spacing'))
-          .attr('fill', 'black')
           .attr('x', Number(text.attr('x')) + 1)
           .attr('y', Number(text.attr('y')) + 1)
+          .attr('fill', 'black')
+          .attr('font-size', text.attr('font-size'))
+          .attr('letter-spacing', text.attr('letter-spacing'))
           .text(text.text());
         g.append(() => text.remove().node());
       };
@@ -333,66 +333,44 @@ export default class Histogram extends React.Component {
         .text('Rural'.toUpperCase());
       const labelify = g =>
         g.datum().forEach((item) => {
-          const targetX = xScale(item.target.megabit - 1);
-          const targetY = yScale(item.target['national-rural'] + item.target['national-urban']);
-          const offsetX = xScale(item.target.megabit - 1 + item.offset[0]);
-          const offsetY = yScale(
-            item.target['national-rural'] + item.target['national-urban'] - item.offset[1],
-          );
           const label = g.append('g');
           label
             .append('text')
-            .attr('x', offsetX)
-            .attr('y', offsetY)
-            .attr('dx', '-1em')
-            .attr('dy', '-1em')
-            .attr('font-size', width < breakpoint ? 16 : 18)
+            .attr('x', xScale(item.target.megabit - 2))
+            .attr('y', yScale(item.offset))
+            .attr('dx', '0.25em')
+            .attr('dy', '0.65em')
+            .attr('font-size', width < breakpoint ? 14 : 16)
             .attr('font-weight', 600)
-            .attr('letter-spacing', 0.4)
-            .attr('fill', 'white')
-            .text(item.title);
-          label
-            .append('text')
-            .attr('x', offsetX)
-            .attr('y', offsetY)
-            .attr('dx', '-1em')
-            .attr('font-size', width < breakpoint ? 16 : 18)
-            .attr('letter-spacing', 0.4)
             .attr('fill', 'white')
             .text(item.label);
-          const connectorPoints = [[targetX, targetY - 3], [offsetX, offsetY + 8]];
           label
-            .append('path')
-            .datum(connectorPoints)
-            .attr('fill', 'none')
-            .attr('stroke', 'white')
-            .attr('stroke-width', 1)
-            .attr('d', D3.line().curve(D3.curveBasis));
-          const arrowPoints = [
-            [targetX - 4, targetY - 7],
-            [targetX, targetY - 2],
-            [targetX + 4, targetY - 7],
-          ];
+            .append('line')
+            .attr('x1', xScale(item.target.megabit - 2))
+            .attr('y1', yScale(0))
+            .attr('x2', xScale(item.target.megabit - 2))
+            .attr('y2', yScale(item.offset))
+            .attr('stroke', 'black')
+            .attr('stroke-width', 2)
+            .attr('stroke-opacity', 0.4);
           label
-            .append('path')
-            .datum(arrowPoints)
-            .attr('fill', 'none')
-            .attr('stroke', 'white')
-            .attr('stroke-width', 1)
-            .attr('d', D3.line().curve(D3.curveLinear));
+            .append('line')
+            .attr('x1', xScale(item.target.megabit - 2))
+            .attr('y1', yScale(0))
+            .attr('x2', xScale(item.target.megabit - 2))
+            .attr('y2', yScale(item.offset))
+            .attr('stroke', 'white');
         });
       const labels = [
         {
-          title: 'SW7 1BX',
-          label: 'Knightsbridge',
+          label: 'Knightsbridge', // SW7 1BX
           target: bins[4],
-          offset: [0, -2.55],
+          offset: 4.75,
         },
         {
-          title: 'TF11 8AE',
-          label: 'Rural Shropshire',
+          label: 'Rural Shropshire', // TF11 8AE
           target: bins[31],
-          offset: [0, -1.35],
+          offset: 2.5,
         },
       ];
       svg
