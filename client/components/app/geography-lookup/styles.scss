@@ -2,6 +2,7 @@
 @import 'o-buttons/main';
 @import 'o-grid/main';
 @import 'o-colors/main';
+@import 'o-icons/main';
 
 $warning: #ffec1a;
 $bg: #393f4d;
@@ -48,13 +49,13 @@ $border: #393f4d;
       }
 
       &--validation-error {
-        .locate-user__text {
+        .locate-user__affix-wrapper {
           border-color: $warning;
         }
 
-        .locate-user__button {
-          border-color: $warning $warning $warning $bg;
-          color: $warning;
+        .locate-user__button,
+        .locate-user__button:not([disabled]):hover {
+          @include oIconsGetIcon('warning-alt', $warning, 32);
         }
 
         .locate-user__validation-error-text {
@@ -66,19 +67,21 @@ $border: #393f4d;
     &__text {
       &::placeholder {
         color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 60);
+        text-transform: none;
       }
 
-      color: white;
+      color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100);
       background-color: $bg;
       margin-top: 0;
-      border-width: 1px 0px 1px 1px;
-      border-color: $border transparent $border $border;
+      border: 0 none;
       font-size: 20px;
       line-height: 24px;
+      text-transform: uppercase;
     }
 
     &__suffix {
       color: white;
+      background-color: $bg;
     }
 
     &__affix-wrapper {
@@ -86,6 +89,7 @@ $border: #393f4d;
       flex: 1;
       align-items: center;
       background-color: $bg;
+      border: 1px solid $bg;
     }
 
     & > span {
@@ -103,7 +107,7 @@ $border: #393f4d;
       @include oButtons();
       min-height: 40px;
       background-color: $bg;
-      border-color: $border;
+      border: 0 none;
       display: inline-flex;
       justify-content: center;
       align-items: center;
@@ -111,14 +115,22 @@ $border: #393f4d;
     }
 
     &__button {
-      border-width: 1px 1px 1px 0;
-      border-color: $border $border $border transparent;
-      color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100);
+      @include oIconsGetIcon(
+        'search',
+        oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100),
+        32
+      );
+
       &:not([disabled]):hover {
-        background: none;
-        border-width: 1px 1px 1px 0;
-        border-color: $border $border $border transparent;
-        color: #0d7680 !important;
+        @include oIconsGetIcon(
+          'search',
+          oColorsGetTextColor(oColorsGetPaletteColor('slate'), 73),
+          32
+        );
+      }
+
+      &:not([disabled]):active {
+        background-color: $bg;
       }
     }
 

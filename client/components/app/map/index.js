@@ -137,7 +137,7 @@ class Map extends Component {
       console.log('Map resources loaded.');
 
       map.addControl(geolocation);
-      map.addControl(geocoder);
+      // map.addControl(geocoder);
       map.addControl(scale);
 
       this.props.setMapLoadedStatus(true);
