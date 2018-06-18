@@ -1,14 +1,14 @@
 @import 'o-forms/main';
 @import 'o-grid/main';
+@import 'o-colors/main';
 
-$bg: #3b3d42;
+$bg: #393f4d;
 
 @include oFormsBaseFeatures(locate-user-presets);
 
 .locate-user-presets {
   display: flex;
   flex-direction: column;
-  margin-bottom: 1.6em;
   padding: 0 !important;
   width: auto;
 
@@ -20,6 +20,7 @@ $bg: #3b3d42;
 
   label {
     padding-bottom: 0.5em;
+    color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100);
   }
 
   &__select {
@@ -27,10 +28,13 @@ $bg: #3b3d42;
     flex: 1;
     width: 380px;
     background-color: $bg;
-    color: rgba(255, 255, 255, 0.8);
+    color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100);
     margin-top: 0;
     margin-bottom: 0;
     background-image: url('https://www.ft.com/__origami/service/image/v2/images/raw/fticon-v1:arrow-down?source=o-icons&tint=white,white&format=svg');
+    border: 1px solid $bg;
+    font-size: 20px;
+    line-height: 24px;
 
     @include oGridRespondTo($until: L) {
       width: auto;

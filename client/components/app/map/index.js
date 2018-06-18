@@ -8,7 +8,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ReactMapGL, { FlyToInterpolator, NavigationControl, Marker } from 'react-map-gl';
 import WebMercatorViewport from 'viewport-mercator-project';
-import MapboxGlGeocoder from '@mapbox/mapbox-gl-geocoder';
 import { throttle } from 'lodash';
 import mapboxgl from 'mapbox-gl';
 import { Icon } from 'react-icons-kit';
@@ -107,18 +106,6 @@ class Map extends Component {
     const geolocation = new BoundedGeolocateControl({
       maxZoom: 12,
     });
-    const geocoder = new MapboxGlGeocoder({
-      accessToken: MAPBOX_TOKEN,
-      zoom: this.props.viewport.maxZoom,
-    });
-
-    geocoder.on('result', ({ result }) => {
-      setTimeout(() => {
-        console.log(result);
-        console.log(map.queryRenderedFeatures(result.bbox));
-        console.log(map.querySourceFeatures(result.bbox));
-      }, 5000);
-    });
 
     geolocation.on('error', (e) => {
       if (e.message === 'Outside UK Bounds') {
@@ -137,7 +124,6 @@ class Map extends Component {
       console.log('Map resources loaded.');
 
       map.addControl(geolocation);
-      map.addControl(geocoder);
       map.addControl(scale);
 
       this.props.setMapLoadedStatus(true);
@@ -190,7 +176,7 @@ class Map extends Component {
       <Fragment>
         <div className="o-grid-container">
           <div className="o-grid-row">
-            <div className="locate-user" data-o-grid-colspan="12 S11 Lcenter M11 L10 XL9">
+            <div className="locate-user" data-o-grid-colspan="12 S11 Scenter M11 L10 XL9">
               <GeographyLookup
                 goToViewport={this.goToViewport}
                 raisePostcodeError={raisePostcodeError}
@@ -207,67 +193,71 @@ class Map extends Component {
               />
             </div>
           </div>
-        </div>
 
-        <div className="interactive-wrapper">
-          <div className="map-container" ref={this.mapContainer}>
-            {this.props.doneLoading || (
-              <Loader mapLoaded={mapLoaded} handleLoaderComplete={this.props.loadingComplete} />
-            )}
-
-            <ReactMapGL
-              {...viewport}
-              mapboxApiAccessToken={MAPBOX_TOKEN}
-              mapStyle={MAPBOX_STYLE}
-              onViewportChange={this.onViewportChange}
-              scrollZoom={fullscreenEnabled}
-              // dragPan={dragEnabled}
-              dragRotate={false}
-              doubleClickZoom
-              touchZoom
-              touchRotate={false}
-              onTransitionStart={() => {
-                setTransitionStatus(true);
-              }}
-              onTransitionEnd={() => {
-                setTransitionStatus(false);
-              }}
-              ref={this.map}
-            >
-              {activeGeography.latitude &&
-                activeGeography.longitude &&
-                !transitionInProgress && (
-                <div style={{ color: 'white' }}>
-                  <Marker
-                    latitude={activeGeography.latitude}
-                    longitude={activeGeography.longitude}
-                    offsetTop={-16}
-                    offsetLeft={-8}
-                  >
-                    <Icon icon={location2} size={32} />
-                  </Marker>
-                </div>
-              )}
-              <div className="navigation-control-container">
-                <NavigationControl
-                  onViewportChange={({ maxZoom, minZoom, ...rest }) => this.onViewportChange(rest)}
-                  showCompass={false}
-                />
-
-                {this.mapContainer &&
-                  this.mapContainer.current && (
-                  <FullscreenControl
-                    targetElement={this.mapContainer.current}
-                    onFullscreenChange={setFullscreenStatus}
-                    onResize={this.resize}
-                    fullscreenStatus={fullscreenEnabled}
-                  />
+          <div className="o-grid-row">
+            <div className="interactive-wrapper" data-o-grid-colspan="12">
+              <div className="map-container" ref={this.mapContainer}>
+                {this.props.doneLoading || (
+                  <Loader mapLoaded={mapLoaded} handleLoaderComplete={this.props.loadingComplete} />
                 )}
-              </div>
-            </ReactMapGL>
-          </div>
 
-          <HistogramContainer />
+                <ReactMapGL
+                  {...viewport}
+                  mapboxApiAccessToken={MAPBOX_TOKEN}
+                  mapStyle={MAPBOX_STYLE}
+                  onViewportChange={this.onViewportChange}
+                  scrollZoom={fullscreenEnabled}
+                  // dragPan={dragEnabled}
+                  dragRotate={false}
+                  doubleClickZoom
+                  touchZoom
+                  touchRotate={false}
+                  onTransitionStart={() => {
+                    setTransitionStatus(true);
+                  }}
+                  onTransitionEnd={() => {
+                    setTransitionStatus(false);
+                  }}
+                  ref={this.map}
+                >
+                  {activeGeography.latitude &&
+                    activeGeography.longitude &&
+                    !transitionInProgress && (
+                    <div style={{ color: 'white' }}>
+                      <Marker
+                        latitude={activeGeography.latitude}
+                        longitude={activeGeography.longitude}
+                        offsetTop={-16}
+                        offsetLeft={-8}
+                      >
+                        <Icon icon={location2} size={32} />
+                      </Marker>
+                    </div>
+                  )}
+                  <div className="navigation-control-container">
+                    <NavigationControl
+                      onViewportChange={({ maxZoom, minZoom, ...rest }) =>
+                        this.onViewportChange(rest)
+                      }
+                      showCompass={false}
+                    />
+
+                    {this.mapContainer &&
+                      this.mapContainer.current && (
+                      <FullscreenControl
+                        targetElement={this.mapContainer.current}
+                        onFullscreenChange={setFullscreenStatus}
+                        onResize={this.resize}
+                        fullscreenStatus={fullscreenEnabled}
+                      />
+                    )}
+                  </div>
+                </ReactMapGL>
+              </div>
+
+              <HistogramContainer />
+            </div>
+          </div>
         </div>
       </Fragment>
     );

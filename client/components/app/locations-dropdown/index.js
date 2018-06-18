@@ -9,7 +9,7 @@ import './styles.scss';
 
 const LocationsDropdown = ({ presets, selectedPreset, choosePreset }) => (
   <div className="locate-user-presets">
-    <label htmlFor="locate-user-presets__select">Select a predefined area of interest</label>
+    <label htmlFor="locate-user-presets__select">Go to a predefined area of interest</label>
     <select
       className="locate-user-presets__select"
       name="locate-user-presets__select"

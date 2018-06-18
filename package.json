@@ -95,7 +95,6 @@
     "start": "nodemon -e html,njk,js --watch views --watch config --exec webpack-dev-server"
   },
   "dependencies": {
-    "@mapbox/mapbox-gl-geocoder": "^2.2.0",
     "babel-polyfill": "^6.26.0",
     "d3": "^5.4.0",
     "d3-ease": "^1.0.3",

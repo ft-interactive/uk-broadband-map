@@ -4,8 +4,8 @@
 @import 'o-colors/main';
 
 $warning: #ffec1a;
-$bg: #3b3d42;
-$border: #b3a9a0;
+$bg: #393f4d;
+$border: #393f4d;
 
 @include oFormsBaseFeatures(locate-user);
 
@@ -18,10 +18,14 @@ $border: #b3a9a0;
     max-width: none;
     flex: 1;
     color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 60);
-    margin-left: 10px; /* God I hate o-grid */
+    padding: 0 0 0 10px;
 
     @include oGridRespondTo($until: L) {
       flex-direction: column;
+    }
+
+    @include oGridRespondTo(M) {
+      padding: 0 0 0 20px;
     }
 
     &__form {
@@ -40,6 +44,7 @@ $border: #b3a9a0;
 
       label {
         padding-bottom: 0.5em;
+        color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100);
       }
 
       &--validation-error {
@@ -60,13 +65,16 @@ $border: #b3a9a0;
 
     &__text {
       &::placeholder {
-        color: white;
+        color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 60);
       }
 
       color: white;
       background-color: $bg;
       margin-top: 0;
       border-width: 1px 0px 1px 1px;
+      border-color: $border transparent $border $border;
+      font-size: 20px;
+      line-height: 24px;
     }
 
     &__suffix {
@@ -105,7 +113,7 @@ $border: #b3a9a0;
     &__button {
       border-width: 1px 1px 1px 0;
       border-color: $border $border $border transparent;
-      color: $border;
+      color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100);
       &:not([disabled]):hover {
         background: none;
         border-width: 1px 1px 1px 0;
@@ -115,8 +123,9 @@ $border: #b3a9a0;
     }
 
     &__validation-error-text {
-      height: 1.6em;
-      font-size: 0.8em;
+      height: 20px;
+      font-size: 12px;
+      line-height: 16px;
       display: flex;
       align-items: flex-end;
       padding-left: 9px;

@@ -2,8 +2,9 @@
   {
     "id": "london",
     "label": "London",
+    "region": "london",
     "viewport": {
-      "zoom": 13,
+      "zoom": 11,
       "longitude": -0.1056524,
       "latitude": 51.5044484
     }
@@ -11,19 +12,91 @@
   {
     "id": "manchester",
     "label": "Manchester",
+    "region": "nw",
     "viewport": {
-      "zoom": 12,
+      "zoom": 11,
       "longitude": -2.23333,
       "latitude": 53.46667
     }
   },
   {
     "id": "lancashire",
-    "label": "Lancashire",
+    "label": "Lancashire/Cumbria (B4RN)",
+    "region": "nw",
     "viewport": {
       "zoom": 11,
       "longitude": -2.6341,
       "latitude": 54.1043
+    }
+  },
+  {
+    "id": "south-coast",
+    "label": "South coast",
+    "region": "se",
+    "viewport": {
+      "zoom": 9,
+      "longitude": -0.291,
+      "latitude": 50.893
+    }
+  },
+  {
+    "id": "south-wales",
+    "label": "South Wales",
+    "region": "wales",
+    "viewport": {
+      "zoom": 9,
+      "longitude": -3.5010,
+      "latitude": 51.5536
+    }
+  },
+  {
+    "id": "hull",
+    "label": "Hull",
+    "region": "yh",
+    "viewport": {
+      "zoom": 11,
+      "longitude": -0.3362,
+      "latitude": 53.7701
+    }
+  },
+  {
+    "id": "aberdeen",
+    "label": "Aberdeen",
+    "region": "scotland",
+    "viewport": {
+      "zoom": 11,
+      "longitude": -2.1782,
+      "latitude": 57.1661
+    }
+  },
+  {
+    "id": "glasgow",
+    "label": "Glasgow",
+    "region": "scotland",
+    "viewport": {
+      "zoom": 11,
+      "longitude": -4.2508,
+      "latitude": 55.8674
+    }
+  },
+  {
+    "id": "cornwall",
+    "label": "Cornwall",
+    "region": "sw",
+    "viewport": {
+      "zoom": 8,
+      "longitude": -4.754,
+      "latitude": 50.386
+    }
+  },
+  {
+    "id": "east",
+    "label": "East of England",
+    "region": "ee",
+    "viewport": {
+      "zoom": 8,
+      "longitude": 0.920,
+      "latitude": 52.299
     }
   }
 ]
