@@ -41,7 +41,7 @@ export default class Histogram extends React.Component {
     const margin = {
       top: this.props.geography ? 34 : 5,
       right: 20,
-      bottom: 50,
+      bottom: 90,
       left: 5,
     };
     const regionID = (name) => {
@@ -77,7 +77,7 @@ export default class Histogram extends React.Component {
         ? regionID(this.props.geography.region)
         : null;
     const bins = this.props.speeds.filter(d => d.megabit <= 150);
-    const xTicks = [0, 10, 24, 30, 80, 150];
+    const xTicks = [10, 24, 30, 80, 150];
     const yTicks = this.props.geography ? [1, 2, 3, 4, 5, 6] : [1, 2, 3, 4, 5];
     const xScale = D3.scaleLinear()
       .domain([0, bins[bins.length - 1].megabit])
@@ -87,7 +87,15 @@ export default class Histogram extends React.Component {
       .range([height - margin.bottom, margin.top]);
     const xAxis = D3.axisBottom(xScale)
       .tickValues(xTicks)
-      .tickSize(12);
+      .tickPadding(5)
+      .tickSizeOuter(0)
+      .tickSizeInner(width < breakpoint ? 6 : 12)
+      .tickFormat((d) => {
+        if (d === 10 && width > breakpoint) return '10 USO*';
+        else if (d === 24) return '24 Government**';
+        else if (d === 30) return '30 Ofcom**';
+        return d;
+      });
     const yAxis = D3.axisRight(yScale)
       .ticks(yTicks.length)
       .tickFormat((d) => {
@@ -106,21 +114,53 @@ export default class Histogram extends React.Component {
       .call(xAxis)
       .attr('font-family', null)
       .attr('font-size', null);
-    xAxisElement.selectAll('line,path').attr('stroke', '#939394');
+    xAxisElement.selectAll('line,path').attr('stroke', '#979797');
     xAxisElement
       .selectAll('text')
-      .attr('fill', '#939394')
+      .attr('fill', '#979797')
       .attr('font-size', width < breakpoint ? 14 : 16);
+    if (width < breakpoint) {
+      xAxisElement
+        .selectAll('.tick:nth-of-type(2) text, .tick:nth-of-type(3) text')
+        .attr('dx', '-0.4em')
+        .attr('text-anchor', 'start');
+      xAxisElement
+        .append('text')
+        .attr('x', xScale(10))
+        .attr('y', 35)
+        .attr('fill', '#979797')
+        .attr('font-size', 14)
+        .attr('text-anchor', 'middle')
+        .text('USO*');
+    } else {
+      xAxisElement
+        .selectAll('.tick:nth-of-type(1) text, .tick:nth-of-type(2) text, .tick:nth-of-type(3) text')
+        .attr('dx', '-0.4em')
+        .attr('text-anchor', 'start');
+    }
+    xAxisElement
+      .select('.tick:nth-of-type(2) text')
+      .attr('y', 33);
+    xAxisElement
+      .select('.tick:nth-of-type(2) line')
+      .attr('y2', 28);
     xAxisElement
       .append('text')
-      .attr('dy', '-0.2em')
-      .attr('x', margin.left + (width - margin.left - margin.right) / 2)
-      .attr('y', margin.bottom)
-      .attr('fill', '#939394')
+      .attr('x', xScale(75))
+      .attr('y', 65)
+      .attr('fill', '#979797')
       .attr('font-size', width < breakpoint ? 14 : 16)
       .attr('text-anchor', 'middle')
       .attr('letter-spacing', 0.6)
-      .text('Average download speed (Mbit/s)'.toUpperCase());
+      .text('← Average download speed (Mbit/s) →'.toUpperCase());
+    xAxisElement
+      .append('text')
+      .attr('x', 0)
+      .attr('y', 84)
+      .attr('fill', '#979797')
+      .attr('font-size', width < breakpoint ? 14 : 16)
+      .attr('text-anchor', 'start')
+      .text('* Universal service obligation  ** Superfast')
     const yAxisElement = svg
       .append('g')
       .attr('transform', `translate(${margin.left + width - margin.right}, 0)`)
@@ -131,7 +171,7 @@ export default class Histogram extends React.Component {
     yAxisElement.selectAll('line,path').remove();
     yAxisElement
       .selectAll('text')
-      .attr('fill', '#939394')
+      .attr('fill', '#979797')
       .attr('font-size', width < breakpoint ? 14 : 16);
     if (this.props.geography) {
       yAxisElement
@@ -139,7 +179,7 @@ export default class Histogram extends React.Component {
         .attr('y', yScale(6))
         .attr('dx', '0.5em')
         .attr('dy', '0.35em')
-        .attr('fill', '#939394')
+        .attr('fill', '#979797')
         .attr('font-size', width < breakpoint ? 14 : 16)
         .attr('text-anchor', 'end')
         .text(() => {
@@ -211,9 +251,7 @@ export default class Histogram extends React.Component {
         .attr('height', d => yScale(0) - yScale(d['national-rural'] + d['national-urban']));
     }
     if (result || !this.props.geography) {
-      const tickpoints = bins.filter(bin =>
-        xTicks.slice(1, xTicks.length - 1).includes(bin.megabit),
-      );
+      const tickpoints = bins.filter(bin => [10, 24, 30].includes(bin.megabit));
       svg
         .append('g')
         .attr('stroke', '#262a33')
@@ -412,7 +450,7 @@ export default class Histogram extends React.Component {
               ? xScale(result.megabit)
               : xScale(result.megabit - 1),
         )
-        .attr('y', width < breakpoint ? yScale(0.3) : yScale(0.4))
+        .attr('y', width < breakpoint ? yScale(0.35) : yScale(0.4))
         .attr('fill', 'white')
         .attr('font-size', width < breakpoint ? 14 : 16)
         .attr('font-weight', 600)
@@ -431,7 +469,7 @@ export default class Histogram extends React.Component {
       svg
         .append('text')
         .attr('x', xScale(150) - 10)
-        .attr('y', width < breakpoint ? yScale(0.3) : yScale(0.4))
+        .attr('y', width < breakpoint ? yScale(0.35) : yScale(0.4))
         .attr('fill', 'white')
         .attr('font-size', width < breakpoint ? 14 : 16)
         .attr('font-weight', 600)
