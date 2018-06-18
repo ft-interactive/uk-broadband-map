@@ -112,6 +112,7 @@
     "react-slick": "^0.23.1",
     "redux": "^4.0.0",
     "redux-thunk": "^2.2.0",
+    "s3": "^4.4.0",
     "slick-carousel": "^1.8.1",
     "structured-google-docs-client": "0.0.3",
     "viewport-mercator-project": "^5.1.0"
