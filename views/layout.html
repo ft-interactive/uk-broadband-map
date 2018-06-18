@@ -33,9 +33,15 @@
 
         <div class="article-body o-typography-wrapper" itemprop="articleBody">
           <div id="root" class="app">
-            {% for par in copy %}
-            <p>{{ par.content | safe }}</p>
-            {% endfor %}
+            <div class="o-grid-container">
+              <div class="o-grid-row">
+                <div data-o-grid-colspan="12 S11 Scenter M9 L8 XL7">
+                  {% for par in copy %}
+                  <p>{{ par.content | safe }}</p>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
           </div>
 
           <div class="o-grid-container">
