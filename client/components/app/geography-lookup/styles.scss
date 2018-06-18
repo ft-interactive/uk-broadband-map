@@ -53,11 +53,6 @@ $border: #393f4d;
           border-color: $warning;
         }
 
-        .locate-user__button,
-        .locate-user__button:not([disabled]):hover {
-          @include oIconsGetIcon('warning-alt', $warning, 32);
-        }
-
         .locate-user__validation-error-text {
           color: $warning;
         }
@@ -82,7 +77,7 @@ $border: #393f4d;
     &__suffix {
       color: white;
       background-color: $bg;
-      padding-right: 5px;
+      margin-left: 1px;
     }
 
     &__affix-wrapper {
@@ -112,26 +107,35 @@ $border: #393f4d;
       display: inline-flex;
       justify-content: center;
       align-items: center;
-      min-width: 32px;
-    }
+      min-width: 42px;
+      padding: 6px;
 
-    &__button {
-      @include oIconsGetIcon(
-        'search',
-        oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100),
-        32
-      );
-
-      &:not([disabled]):hover {
+      .search-icon {
         @include oIconsGetIcon(
           'search',
-          oColorsGetTextColor(oColorsGetPaletteColor('slate'), 73),
-          32
+          oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100),
+          30
         );
       }
 
-      &:not([disabled]):active {
+      .warning-icon {
+        @include oIconsGetIcon('warning-alt', $warning, 30);
+      }
+
+      &:not([disabled]):active,
+      &:not([disabled]):focus,
+      &:not([disabled]):hover {
         background-color: $bg;
+      }
+
+      &:not([disabled]):hover {
+        .search-icon {
+          @include oIconsGetIcon(
+            'search',
+            oColorsGetTextColor(oColorsGetPaletteColor('slate'), 73),
+            30
+          );
+        }
       }
     }
 

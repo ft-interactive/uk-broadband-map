@@ -50,7 +50,9 @@ class GeographyLookup extends PureComponent {
             name="locate-user__text"
           />
           <div className="locate-user__suffix">
-            <button type="button" className="locate-user__button" onClick={this.handleSubmit} />
+            <button type="button" className="locate-user__button" onClick={this.handleSubmit}>
+              <i className={this.props.postcodeError ? 'warning-icon' : 'search-icon'} />
+            </button>
           </div>
         </div>
         <div className="locate-user__validation-error-text">{this.props.postcodeError}</div>
