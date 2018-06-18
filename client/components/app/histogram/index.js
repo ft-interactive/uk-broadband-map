@@ -181,7 +181,7 @@ export default class Histogram extends React.Component {
         '#ffdca2',
         '#ffffcc',
       ])(value / bins.length);
-    if (this.props.geography && Object.keys(this.props.geography).length > 0) {
+    if (this.props.geography && Object.keys(this.props.geography).length > 0 && region) {
       svg
         .append('g')
         .selectAll()
