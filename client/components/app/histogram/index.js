@@ -379,10 +379,10 @@ export default class Histogram extends React.Component {
         });
       const labels = [
         {
-          title: 'WC1A 1DD',
-          label: 'Central London',
-          target: bins[7],
-          offset: [0, -2.05],
+          title: 'SW7 1BX',
+          label: 'Knightsbridge',
+          target: bins[4],
+          offset: [0, -2.55],
         },
         {
           title: 'TF11 8AE',
