@@ -8,7 +8,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ReactMapGL, { FlyToInterpolator, NavigationControl, Marker } from 'react-map-gl';
 import WebMercatorViewport from 'viewport-mercator-project';
-import MapboxGlGeocoder from '@mapbox/mapbox-gl-geocoder';
 import { throttle } from 'lodash';
 import mapboxgl from 'mapbox-gl';
 import { Icon } from 'react-icons-kit';
@@ -107,18 +106,6 @@ class Map extends Component {
     const geolocation = new BoundedGeolocateControl({
       maxZoom: 12,
     });
-    const geocoder = new MapboxGlGeocoder({
-      accessToken: MAPBOX_TOKEN,
-      zoom: this.props.viewport.maxZoom,
-    });
-
-    geocoder.on('result', ({ result }) => {
-      setTimeout(() => {
-        console.log(result);
-        console.log(map.queryRenderedFeatures(result.bbox));
-        console.log(map.querySourceFeatures(result.bbox));
-      }, 5000);
-    });
 
     geolocation.on('error', (e) => {
       if (e.message === 'Outside UK Bounds') {
@@ -137,7 +124,6 @@ class Map extends Component {
       console.log('Map resources loaded.');
 
       map.addControl(geolocation);
-      map.addControl(geocoder);
       map.addControl(scale);
 
       this.props.setMapLoadedStatus(true);
