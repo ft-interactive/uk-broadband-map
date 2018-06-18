@@ -437,7 +437,7 @@ export default class Histogram extends React.Component {
         .datum(result)
         .attr('cx', d => xScale(d.megabit - 1))
         .attr('cy', yScale(0))
-        .attr('r', (width - margin.left - margin.right) / bins.length)
+        .attr('r', (width - margin.left - margin.right) / bins.length / (width < breakpoint ? 0.8 : 1.5))
         .attr('fill', 'rgba(0, 0, 0, 0.8)')
         .attr('stroke', 'white')
         .attr('stroke-width', 2);
@@ -451,7 +451,7 @@ export default class Histogram extends React.Component {
               ? xScale(result.megabit)
               : xScale(result.megabit - 1),
         )
-        .attr('y', width < breakpoint ? yScale(0.35) : yScale(0.4))
+        .attr('y', yScale(0) - (width < breakpoint ? 20 : 26))
         .attr('fill', 'white')
         .attr('font-size', width < breakpoint ? 14 : 16)
         .attr('font-weight', 600)
