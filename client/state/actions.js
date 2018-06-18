@@ -16,6 +16,9 @@ export const SET_TRANSITION_STATUS = 'SET_TRANSITION_STATUS';
 export const CHOOSE_PRESET = 'CHOOSE_PRESET';
 export const SET_FULLSCREEN_STATUS = 'SET_FULLSCREEN_STATUS';
 export const HIDE_LOADING_SCREEN = 'HIDE_LOADING_SCREEN';
+export const CLEAR_SELECTED_PRESET = 'CLEAR_SELECTED_PRESET';
+export const UPDATE_POSTCODE_INPUT_VALUE = 'UPDATE_POSTCODE_INPUT_VALUE';
+export const CLEAR_MARKER = 'CLEAR_MARKER';
 
 export const raisePostcodeError = err => ({
   type: RAISE_POSTCODE_ERROR,
@@ -27,6 +30,16 @@ export const clearPostcodeError = () => ({
   payload: '',
 });
 
+export const updatePostcodeInputValue = payload => ({
+  type: UPDATE_POSTCODE_INPUT_VALUE,
+  payload,
+});
+
+export const clearPostcodeInputValue = () => ({
+  type: UPDATE_POSTCODE_INPUT_VALUE,
+  payload: '',
+});
+
 export const raiseGeolocationError = err => ({
   type: RAISE_GEOLOCATION_ERROR,
   payload: err.message || 'Unable to geolocate',
@@ -35,6 +48,10 @@ export const raiseGeolocationError = err => ({
 export const clearGeolocationError = () => ({
   type: RAISE_GEOLOCATION_ERROR,
   payload: '',
+});
+
+export const clearSelectedPreset = () => ({
+  type: CLEAR_SELECTED_PRESET,
 });
 
 export const loadingComplete = () => ({
@@ -50,6 +67,8 @@ export const getPostcodeData = postcode => dispatch =>
     })
     .then(async (data) => {
       await dispatch(clearPostcodeError());
+      await dispatch(clearGeolocationError());
+      await dispatch(clearSelectedPreset());
       await dispatch({
         type: GET_POSTCODE_DATA,
         payload: {
@@ -73,8 +92,16 @@ export const getSpeedData = () => dispatch =>
     }),
   );
 
+export const clearMarker = () => ({
+  type: CLEAR_MARKER,
+});
+
 export const getUserLocation = coords => async (dispatch) => {
   try {
+    await dispatch(clearMarker());
+    await dispatch(clearPostcodeInputValue());
+    await dispatch(clearGeolocationError());
+    await dispatch(clearPostcodeError());
     await dispatch({
       type: GEOLOCATING_IN_PROGRESS,
       payload: true,
@@ -141,10 +168,20 @@ export const setTransitionStatus = transitionInProgress => ({
   payload: transitionInProgress,
 });
 
-export const choosePreset = preset => ({
-  type: CHOOSE_PRESET,
-  payload: preset,
-});
+export const choosePreset = preset => async (dispatch) => {
+  try {
+    await dispatch(clearPostcodeInputValue());
+    await dispatch(clearGeolocationError());
+    await dispatch(clearPostcodeError());
+    await dispatch(clearMarker());
+    return await dispatch({
+      type: CHOOSE_PRESET,
+      payload: preset,
+    });
+  } catch (e) {
+    return console.error(e);
+  }
+};
 
 export const setFullscreenStatus = isFullscreen => ({
   type: SET_FULLSCREEN_STATUS,

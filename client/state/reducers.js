@@ -20,6 +20,9 @@ import {
   RAISE_GEOLOCATION_ERROR,
   SET_FULLSCREEN_STATUS,
   HIDE_LOADING_SCREEN,
+  CLEAR_SELECTED_PRESET,
+  UPDATE_POSTCODE_INPUT_VALUE,
+  CLEAR_MARKER,
 } from './actions';
 
 export const UK_BOUNDS = [[-8.655, 49.9], [1.79, 60.85000000000001]];
@@ -70,6 +73,12 @@ export default (state = INITIAL_STATE, { type, payload }) => {
           region,
           ...rest,
         },
+      };
+
+    case UPDATE_POSTCODE_INPUT_VALUE:
+      return {
+        ...state,
+        postcodeInputValue: payload,
       };
 
     case GEOLOCATING_IN_PROGRESS:
@@ -133,6 +142,12 @@ export default (state = INITIAL_STATE, { type, payload }) => {
         },
       };
 
+    case CLEAR_SELECTED_PRESET:
+      return {
+        ...state,
+        selectedPreset: '',
+      };
+
     case SET_FULLSCREEN_STATUS:
       return {
         ...state,
@@ -143,6 +158,16 @@ export default (state = INITIAL_STATE, { type, payload }) => {
       return {
         ...state,
         doneLoading: payload,
+      };
+
+    case CLEAR_MARKER:
+      return {
+        ...state,
+        activeGeography: {
+          ...state.activeGeography,
+          latitude: undefined,
+          longitude: undefined,
+        },
       };
 
     default:
