@@ -82,6 +82,7 @@ $border: #393f4d;
     &__suffix {
       color: white;
       background-color: $bg;
+      padding-right: 5px;
     }
 
     &__affix-wrapper {
@@ -111,7 +112,7 @@ $border: #393f4d;
       display: inline-flex;
       justify-content: center;
       align-items: center;
-      min-width: 50px;
+      min-width: 32px;
     }
 
     &__button {
