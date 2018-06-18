@@ -179,12 +179,13 @@ export default class Histogram extends React.Component {
         .attr('y', yScale(6))
         .attr('dx', '0.5em')
         .attr('dy', '0.35em')
-        .attr('fill', '#979797')
-        .attr('font-size', width < breakpoint ? 14 : 16)
+        .attr('fill', '#c8c9cb')
+        .attr('font-size', width < breakpoint ? 16 : 18)
+        .attr('font-weight', 600)
         .attr('text-anchor', 'end')
         .text(() => {
-          if (region) return `Postcodes in ${region.phrasing}`.toUpperCase();
-          return 'All postcodes'.toUpperCase();
+          if (region) return `Postcodes in ${region.phrasing}`;
+          return 'All postcodes';
         });
     }
     svg
