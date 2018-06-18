@@ -16,14 +16,18 @@ export default class Histogram extends React.Component {
   }
 
   componentDidMount() {
-    this.update();
+    addEventListener('resize', this.draw);
+  }
+
+  componentWillUnmount() {
+    removeEventListener('resize', this.draw);
   }
 
   componentDidUpdate() {
-    this.update();
+    this.draw();
   }
 
-  update = () => {
+  draw = () => {
     if (this.props.speeds.length === 0) return;
     D3.select(this.node.current)
       .selectAll('*')
@@ -35,7 +39,7 @@ export default class Histogram extends React.Component {
     const multiplier = width * (width < breakpoint ? 1.05 : 0.6);
     const height = this.props.geography ? multiplier : multiplier - multiplier / 5;
     const margin = {
-      top: this.props.geography ? 34 : 4,
+      top: this.props.geography ? 34 : 5,
       right: 20,
       bottom: 50,
       left: 5,
