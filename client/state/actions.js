@@ -30,10 +30,17 @@ export const clearPostcodeError = () => ({
   payload: '',
 });
 
-export const updatePostcodeInputValue = payload => ({
-  type: UPDATE_POSTCODE_INPUT_VALUE,
-  payload,
-});
+export const updatePostcodeInputValue = payload => async (dispatch) => {
+  try {
+    if (payload === '') await dispatch(clearPostcodeError());
+    await dispatch({
+      type: UPDATE_POSTCODE_INPUT_VALUE,
+      payload,
+    });
+  } catch (e) {
+    dispatch();
+  }
+};
 
 export const clearPostcodeInputValue = () => ({
   type: UPDATE_POSTCODE_INPUT_VALUE,
