@@ -31,12 +31,11 @@ body {
 /* Hide whatsapp share button on desktop */
 .article__share {
   @include oGridRespondTo(S) {
-    .o-share__icon--whatsapp {
+    .o-share__action--whatsapp {
       display: none;
     }
   }
 }
-
 
 .graphic {
   display: block;
@@ -60,5 +59,4 @@ body {
   &-b-1 {
     max-width: 700px;
   }
-
 }
