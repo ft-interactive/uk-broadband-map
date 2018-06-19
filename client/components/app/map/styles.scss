@@ -94,7 +94,9 @@ $font-sans: MetricWeb, sans-serif;
         }
 
         .mapboxgl-ctrl-top-right {
-          padding-top: 67px;
+          position: absolute;
+          top: 114px;
+          right: 10px;
         }
       }
 
@@ -105,6 +107,7 @@ $font-sans: MetricWeb, sans-serif;
       }
 
       .mapboxgl-ctrl-group {
+        margin: 0;
         border: 1px solid #77787a;
         border-radius: 0;
         -webkit-box-shadow: none;
