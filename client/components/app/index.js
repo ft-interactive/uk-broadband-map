@@ -26,7 +26,7 @@ const App = ({ speeds }) => (
             <div className="o-grid-container" key={`histogram__${id}`}>
               <div className="o-grid-row">
                 <div data-o-grid-colspan="12 S11 Scenter M9 L8 XL7">
-                  <h2>Britain’s broadband speeds: not just an urban/rural divide</h2>
+                  <h2>Britain’s broadband speeds: not just an urban-rural divide</h2>
                 </div>
               </div>
               <div className="o-grid-row histogram-national">

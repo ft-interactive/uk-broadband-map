@@ -15,6 +15,7 @@ $font-serif: FinancierDisplayWeb, serif;
     font-size: 32px;
     font-weight: normal;
     line-height: 1.18em;
+    text-align: center;
 
     @include oGridRespondTo($until: M) {
       margin: 0 0 28px 0;
