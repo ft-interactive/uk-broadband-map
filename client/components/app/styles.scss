@@ -2,13 +2,12 @@ $o-buttons-is-silent: false;
 
 @import 'o-grid/main';
 @import 'o-buttons/main';
+@import 'o-typography/main';
 
 $font-sans: MetricWeb, sans-serif;
 $font-serif: FinancierDisplayWeb, serif;
 
 .app {
-  margin-bottom: 18px;
-
   h2 {
     margin: 40px 0 66px 0;
     color: white;
@@ -28,6 +27,21 @@ $font-serif: FinancierDisplayWeb, serif;
     margin-bottom: 56px;
     @include oGridRespondTo($until: M) {
       margin-bottom: 24px;
+    }
+  }
+
+  .methodology {
+    border-top: 1px solid rgba(255, 255, 255, 0.4);
+    padding-top: 48px;
+
+    h3 {
+      @include oTypographySans($scale: 2);
+      color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100);
+      font-weight: 600;
+    }
+
+    p {
+      @include oTypographySans($scale: 1, $line-height: 28px);
     }
   }
 }
