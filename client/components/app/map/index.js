@@ -24,7 +24,7 @@ import * as actions from '../../../state/actions';
 import { INITIAL_STATE } from '../../../state/reducers';
 import './styles.scss';
 
-const MAPBOX_STYLE = 'mapbox://styles/financialtimes/cjg290kic7od82rn46o3o719e';
+const MAPBOX_STYLE = 'mapbox://styles/financialtimes/cjidbu7fo0w0a2ssbyxtfb587';
 const MAPBOX_TOKEN = window.mapboxToken;
 const presets = require('../locations-dropdown/locations.json');
 
