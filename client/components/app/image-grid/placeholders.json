@@ -1,7 +1,7 @@
 [
   {
     "key": "001_key",
-    "src": "http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8470590319-g9df7.png",
+    "src": "http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8470573128-enpf2.png",
     "title": "Birmingham",
     "alt": "Birmingham",
     "srcSet": "",
@@ -9,7 +9,7 @@
   },
   {
     "key": "002_key",
-    "src": "http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8470590319-u32ob.png",
+    "src": "http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8470573123-adyb7.png",
     "title": "Edinburgh",
     "alt": "Edinburgh",
     "srcSet": "",
@@ -17,7 +17,7 @@
   },
   {
     "key": "003_key",
-    "src": "http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8470590319-obhge.png",
+    "src": "http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8470573111-jz84k.png",
     "title": "Hull",
     "alt": "Hull",
     "srcSet": "",
@@ -25,7 +25,7 @@
   },
   {
     "key": "004_key",
-    "src": "http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8470590319-vzz60.png",
+    "src": "http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8470573106-rshsh.png",
     "title": "Glasgow",
     "alt": "Glasgow",
     "srcSet": "",
@@ -33,7 +33,7 @@
   },
   {
     "key": "005_key",
-    "src": "http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8470590318-il2do.png",
+    "src": "http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8470573099-ti9wt.png",
     "title": "Liverpool",
     "alt": "Liverpool",
     "srcSet": "",
@@ -41,7 +41,7 @@
   },
   {
     "key": "006_key",
-    "src": "http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8470590317-8qzeg.png",
+    "src": "http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8470573091-m7c5s.png",
     "title": "London",
     "alt": "London",
     "srcSet": "",
@@ -49,7 +49,7 @@
   },
   {
     "key": "007_key",
-    "src": "http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8470590316-6t5bl.png",
+    "src": "http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8470573082-ev33h.png",
     "title": "Manchester",
     "alt": "Manchester",
     "srcSet": "",
@@ -57,7 +57,7 @@
   },
   {
     "key": "008_key",
-    "src": "http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8470590315-ek3ql.png",
+    "src": "http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8470573075-99qx7.png",
     "title": "York",
     "alt": "York",
     "srcSet": "",
