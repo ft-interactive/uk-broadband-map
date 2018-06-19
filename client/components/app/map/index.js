@@ -171,6 +171,8 @@ class Map extends Component {
       choosePreset,
       setTransitionStatus,
       setFullscreenStatus,
+      updatePostcodeInputValue,
+      postcodeInputValue,
     } = this.props;
     return (
       <Fragment>
@@ -184,6 +186,8 @@ class Map extends Component {
                 getUserLocation={getUserLocation}
                 geolocatingInProgress={geolocatingInProgress}
                 postcodeError={postcodeError}
+                onChange={updatePostcodeInputValue}
+                value={postcodeInputValue}
               />
               <span>OR</span>
               <LocationsDropdown
@@ -278,6 +282,7 @@ Map.propTypes = {
   controlsHidden: PropTypes.bool.isRequired,
   fullscreenEnabled: PropTypes.bool.isRequired,
   doneLoading: PropTypes.bool.isRequired,
+  postcodeInputValue: PropTypes.string.isRequired,
 
   // Action dispatchers from Redux
   updateViewport: PropTypes.func.isRequired,
@@ -293,10 +298,14 @@ Map.propTypes = {
   clearGeolocationError: PropTypes.func.isRequired,
   setFullscreenStatus: PropTypes.func.isRequired,
   loadingComplete: PropTypes.func.isRequired,
+  updatePostcodeInputValue: PropTypes.func.isRequired,
+  clearSelectedPreset: PropTypes.func.isRequired,
+  clearPostcodeInputValue: PropTypes.func.isRequired,
 };
 
 Map.defaultProps = {
   activeGeography: [],
+  postcodeInputValue: '',
 };
 
 export default connect(state => state, actions)(Map);

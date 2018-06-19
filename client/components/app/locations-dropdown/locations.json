@@ -2,7 +2,7 @@
   {
     "id": "london",
     "label": "London",
-    "region": "london",
+    "region": "London",
     "viewport": {
       "zoom": 11,
       "longitude": -0.1056524,
@@ -12,7 +12,7 @@
   {
     "id": "manchester",
     "label": "Manchester",
-    "region": "nw",
+    "region": "North West",
     "viewport": {
       "zoom": 11,
       "longitude": -2.23333,
@@ -22,7 +22,7 @@
   {
     "id": "lancashire",
     "label": "Lancashire/Cumbria (B4RN)",
-    "region": "nw",
+    "region": "North West",
     "viewport": {
       "zoom": 11,
       "longitude": -2.6341,
@@ -32,7 +32,7 @@
   {
     "id": "south-coast",
     "label": "South coast",
-    "region": "se",
+    "region": "South East",
     "viewport": {
       "zoom": 9,
       "longitude": -0.291,
@@ -42,17 +42,17 @@
   {
     "id": "south-wales",
     "label": "South Wales",
-    "region": "wales",
+    "region": "Wales",
     "viewport": {
       "zoom": 9,
-      "longitude": -3.5010,
+      "longitude": -3.501,
       "latitude": 51.5536
     }
   },
   {
     "id": "hull",
     "label": "Hull",
-    "region": "yh",
+    "region": "Yorkshire and The Humber",
     "viewport": {
       "zoom": 11,
       "longitude": -0.3362,
@@ -62,7 +62,7 @@
   {
     "id": "aberdeen",
     "label": "Aberdeen",
-    "region": "scotland",
+    "region": "Scotland",
     "viewport": {
       "zoom": 11,
       "longitude": -2.1782,
@@ -72,7 +72,7 @@
   {
     "id": "glasgow",
     "label": "Glasgow",
-    "region": "scotland",
+    "region": "Scotland",
     "viewport": {
       "zoom": 11,
       "longitude": -4.2508,
@@ -82,7 +82,7 @@
   {
     "id": "cornwall",
     "label": "Cornwall",
-    "region": "sw",
+    "region": "South West",
     "viewport": {
       "zoom": 8,
       "longitude": -4.754,
@@ -92,10 +92,10 @@
   {
     "id": "east",
     "label": "East of England",
-    "region": "ee",
+    "region": "East of England",
     "viewport": {
       "zoom": 8,
-      "longitude": 0.920,
+      "longitude": 0.92,
       "latitude": 52.299
     }
   }

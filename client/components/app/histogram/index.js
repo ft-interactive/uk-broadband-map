@@ -19,12 +19,12 @@ export default class Histogram extends React.Component {
     addEventListener('resize', this.draw);
   }
 
-  componentWillUnmount() {
-    removeEventListener('resize', this.draw);
-  }
-
   componentDidUpdate() {
     this.draw();
+  }
+
+  componentWillUnmount() {
+    removeEventListener('resize', this.draw);
   }
 
   draw = () => {
@@ -198,8 +198,7 @@ export default class Histogram extends React.Component {
       .attr('x2', (d) => {
         const textWidth = yAxisElement
           .selectAll('text')
-          .nodes()
-          [d].getBBox().width;
+          .nodes()[d].getBBox().width; // prettier-ignore
         if (d === 5) return width - margin.left - 6 - textWidth;
         return width - margin.right;
       })
@@ -221,7 +220,7 @@ export default class Histogram extends React.Component {
         '#ffdca2',
         '#ffffcc',
       ])(value / bins.length);
-    if (this.props.geography && Object.keys(this.props.geography).length > 0) {
+    if (region) {
       svg
         .append('g')
         .selectAll()

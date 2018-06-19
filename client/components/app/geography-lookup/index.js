@@ -8,13 +8,11 @@ import './styles.scss';
 const postcodeRegex = /^([Gg][Ii][Rr] ?0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9]?[A-Za-z])))) ?[0-9][A-Za-z]{2})$/i;
 
 class GeographyLookup extends PureComponent {
-  textInput = React.createRef();
-
-  handleSubmit = (event) => {
-    event.preventDefault();
-    const postcode = this.textInput.current.value;
+  handleSubmit = (evt) => {
+    evt.preventDefault();
+    const postcode = this.props.value;
     try {
-      if (!postcodeRegex.test(postcode)) {
+      if (!postcodeRegex.test(postcode) && postcode !== '') {
         throw new Error(`Postcode ${postcode} is invalid`);
       } else if (
         postcode
@@ -44,7 +42,8 @@ class GeographyLookup extends PureComponent {
           <input
             type="text"
             placeholder="Enter your postcode…"
-            ref={this.textInput}
+            onChange={e => this.props.onChange(e.target.value)}
+            value={this.props.value}
             id="geography"
             className="locate-user__text"
             name="locate-user__text"
@@ -71,6 +70,12 @@ GeographyLookup.propTypes = {
   postcodeError: PropTypes.string.isRequired,
   getPostcodeData: PropTypes.func.isRequired,
   raisePostcodeError: PropTypes.func.isRequired,
+  value: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
+};
+
+GeographyLookup.defaultProps = {
+  value: '',
 };
 
 export default GeographyLookup;
