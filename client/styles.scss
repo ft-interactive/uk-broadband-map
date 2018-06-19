@@ -8,87 +8,65 @@ $o-typography-is-silent: false;
 
 .article {
   &-head {
-    margin-top: 55px;
-    text-align: left;
+    margin-top: 40px;
+    text-align: center;
+
+    @include oGridRespondTo(S) {
+      margin-top: 56px;
+    }
 
     header {
       width: 100%;
 
       .o-typography-topic {
+        margin-bottom: 20px;
         border-bottom: 4px solid #ffffff;
       }
 
       .o-typography-headline {
-        margin: 32px 0 13px;
+        @include oTypographyDisplay($scale: 5);
+
+        @include oGridRespondTo(S) {
+          @include oTypographyDisplay($scale: 8);
+        }
       }
 
       .o-typography-standfirst {
-        margin-bottom: 22px;
+        @include oTypographySans($scale: 2);
       }
 
       .article__share {
         margin-bottom: 16px;
+
+        .o-share__action {
+          width: 28px;
+          height: 28px;
+          margin: 0;
+
+          .o-share__icon {
+            width: 28px;
+            height: 28px;
+
+            &::before {
+              width: 28px;
+              height: 28px;
+            }
+
+            &::after {
+              width: 38px;
+              height: 38px;
+            }
+          }
+        }
+
+        li + li.o-share__action {
+          border-left: 0;
+        }
       }
 
       .byline {
         text-align: left;
       }
     }
-
-    @include oGridRespondTo(L) {
-      text-align: center;
-    }
-  }
-
-  .cities {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    grid-gap: 10px;
-
-    div {
-      width: 100%;
-      background: center center/cover no-repeat;
-      padding-bottom: 100%;
-
-      &.one {
-        background-image: url("http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8472845076-vz5g2.png");
-      }
-
-      &.two {
-        background-image: url("http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8472845076-vz5g2.png");
-      }
-
-      &.three {
-        background-image: url("http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8472845076-vz5g2.png");
-      }
-
-      &.four {
-        background-image: url("http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8472845076-vz5g2.png");
-      }
-
-      &.five {
-        background-image: url("http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8472845076-vz5g2.png");
-      }
-
-      &.six {
-        background-image: url("http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8472845076-vz5g2.png");
-      }
-
-      &.seven {
-        background-image: url("http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8472845076-vz5g2.png");
-      }
-
-      &.eight {
-        background-image: url("http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8472845076-vz5g2.png");
-      }
-
-      &.nine {
-        background-image: url("http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8472845076-vz5g2.png");
-      }
-    }
-  }
-
-  .cities-caption {
-    margin-bottom: 18px;
   }
 }

@@ -9,18 +9,12 @@ $font-serif: FinancierDisplayWeb, serif;
 
 .app {
   h2 {
-    margin: 40px 0 66px 0;
-    color: white;
-    font-family: $font-serif;
-    font-size: 32px;
+    @include oTypographyDisplay($scale: 4);
     font-weight: normal;
-    line-height: 1.18em;
-    text-align: center;
 
-    @include oGridRespondTo($until: M) {
-      margin: 0 0 28px 0;
-      font-size: 28px;
-      line-height: 32px;
+    @include oGridRespondTo(S) {
+      @include oTypographyDisplay($scale: 5);
+      text-align: center;
     }
   }
 
@@ -37,7 +31,6 @@ $font-serif: FinancierDisplayWeb, serif;
 
     h3 {
       @include oTypographySans($scale: 2);
-      color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100);
       font-weight: 600;
     }
 
