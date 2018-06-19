@@ -24,11 +24,11 @@
 
     .o-typography-standfirst {
       @include oTypographySans($scale: 2, $line-height: 24px);
-      color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 80);
+      color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 73);
 
       a {
         color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100);
-        border-bottom: 2px solid oColorsGetTextColor(oColorsGetPaletteColor('slate'), 60);
+        border-bottom: 2px solid oColorsGetTextColor(oColorsGetPaletteColor('slate'), 73);
 
         &:hover {
           border-bottom: 2px solid oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100);
@@ -41,14 +41,14 @@
     .byline,
     small,
     figcaption {
-      color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 60);
+      color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 73);
     }
 
     p a,
     figcaption a,
     footer small a {
       color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100);
-      border-bottom: 2px solid oColorsGetTextColor(oColorsGetPaletteColor('slate'), 60);
+      border-bottom: 2px solid oColorsGetTextColor(oColorsGetPaletteColor('slate'), 73);
 
       &:hover {
         color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100);
@@ -69,10 +69,10 @@
     ol li,
     ul li {
       @include oTypographySerif($scale: 1, $line-height: 28px);
-      color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 60);
+      color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 73);
 
       &::before {
-        color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 60) !important;
+        color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 73) !important;
       }
 
       &.o-share__action {
@@ -104,7 +104,7 @@
     }
 
     .o-date {
-      color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 60);
+      color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 73);
     }
   }
 

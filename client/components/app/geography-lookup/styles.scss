@@ -18,7 +18,7 @@ $border: #393f4d;
     align-items: center;
     max-width: none;
     flex: 1;
-    color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 60);
+    color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 73);
     padding: 0 0 0 10px;
 
     @include oGridRespondTo($until: L) {
@@ -45,7 +45,7 @@ $border: #393f4d;
 
       label {
         padding-bottom: 0.5em;
-        color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100);
+        color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 73);
       }
 
       &--validation-error {
@@ -61,7 +61,7 @@ $border: #393f4d;
 
     &__text {
       &::placeholder {
-        color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 60);
+        color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 73);
         text-transform: none;
       }
 
