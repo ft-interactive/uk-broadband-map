@@ -20,7 +20,7 @@ $bg: #393f4d;
 
   label {
     padding-bottom: 0.5em;
-    color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100);
+    color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 73);
   }
 
   &__select {
@@ -35,6 +35,7 @@ $bg: #393f4d;
     border: 1px solid $bg;
     font-size: 20px;
     line-height: 24px;
+    padding-top: 9px;
 
     @include oGridRespondTo($until: L) {
       width: auto;

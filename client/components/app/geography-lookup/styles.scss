@@ -2,6 +2,7 @@
 @import 'o-buttons/main';
 @import 'o-grid/main';
 @import 'o-colors/main';
+@import 'o-icons/main';
 
 $warning: #ffec1a;
 $bg: #393f4d;
@@ -17,7 +18,7 @@ $border: #393f4d;
     align-items: center;
     max-width: none;
     flex: 1;
-    color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 60);
+    color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 73);
     padding: 0 0 0 10px;
 
     @include oGridRespondTo($until: L) {
@@ -44,17 +45,12 @@ $border: #393f4d;
 
       label {
         padding-bottom: 0.5em;
-        color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100);
+        color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 73);
       }
 
       &--validation-error {
-        .locate-user__text {
+        .locate-user__affix-wrapper {
           border-color: $warning;
-        }
-
-        .locate-user__button {
-          border-color: $warning $warning $warning $bg;
-          color: $warning;
         }
 
         .locate-user__validation-error-text {
@@ -65,20 +61,24 @@ $border: #393f4d;
 
     &__text {
       &::placeholder {
-        color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 60);
+        color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 73);
+        text-transform: none;
       }
 
-      color: white;
+      color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100);
       background-color: $bg;
       margin-top: 0;
-      border-width: 1px 0px 1px 1px;
-      border-color: $border transparent $border $border;
+      border: 0 none;
       font-size: 20px;
       line-height: 24px;
+      text-transform: uppercase;
     }
 
     &__suffix {
       color: white;
+      background-color: $bg;
+      margin-left: 1px;
+      width: 46px;
     }
 
     &__affix-wrapper {
@@ -86,6 +86,7 @@ $border: #393f4d;
       flex: 1;
       align-items: center;
       background-color: $bg;
+      border: 1px solid $bg;
     }
 
     & > span {
@@ -103,22 +104,39 @@ $border: #393f4d;
       @include oButtons();
       min-height: 40px;
       background-color: $bg;
-      border-color: $border;
+      border: 0 none;
       display: inline-flex;
       justify-content: center;
       align-items: center;
-      min-width: 50px;
-    }
+      min-width: 42px;
+      padding: 6px;
 
-    &__button {
-      border-width: 1px 1px 1px 0;
-      border-color: $border $border $border transparent;
-      color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100);
+      .search-icon {
+        @include oIconsGetIcon(
+          'search',
+          oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100),
+          30
+        );
+      }
+
+      .warning-icon {
+        @include oIconsGetIcon('warning-alt', $warning, 30);
+      }
+
+      &:not([disabled]):active,
+      &:not([disabled]):focus,
       &:not([disabled]):hover {
-        background: none;
-        border-width: 1px 1px 1px 0;
-        border-color: $border $border $border transparent;
-        color: #0d7680 !important;
+        background-color: $bg;
+      }
+
+      &:not([disabled]):hover {
+        .search-icon {
+          @include oIconsGetIcon(
+            'search',
+            oColorsGetTextColor(oColorsGetPaletteColor('slate'), 73),
+            30
+          );
+        }
       }
     }
 
