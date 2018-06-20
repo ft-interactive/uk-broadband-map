@@ -37,7 +37,9 @@ export default class Histogram extends React.Component {
       .node()
       .getBoundingClientRect().width;
     const multiplier = width * (width < breakpoint ? 1.05 : 0.6);
-    const height = this.props.geography ? multiplier : multiplier - multiplier / 5;
+    const height = this.props.geography
+      ? multiplier
+      : multiplier - (multiplier / 5); // prettier-ignore
     const margin = {
       top: this.props.geography ? 34 : 5,
       right: 20,
@@ -72,10 +74,9 @@ export default class Histogram extends React.Component {
           throw new Error('Unknown area!');
       }
     };
-    const region =
-      this.props.geography && this.props.geography.region
-        ? regionID(this.props.geography.region)
-        : null;
+    const region = this.props.geography && this.props.geography.region
+      ? regionID(this.props.geography.region)
+      : null; // prettier-ignore
     const bins = this.props.speeds.filter(d => d.megabit <= 150);
     const xTicks = [10, 24, 30, 80, 150];
     const yTicks = this.props.geography ? [1, 2, 3, 4, 5, 6] : [1, 2, 3, 4, 5];
@@ -134,9 +135,7 @@ export default class Histogram extends React.Component {
         .text('USO*');
     } else {
       xAxisElement
-        .selectAll(
-          '.tick:nth-of-type(1) text, .tick:nth-of-type(2) text, .tick:nth-of-type(3) text',
-        )
+        .selectAll('.tick:nth-of-type(1) text,.tick:nth-of-type(2) text,.tick:nth-of-type(3) text')
         .attr('dx', '-0.4em')
         .attr('text-anchor', 'start');
     }
@@ -161,7 +160,7 @@ export default class Histogram extends React.Component {
       .text('* Universal service obligation  ** Superfast');
     const yAxisElement = svg
       .append('g')
-      .attr('transform', `translate(${margin.left + width - margin.right}, 0)`)
+      .attr('transform', `translate(${(margin.left + width) - margin.right}, 0)`) // eslint-ignore
       .call(yAxis)
       .attr('text-anchor', 'end')
       .attr('font-family', null)
@@ -198,28 +197,30 @@ export default class Histogram extends React.Component {
       .attr('x2', (d) => {
         const textWidth = yAxisElement
           .selectAll('text')
-          .nodes()[d].getBBox().width; // prettier-ignore
+          .nodes()[d]
+          .getBBox()
+          .width; // prettier-ignore
         if (d === 5) return width - margin.left - 6 - textWidth;
         return width - margin.right;
       })
       .attr('y2', yScale);
-    const result =
-      this.props.geography && Object.keys(this.props.geography).length > 0
-        ? this.props.speeds.find(
-          d => d.megabit > this.props.geography['Average_download_speed_(Mbit/s)'],
-        )
-        : null;
-    const colours = value =>
-      D3.interpolateRgbBasis([
-        '#981626',
-        '#c41439',
-        '#ef1757',
-        '#ff5a5f',
-        '#ff8d67',
-        '#ffb67f',
-        '#ffdca2',
-        '#ffffcc',
-      ])(value / bins.length);
+    const result = this.props.geography && Object.keys(this.props.geography).length > 0
+      ? this.props.speeds.find(d => d.megabit > this.props.geography['Average_download_speed_(Mbit/s)'])
+      : null; // prettier-ignore
+    const colourRamp = [
+      '#981626', //   0
+      '#981626', //  10
+      '#c41439', //  20
+      '#ef1757', //  30
+      '#ff5a5f', //  40
+      '#ff8d67', //  50
+      '#ffb67f', //  60
+      '#ffdca2', //  70
+      '#ffffcc', //  80
+      '#ffffcc', //  90
+      '#ffffcc', // 100
+    ];
+    const colour = value => D3.interpolateRgbBasis(colourRamp)(value / bins.length);
     if (region) {
       svg
         .append('g')
@@ -227,14 +228,11 @@ export default class Histogram extends React.Component {
         .data(bins)
         .enter()
         .append('rect')
-        .attr('fill', d => colours(d.megabit - 2))
+        .attr('fill', d => colour(d.megabit - 2))
         .attr('x', d => xScale(d.megabit - 2))
         .attr('y', d => yScale(d[`${region.code}-rural`] + d[`${region.code}-urban`]))
         .attr('width', (width - margin.left - margin.right) / bins.length)
-        .attr(
-          'height',
-          d => yScale(0) - yScale(d[`${region.code}-rural`] + d[`${region.code}-urban`]),
-        );
+        .attr('height', d => yScale(0) - yScale(d[`${region.code}-rural`] + d[`${region.code}-urban`])); // prettier-ignore
     } else if (!this.props.geography) {
       svg
         .append('g')
@@ -242,7 +240,7 @@ export default class Histogram extends React.Component {
         .data(bins)
         .enter()
         .append('rect')
-        .attr('fill', d => colours(d.megabit - 2))
+        .attr('fill', d => colour(d.megabit - 2))
         .attr('x', d => xScale(d.megabit - 2))
         .attr('y', d => yScale(d['national-rural'] + d['national-urban']))
         .attr('width', (width - margin.left - margin.right) / bins.length)
@@ -282,8 +280,9 @@ export default class Histogram extends React.Component {
         .attr('d', ruralLine);
     }
     if (this.props.geography) {
+      const plotwidth = width - margin.left - margin.right; // eslint-ignore
       const line = D3.line()
-        .x(d => xScale(d.megabit - 2) + (width - margin.left - margin.right) / bins.length / 2)
+        .x(d => xScale(d.megabit - 2) + (plotwidth / bins.length / 2)) // prettier-ignore eslint-ignore
         .y(d => yScale(d['national-rural'] + d['national-urban']));
       svg
         .append('defs')
@@ -311,20 +310,22 @@ export default class Histogram extends React.Component {
         .attr('stroke-width', 2.5)
         .attr('d', line);
       const labelify = (text) => {
-        const g = svg.append('g').attr('transform', 'translate(20, 0)');
+        const distance = 20;
+        const spacing = 5;
+        const g = svg.append('g').attr('transform', `translate(${distance}, 0)`);
         g
           .append('line')
-          .attr('x1', Number(text.attr('x')) - 5 + 1)
-          .attr('y1', Number(text.attr('y')) - text.node().getBBox().height / 4 + 1)
-          .attr('x2', Number(text.attr('x')) - 20 + 1)
-          .attr('y2', Number(text.attr('y')) - text.node().getBBox().height / 4 + 1)
+          .attr('x1', Number(text.attr('x')) - (spacing + 1))
+          .attr('y1', Number(text.attr('y')) - ((text.node().getBBox().height / 4) + 1)) // prettier-ignore eslint-ignore
+          .attr('x2', Number(text.attr('x')) - (distance + 1))
+          .attr('y2', Number(text.attr('y')) - ((text.node().getBBox().height / 4) + 1)) // prettier-ignore eslint-ignore
           .attr('stroke', 'black');
         g
           .append('line')
-          .attr('x1', Number(text.attr('x')) - 5)
-          .attr('y1', Number(text.attr('y')) - text.node().getBBox().height / 4)
-          .attr('x2', Number(text.attr('x')) - 20)
-          .attr('y2', Number(text.attr('y')) - text.node().getBBox().height / 4)
+          .attr('x1', Number(text.attr('x')) - spacing)
+          .attr('y1', Number(text.attr('y')) - (text.node().getBBox().height / 4)) // prettier-ignore eslint-ignore
+          .attr('x2', Number(text.attr('x')) - distance)
+          .attr('y2', Number(text.attr('y')) - (text.node().getBBox().height / 4)) // prettier-ignore eslint-ignore
           .attr('stroke', 'white');
         g
           .append('text')
@@ -418,10 +419,10 @@ export default class Histogram extends React.Component {
       const g = svg.append('g');
       g
         .append('rect')
-        .attr('x', text.node().getBBox().x - padding * 2)
+        .attr('x', text.node().getBBox().x - (padding * 2)) // prettier-ignore eslint-ignore
         .attr('y', text.node().getBBox().y - padding)
-        .attr('width', text.node().getBBox().width + padding * 4)
-        .attr('height', text.node().getBBox().height + padding * 2)
+        .attr('width', text.node().getBBox().width + (padding * 4)) // prettier-ignore eslint-ignore
+        .attr('height', text.node().getBBox().height + (padding * 2)) // prettier-ignore eslint-ignore
         .attr('fill', 'black')
         .attr('fill-opacity', 0.8)
         .attr('rx', 3)
@@ -434,53 +435,48 @@ export default class Histogram extends React.Component {
         .datum(result)
         .attr('cx', d => xScale(d.megabit - 1))
         .attr('cy', yScale(0))
-        .attr(
-          'r',
-          (width - margin.left - margin.right) / bins.length / (width < breakpoint ? 0.8 : 1.5),
-        )
+        .attr('r', (width - margin.left - margin.right) / bins.length / (width < breakpoint ? 0.8 : 1.5)) // prettier-ignore eslint-ignore
         .attr('fill', 'rgba(0, 0, 0, 0.8)')
         .attr('stroke', 'white')
         .attr('stroke-width', 2);
       svg
         .append('text')
-        .attr(
-          'x',
-          result.megabit <= 50
-            ? xScale(result.megabit - 2)
-            : result.megabit >= 80
-              ? xScale(result.megabit)
-              : xScale(result.megabit - 1),
-        )
+        .attr('x', () => {
+          if (result.megabit <= 50) return xScale(result.megabit - 2);
+          else if (result.megabit >= 80) xScale(result.megabit);
+          return xScale(result.megabit - 1);
+        })
         .attr('y', yScale(0) - (width < breakpoint ? 20 : 26))
         .attr('fill', 'white')
         .attr('font-size', width < breakpoint ? 14 : 16)
         .attr('font-weight', 600)
-        .attr(
-          'text-anchor',
-          result.megabit <= 50 ? 'start' : result.megabit >= 80 ? 'end' : 'middle',
-        )
+        .attr('text-anchor', () => {
+          if (result.megabit <= 50) return 'start';
+          else if (result.megabit >= 80) return 'end';
+          return 'middle';
+        })
         .attr('letter-spacing', 0.3)
-        .text(
-          `${this.props.geography.postcode_space} speed is ${Math.round(
-            this.props.geography['Average_download_speed_(Mbit/s)'],
-          )} Mbit/s`,
-        )
+        .text(() => {
+          const postcode = this.props.geography.postcode_space;
+          const speed = Math.round(this.props.geography['Average_download_speed_(Mbit/s)']);
+          return `${postcode} speed is ${speed} Mbit/s`;
+        })
         .call(backgroundify(width < breakpoint ? 3 : 5));
     } else if (result) {
       svg
         .append('text')
-        .attr('x', xScale(150) - 10)
+        .attr('x', xScale(150) - 5)
         .attr('y', width < breakpoint ? yScale(0.35) : yScale(0.4))
         .attr('fill', 'white')
         .attr('font-size', width < breakpoint ? 14 : 16)
         .attr('font-weight', 600)
         .attr('text-anchor', 'end')
         .attr('letter-spacing', 0.3)
-        .text(
-          `${this.props.geography.postcode_space} speed is ${Math.round(
-            this.props.geography['Average_download_speed_(Mbit/s)'],
-          )} Mbit/s →`,
-        )
+        .text(() => {
+          const postcode = this.props.geography.postcode_space;
+          const speed = Math.round(this.props.geography['Average_download_speed_(Mbit/s)']);
+          return `${postcode} speed is ${speed} Mbit/s →`;
+        })
         .call(backgroundify(width < breakpoint ? 3 : 5));
     }
   };

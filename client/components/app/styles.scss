@@ -20,6 +20,7 @@ $font-serif: FinancierDisplayWeb, serif;
 
   .histogram-national {
     margin-bottom: 56px;
+
     @include oGridRespondTo($until: M) {
       margin-bottom: 24px;
     }
