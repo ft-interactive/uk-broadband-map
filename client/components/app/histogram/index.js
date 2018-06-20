@@ -208,14 +208,16 @@ export default class Histogram extends React.Component {
       ? this.props.speeds.find(d => d.megabit > this.props.geography['Average_download_speed_(Mbit/s)'])
       : null; // prettier-ignore
     const colourRamp = [
-      '#981626',
-      '#c41439',
-      '#ef1757',
-      '#ff5a5f',
-      '#ff8d67',
-      '#ffb67f',
-      '#ffdca2',
-      '#ffffcc',
+      '#981626', //   0
+      '#981626', //  10
+      '#c41439', //  20
+      '#ef1757', //  30
+      '#ff5a5f', //  40
+      '#ff8d67', //  50
+      '#ffb67f', //  60
+      '#ffdca2', //  70
+      '#ffffcc', //  90
+      '#ffffcc', // 100
     ];
     const colour = value => D3.interpolateRgbBasis(colourRamp)(value / bins.length);
     if (region) {
