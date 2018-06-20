@@ -464,7 +464,7 @@ export default class Histogram extends React.Component {
     } else if (result) {
       svg
         .append('text')
-        .attr('x', xScale(150) - 10)
+        .attr('x', xScale(150) - 5)
         .attr('y', width < breakpoint ? yScale(0.35) : yScale(0.4))
         .attr('fill', 'white')
         .attr('font-size', width < breakpoint ? 14 : 16)
