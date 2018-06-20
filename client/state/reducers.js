@@ -34,7 +34,7 @@ export const INITIAL_STATE = {
     longitude: -3.432,
     latitude: 55.757,
     zoom: 0,
-    maxZoom: 15,
+    maxZoom: 12,
     minZoom: 0,
     transitionDuration: 5000,
     transitionInterpolator: new FlyToInterpolator(),

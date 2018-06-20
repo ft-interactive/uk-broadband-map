@@ -11,15 +11,20 @@ import WebMercatorViewport from 'viewport-mercator-project';
 import { throttle } from 'lodash';
 import mapboxgl from 'mapbox-gl';
 import { Icon } from 'react-icons-kit';
-import { location2 } from 'react-icons-kit/icomoon/location2';
+import { meter2 } from 'react-icons-kit/icomoon/meter2';
 import { easeCubic } from 'd3-ease';
+import { interpolateRgbBasis } from 'd3-interpolate';
 import BoundedGeolocateControl from '../bounded-geolocate';
 import HistogramContainer from '../histogram-container';
 import GeographyLookup from '../geography-lookup';
 import Loader from '../loader';
 import LocationsDropdown from '../locations-dropdown';
 import FullscreenControl from '../fullscreen-control';
-import { propTypeActiveGeography, propTypeViewport } from '../../../helpers/proptypes';
+import {
+  propTypeActiveGeography,
+  propTypeViewport,
+  propTypeSpeed,
+} from '../../../helpers/proptypes';
 import * as actions from '../../../state/actions';
 import { INITIAL_STATE } from '../../../state/reducers';
 import './styles.scss';
@@ -39,7 +44,8 @@ class Map extends Component {
   componentDidUpdate(oldProps) {
     const { longitude, latitude } = this.props.activeGeography;
     const { longitude: oldLong, latitude: oldLat } = oldProps.activeGeography;
-    const zoom = 12;
+    const zoom = 11;
+    this.bins = this.props.speeds.filter(d => d.megabit <= 150);
 
     if (longitude !== oldLong && latitude !== oldLat) {
       this.goToViewport({ longitude, latitude, zoom });
@@ -104,7 +110,7 @@ class Map extends Component {
     const map = this.map.current.getMap();
     const scale = new mapboxgl.ScaleControl();
     const geolocation = new BoundedGeolocateControl({
-      maxZoom: 12,
+      maxZoom: 11,
     });
 
     geolocation.on('error', (e) => {
@@ -151,6 +157,22 @@ class Map extends Component {
     });
   };
 
+  bins = [];
+  colourRamp = [
+    '#981626', //   0
+    '#981626', //  10
+    '#c41439', //  20
+    '#ef1757', //  30
+    '#ff5a5f', //  40
+    '#ff8d67', //  50
+    '#ffb67f', //  60
+    '#ffdca2', //  70
+    '#ffffcc', //  80
+    '#ffffcc', //  90
+    '#ffffcc', // 100
+  ];
+  colour = value => interpolateRgbBasis(this.colourRamp)(value / this.bins.length);
+
   render() {
     const {
       // State
@@ -174,6 +196,12 @@ class Map extends Component {
       updatePostcodeInputValue,
       postcodeInputValue,
     } = this.props;
+    const result = this.props.activeGeography && Object.keys(this.props.activeGeography).length > 0
+      ? this.props.speeds.find(d => d.megabit > this.props.activeGeography['Average_download_speed_(Mbit/s)'])
+      : null; // prettier-ignore
+
+    console.log(viewport.zoom);
+
     return (
       <Fragment>
         <div className="o-grid-container">
@@ -233,14 +261,20 @@ class Map extends Component {
                   {activeGeography.latitude &&
                     activeGeography.longitude &&
                     !transitionInProgress && (
-                    <div style={{ color: 'white' }}>
+                    <div
+                      style={{
+                        color: `${result ? this.colour(result.megabit - 2) : '#c0c3c9'}`,
+                        stroke: '#1a1d23',
+                        strokeWidth: '0.4px',
+                      }}
+                    >
                       <Marker
                         latitude={activeGeography.latitude}
                         longitude={activeGeography.longitude}
-                        offsetTop={-16}
-                        offsetLeft={-8}
+                        offsetTop={-20}
+                        offsetLeft={-20}
                       >
-                        <Icon icon={location2} size={32} />
+                        <Icon icon={meter2} size={40} />
                       </Marker>
                     </div>
                   )}
@@ -289,6 +323,7 @@ Map.propTypes = {
   fullscreenEnabled: PropTypes.bool.isRequired,
   doneLoading: PropTypes.bool.isRequired,
   postcodeInputValue: PropTypes.string.isRequired,
+  speeds: PropTypes.arrayOf(propTypeSpeed),
 
   // Action dispatchers from Redux
   updateViewport: PropTypes.func.isRequired,
@@ -312,6 +347,7 @@ Map.propTypes = {
 Map.defaultProps = {
   activeGeography: [],
   postcodeInputValue: '',
+  speeds: [],
 };
 
 export default connect(state => state, actions)(Map);
