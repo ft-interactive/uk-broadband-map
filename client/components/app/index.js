@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import Histogram from './histogram';
 import ImageGrid from './image-grid';
 import Map from './map';
+import Key from './key';
 import { propTypeSpeed } from '../../helpers/proptypes';
 import './styles.scss';
 
@@ -38,9 +39,19 @@ const App = ({ speeds }) => (
           );
         case '<!-- Image grid 1 -->':
           return (
-            <ImageGrid images={imageGrid1Images} key={`image-grid__${id}`}>
-              {({ alt, ...props }) => <img alt={alt} {...props} />}
-            </ImageGrid>
+            <Fragment key={`image-grid__${id}`}>
+              <div className="o-grid-container">
+                <div className="o-grid-row">
+                  <div data-o-grid-colspan="12 S11 Scenter M9 L8 XL7">
+                    <Key width={500} height={25} />
+                  </div>
+                </div>
+              </div>
+
+              <ImageGrid images={imageGrid1Images}>
+                {({ alt, ...props }) => <img alt={alt} {...props} />}
+              </ImageGrid>
+            </Fragment>
           );
         case '<!-- Image grid 2 -->':
           return (
