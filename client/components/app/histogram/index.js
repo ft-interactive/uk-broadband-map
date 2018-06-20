@@ -216,6 +216,7 @@ export default class Histogram extends React.Component {
       '#ff8d67', //  50
       '#ffb67f', //  60
       '#ffdca2', //  70
+      '#ffffcc', //  80
       '#ffffcc', //  90
       '#ffffcc', // 100
     ];
