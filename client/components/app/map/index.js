@@ -200,8 +200,6 @@ class Map extends Component {
       ? this.props.speeds.find(d => d.megabit > this.props.activeGeography['Average_download_speed_(Mbit/s)'])
       : null; // prettier-ignore
 
-    console.log(viewport.zoom);
-
     return (
       <Fragment>
         <div className="o-grid-container">
