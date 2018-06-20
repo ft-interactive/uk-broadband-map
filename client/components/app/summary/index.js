@@ -54,9 +54,7 @@ const Summary = (props) => {
   const regionPcNumber = regionPcRound >= 50 ? regionPcRound : 100 - regionPcRound;
   const regionPcText = regionPcNumber === 100 ? 'almost 100' : regionPcNumber;
   const direction = regionPc >= 50 ? 'faster' : 'slower';
-  const text = `My broadband is ${direction} than ${regionPcText}% of postcodes in ${
-    region.phrasing
-  }.`;
+  const text = `At ${Math.round(yourSpeed)} Mbit/s, the average broadband for my area is ${direction} than ${regionPcText}% of postcodes in ${region.phrasing}.`; // prettier-ignore
   const message = `${text} Check how yours compares on the @FT's map: https://ig.ft.com/gb-broadband-speed-map`;
   const tweet = () => window.open(`https://twitter.com/intent/tweet?text=${encodeURI(message)}`);
   return (
