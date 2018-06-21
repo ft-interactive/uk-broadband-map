@@ -37,11 +37,11 @@ class GeographyLookup extends PureComponent {
         }`}
         onSubmit={this.handleSubmit}
       >
-        <label htmlFor="locate-user__text">Go to a postcode</label>
+        <label htmlFor="locate-user__text">Zoom to a postcode</label>
         <div className="locate-user__affix-wrapper">
           <input
             type="text"
-            placeholder="Enter your postcode…"
+            placeholder="Enter your postcode"
             onChange={e => this.props.onChange(e.target.value)}
             value={this.props.value}
             id="geography"

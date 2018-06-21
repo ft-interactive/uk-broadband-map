@@ -9,14 +9,14 @@ import './styles.scss';
 
 const LocationsDropdown = ({ presets, selectedPreset, choosePreset }) => (
   <div className="locate-user-presets">
-    <label htmlFor="locate-user-presets__select">Go to a predefined area of interest</label>
+    <label htmlFor="locate-user-presets__select">Zoom to a predefined area of interest</label>
     <select
       className="locate-user-presets__select"
       name="locate-user-presets__select"
       value={selectedPreset}
       onChange={e => choosePreset(presets.find(d => d.id === e.target.value))}
     >
-      <option value-="">Select preset view</option>
+      <option value-="">Select a preset view</option>
       {presets.map(location => (
         <option key={location.id} value={location.id}>
           {location.label}

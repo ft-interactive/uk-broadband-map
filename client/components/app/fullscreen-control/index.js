@@ -35,9 +35,7 @@ class FullscreenControl extends PureComponent {
     }
   };
 
-  handleClick = (event) => {
-    event.preventDefault();
-
+  handleClick = () => {
     const { targetElement } = this.props;
 
     if (fscreen.fullscreenElement === null) {
@@ -47,13 +45,20 @@ class FullscreenControl extends PureComponent {
     }
   };
 
-  handleClickNoAPI = (event) => {
-    event.preventDefault();
+  scrollTop = 0;
 
+  handleClickNoAPI = () => {
     const { targetElement, onFullscreenChange, onResize, fullscreenStatus } = this.props;
 
-    targetElement.classList.toggle('faux-fullscreen');
-    document.body.classList.toggle('faux-fullscreen-body');
+    if (!document.documentElement.classList.contains('faux-fullscreen')) {
+      this.scrollTop = document.body.scrollTop;
+    }
+
+    document.documentElement.classList.toggle('faux-fullscreen');
+    document.body.classList.toggle('faux-fullscreen');
+    targetElement.classList.toggle('faux-fullscreen-map');
+
+    window.scrollTo({ top: this.scrollTop, behaviour: 'instant' });
 
     onResize();
 

@@ -178,6 +178,12 @@ class Map extends Component {
       <Fragment>
         <div className="o-grid-container">
           <div className="o-grid-row">
+            <div data-o-grid-colspan="12 S11 Scenter M9 L8 XL7">
+              <h2>Compare your broadband speed to your region and the rest of Britain</h2>
+            </div>
+          </div>
+
+          <div className="o-grid-row">
             <div className="locate-user" data-o-grid-colspan="12 S11 Scenter M11 L10 XL9">
               <GeographyLookup
                 goToViewport={this.goToViewport}

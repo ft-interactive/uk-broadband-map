@@ -1,4 +1,7 @@
 // starter-kit dark theme
+$o-typography-is-silent: false;
+
+@import 'o-colors/main';
 @import 'o-typography/main';
 
 .dark {
@@ -28,7 +31,6 @@
     }
 
     .o-typography-standfirst {
-      @include oTypographySans($scale: 2, $line-height: 24px);
       color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 73);
 
       a {
@@ -77,33 +79,6 @@
 
       &::before {
         color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 73) !important;
-      }
-
-      &.o-share__action {
-        width: 28px;
-        height: 28px;
-        margin: 0;
-
-        .o-share__icon {
-          width: 28px;
-          height: 28px;
-
-          &::before {
-            width: 28px;
-            height: 28px;
-          }
-
-          &::after {
-            width: 38px;
-            height: 38px;
-            // top: -3px;
-            // left: -4px;
-          }
-        }
-      }
-
-      + li.o-share__action {
-        border-left: 0;
       }
     }
   }

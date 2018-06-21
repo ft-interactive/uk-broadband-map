@@ -2,32 +2,46 @@ $o-buttons-is-silent: false;
 
 @import 'o-grid/main';
 @import 'o-buttons/main';
+@import 'o-typography/main';
 
 $font-sans: MetricWeb, sans-serif;
 $font-serif: FinancierDisplayWeb, serif;
 
 .app {
-  margin-bottom: 18px;
-
   h2 {
-    margin: 40px 0 66px 0;
-    color: white;
-    font-family: $font-serif;
-    font-size: 32px;
+    @include oTypographyDisplay($scale: 4);
     font-weight: normal;
-    line-height: 1.18em;
 
-    @include oGridRespondTo($until: M) {
-      margin: 0 0 28px 0;
-      font-size: 28px;
-      line-height: 32px;
+    @include oGridRespondTo(S) {
+      @include oTypographyDisplay($scale: 5);
+      text-align: center;
     }
   }
 
   .histogram-national {
     margin-bottom: 56px;
+
     @include oGridRespondTo($until: M) {
       margin-bottom: 24px;
+    }
+  }
+
+  .methodology {
+    border-top: 1px solid rgba(255, 255, 255, 0.4);
+    padding-top: 48px;
+
+    h3 {
+      @include oTypographySans($scale: 2);
+      font-weight: 600;
+    }
+
+    p:not(.copyright) {
+      @include oTypographySans($scale: 1, $line-height: 28px);
+    }
+
+    .copyright {
+      @include oTypographySans($line-height: 24px);
+      font-size: 15px;
     }
   }
 }

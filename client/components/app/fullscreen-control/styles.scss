@@ -4,7 +4,7 @@
   margin: 0 !important;
 }
 
-.faux-fullscreen {
+.faux-fullscreen-map {
   position: fixed !important;
   top: 0;
   left: 0;
@@ -16,8 +16,9 @@
   margin: 0 !important;
 }
 
-.faux-fullscreen-body {
+.faux-fullscreen {
   overflow: hidden;
+  height: 100%;
 }
 
 .fullscreen-control {
