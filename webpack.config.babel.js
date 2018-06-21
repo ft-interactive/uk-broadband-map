@@ -87,7 +87,7 @@ module.exports = async (env = 'development') => ({
           {
             loader: 'html-loader',
             options: {
-              attrs: ['img:src', 'link:href'],
+              attrs: ['link:href'],
               root: resolve(__dirname, 'client'),
             },
           },

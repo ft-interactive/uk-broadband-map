@@ -17,8 +17,8 @@ export default (environment = 'development') => ({ // eslint-disable-line
   summary: 'The wide variation in British consumers’ access to broadband is more complicated than an urban-rural divide',
 
   topic: {
-    name: 'Telecoms',
-    url: 'https://www.ft.com/companies/telecoms',
+    name: 'UK Broadband',
+    url: 'https://www.ft.com/stream/909907e7-99f8-4cda-9a10-add72bdd2a23',
   },
 
   relatedArticle: {
