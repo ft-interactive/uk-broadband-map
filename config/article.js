@@ -1,30 +1,29 @@
 export default (environment = 'development') => ({ // eslint-disable-line
 
   // link file UUID
-  id: '',
+  id: '0c140ac4-6d64-11e8-92d3-6c13e5c92914',
 
   // canonical URL of the published page
   //  get filled in by the ./configure script
-  url: '',
+  url: 'https://ig.ft.com/gb-broadband-speed-map/',
 
   // To set an exact publish date do this:
   //       new Date('2016-05-17T17:11:22Z')
   publishedDate: new Date(),
 
-  headline: 'UK broadband heading lorem ipsum dolor sit amet, consectetur adipisicing elit',
+  headline: 'Broadband speed map: High-speed internet infrastructure patchy in Britain’s cities',
 
   // summary === standfirst (Summary is what the content API calls it)
-  summary: 'Political language is designed to make lies sound truthful ' +
-           'and murder respectable, and to give an appearance of solidity to pure wind',
+  summary: 'The wide variation in British consumers’ access to broadband is more complicated than an urban-rural divide',
 
   topic: {
-    name: 'Starter Kit',
-    url: '/foo',
+    name: 'Telecoms',
+    url: 'https://www.ft.com/companies/telecoms',
   },
 
   relatedArticle: {
-    text: 'Related article',
-    url: 'https://en.wikipedia.org/wiki/Politics_and_the_English_Language',
+    text: '',
+    url: '',
   },
 
   mainImage: {
@@ -33,7 +32,7 @@ export default (environment = 'development') => ({ // eslint-disable-line
     credit: '',
 
     // You can provide a UUID to an image and it was populate everything else
-    uuid: '',
+    uuid: '1a788bcc-709c-11e8-852d-d8b934ff5ffa',
 
     // You can also provide a URL
     // url: 'https://image.webservices.ft.com/v1/images/raw/http%3A%2F%2Fcom.ft.imagepublish.prod.s3.amazonaws.com%2Fc4bf0be4-7c15-11e4-a7b8-00144feabdc0?source=ig&fit=scale-down&width=700',
@@ -48,15 +47,16 @@ export default (environment = 'development') => ({ // eslint-disable-line
   igByline: [
     { name: 'Alan Smith', url: 'https://www.ft.com/alan-smith' },
     { name: 'David Blood', url: 'https://www.ft.com/david-blood' },
-    { name: 'Ændrew Rininsland', url: 'https://www.ft.com/%C3%A6ndrew-rininsland' },
     { name: 'Max Harlow', url: 'https://www.ft.com/max-harlow' },
+    { name: 'Caroline Nevitt', url: 'https://www.ft.com/caroline-nevitt' },
+    { name: 'Ændrew Rininsland', url: 'https://www.ft.com/%C3%A6ndrew-rininsland' },
   ],
 
   // Appears in the HTML <title>
-  title: '',
+  title: 'British broadband speed map',
 
   // meta data
-  description: '',
+  description: 'How is your area affected by Britain’s struggle to roll out high-speed internet infrastructure?',
 
   /*
   TODO: Select Twitter card type -
@@ -65,36 +65,36 @@ export default (environment = 'development') => ({ // eslint-disable-line
         Twitter card docs:
         https://dev.twitter.com/cards/markup
   */
-  twitterCard: 'summary',
+  twitterCard: 'summary_large_image',
 
   /*
   TODO: Do you want to tweak any of the
         optional social meta data?
   */
   // General social
-  // socialImage: '',
-  // socialHeadline: '',
-  // socialDescription: '',
-  // twitterCreator: '@author's_account', // shows up in summary_large_image cards
+  socialImage: '',
+  socialHeadline: '',
+  socialDescription: 'Britain’s broadband speed divide: How does your postcode compare?',
+  twitterCreator: '@ftdata', // shows up in summary_large_image cards
 
   // TWEET BUTTON CUSTOM TEXT
-  // tweetText: '',
+  //tweetText: 'Britain’s broadband speed divide: How does your postcode compare?',
   //
   // Twitter lists these as suggested accounts to follow after a user tweets (do not include @)
-  // twitterRelatedAccounts: ['authors_account_here', 'ftdata'],
+  twitterRelatedAccounts: ['ft', 'ftdata'],
 
   // Fill out the Facebook/Twitter metadata sections below if you want to
   // override the General social options above
 
   // TWITTER METADATA (for Twitter cards)
   // twitterImage: '',
-  // twitterHeadline: '',
-  // twitterDescription: '',
+  twitterHeadline: 'British broadband speed map',
+  twitterDescription: 'Britain’s broadband speed divide: How does your postcode compare?',
 
   // FACEBOOK
   // facebookImage: '',
   // facebookHeadline: '',
-  // facebookDescription: '',
+  facebookDescription: 'Britain’s broadband speed divide: How does your postcode compare?',
 
   // ADVERTISING
   ads: {
