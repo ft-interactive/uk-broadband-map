@@ -54,7 +54,7 @@ module.exports = async (env = 'development') => ({
         },
       },
       {
-        test: /\.(png|jpe?g|gif)$/,
+        test: /\.(png|jpe?g|gif|woff2?|ttf|otf|eot|svg)$/,
         use: [
           {
             loader: 'file-loader',
@@ -106,6 +106,7 @@ module.exports = async (env = 'development') => ({
         use: ExtractTextPlugin.extract({
           use: [
             { loader: 'css-loader', options: { sourceMap: true } },
+            { loader: 'resolve-url-loader' },
             { loader: 'postcss-loader', options: { sourceMap: true } },
             {
               loader: 'sass-loader',
