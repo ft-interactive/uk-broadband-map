@@ -12,11 +12,12 @@ import { getWidth } from '../../../helpers';
 import './styles.scss';
 
 const Key = (props) => {
-  const { layout, title, lineHeight } = props;
+  const { layout, title } = props;
+  const lineHeight = 14; // This is equal to font-size.
   const isMobile = ['default', 's', 'm'].includes(layout.toLowerCase());
-  const height = isMobile ? 50 : 25;
+  const height = isMobile ? 50 : 50;
   const padding = 5;
-  const labelHeight = isMobile ? 40 : 15;
+  const labelHeight = isMobile ? 40 : 25;
   const width = getWidth(layout) - (2 * padding); // prettier-ignore
   const colorRamp = [
     '#981626',
@@ -58,19 +59,19 @@ const Key = (props) => {
           <g className="ticks">
             {colorScale.domain().map((d, idx) => (
               <g className="tick" key={d}>
-                {idx + 1 < colorScale.domain().length && (
+                {(isMobile ? idx + 1 < colorScale.domain().length : true) && (
                   <line
                     stroke="white"
                     x1={(idx + 1) * binWidth}
                     x2={(idx + 1) * binWidth}
                     y1={0}
-                    y2={height - (labelHeight / 2) - (2 * padding) /* prettier-ignore */}
+                    y2={(height - labelHeight) + padding /* prettier-ignore */}
                   />
                 )}
                 {d.split('\n').map((line, i) => (
                   <text
                     className="label-text"
-                    x={idx * binWidth}
+                    x={isMobile ? idx * binWidth : (idx + 1) * binWidth /* prettier-ignore */}
                     y={
                       /* prettier-ignore */
                       (height - labelHeight) + padding + lineHeight + (i * lineHeight)
@@ -90,12 +91,10 @@ const Key = (props) => {
 
 Key.propTypes = {
   title: PropTypes.string,
-  lineHeight: PropTypes.number,
   layout: PropTypes.string.isRequired,
 };
 
 Key.defaultProps = {
-  lineHeight: 14,
   title: 'Legend',
 };
 
