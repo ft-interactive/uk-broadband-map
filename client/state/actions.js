@@ -19,6 +19,12 @@ export const HIDE_LOADING_SCREEN = 'HIDE_LOADING_SCREEN';
 export const CLEAR_SELECTED_PRESET = 'CLEAR_SELECTED_PRESET';
 export const UPDATE_POSTCODE_INPUT_VALUE = 'UPDATE_POSTCODE_INPUT_VALUE';
 export const CLEAR_MARKER = 'CLEAR_MARKER';
+export const SET_OGRID_LAYOUT = 'SET_OGRID_LAYOUT';
+
+export const setOgridLayout = payload => ({
+  type: SET_OGRID_LAYOUT,
+  payload,
+});
 
 export const raisePostcodeError = err => ({
   type: RAISE_POSTCODE_ERROR,

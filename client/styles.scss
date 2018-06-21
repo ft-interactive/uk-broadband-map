@@ -6,6 +6,8 @@ $o-typography-is-silent: false;
 @import 'components/core/main';
 @import 'components/core/dark';
 
+@include oGridSurfaceLayoutSizes;
+
 .article {
   &-head {
     margin-top: 55px;
@@ -51,39 +53,39 @@ $o-typography-is-silent: false;
       padding-bottom: 100%;
 
       &.one {
-        background-image: url("http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8472845076-vz5g2.png");
+        background-image: url('http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8472845076-vz5g2.png');
       }
 
       &.two {
-        background-image: url("http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8472845076-vz5g2.png");
+        background-image: url('http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8472845076-vz5g2.png');
       }
 
       &.three {
-        background-image: url("http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8472845076-vz5g2.png");
+        background-image: url('http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8472845076-vz5g2.png');
       }
 
       &.four {
-        background-image: url("http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8472845076-vz5g2.png");
+        background-image: url('http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8472845076-vz5g2.png');
       }
 
       &.five {
-        background-image: url("http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8472845076-vz5g2.png");
+        background-image: url('http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8472845076-vz5g2.png');
       }
 
       &.six {
-        background-image: url("http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8472845076-vz5g2.png");
+        background-image: url('http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8472845076-vz5g2.png');
       }
 
       &.seven {
-        background-image: url("http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8472845076-vz5g2.png");
+        background-image: url('http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8472845076-vz5g2.png');
       }
 
       &.eight {
-        background-image: url("http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8472845076-vz5g2.png");
+        background-image: url('http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8472845076-vz5g2.png');
       }
 
       &.nine {
-        background-image: url("http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8472845076-vz5g2.png");
+        background-image: url('http://ft-ig-images-prod.s3-website-eu-west-1.amazonaws.com/v1/8472845076-vz5g2.png');
       }
     }
   }

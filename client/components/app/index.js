@@ -43,7 +43,7 @@ const App = ({ speeds }) => (
               <div className="o-grid-container">
                 <div className="o-grid-row">
                   <div data-o-grid-colspan="12 S11 Scenter M9 L8 XL7">
-                    <Key width={500} height={25} />
+                    <Key />
                   </div>
                 </div>
               </div>

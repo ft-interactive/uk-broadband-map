@@ -16,4 +16,19 @@ export const isOutsideTheUK = ({ coords }) => {
   );
 };
 
+export const getWidth = (layout) => {
+  switch (layout) {
+    case 'XL':
+      return 680;
+    case 'L':
+      return 620;
+    case 'M':
+      return 520;
+    case 'S':
+    case 'default':
+    default:
+      return 430;
+  }
+};
+
 export default '';
