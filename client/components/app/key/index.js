@@ -76,6 +76,7 @@ const Key = (props) => {
                       /* prettier-ignore */
                       (height - labelHeight) + padding + lineHeight + (i * lineHeight)
                     }
+                    key={line.replace('\n', '-')}
                   >
                     {line}
                   </text>
