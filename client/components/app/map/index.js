@@ -41,7 +41,7 @@ class Map extends Component {
   componentDidUpdate(oldProps) {
     const { longitude, latitude } = this.props.activeGeography;
     const { longitude: oldLong, latitude: oldLat } = oldProps.activeGeography;
-    const zoom = 11;
+    const zoom = 12;
     this.bins = this.props.speeds.filter(d => d.megabit <= 150);
 
     if (longitude !== oldLong && latitude !== oldLat) {
@@ -138,7 +138,6 @@ class Map extends Component {
     latitude = this.props.viewport.latitude,
     zoom,
   }) => {
-    const { zoom: currentZoom } = this.props.viewport;
     const transitionDuration = INITIAL_STATE.viewport.transitionDuration;
 
     console.log(`Transition duration: ${transitionDuration}`);
