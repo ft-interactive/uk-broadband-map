@@ -13,7 +13,6 @@ import mapboxgl from 'mapbox-gl';
 import { Icon } from 'react-icons-kit';
 import { meter2 } from 'react-icons-kit/icomoon/meter2';
 import { easeCubic } from 'd3-ease';
-import { interpolateRgbBasis } from 'd3-interpolate';
 import BoundedGeolocateControl from '../bounded-geolocate';
 import HistogramContainer from '../histogram-container';
 import GeographyLookup from '../geography-lookup';
@@ -156,22 +155,6 @@ class Map extends Component {
     });
   };
 
-  bins = [];
-  colourRamp = [
-    '#981626', //   0
-    '#981626', //  10
-    '#c41439', //  20
-    '#ef1757', //  30
-    '#ff5a5f', //  40
-    '#ff8d67', //  50
-    '#ffb67f', //  60
-    '#ffdca2', //  70
-    '#ffffcc', //  80
-    '#ffffcc', //  90
-    '#ffffcc', // 100
-  ];
-  colour = value => interpolateRgbBasis(this.colourRamp)(value / this.bins.length);
-
   render() {
     const {
       // State
@@ -195,9 +178,6 @@ class Map extends Component {
       updatePostcodeInputValue,
       postcodeInputValue,
     } = this.props;
-    const result = this.props.activeGeography && Object.keys(this.props.activeGeography).length > 0
-      ? this.props.speeds.find(d => d.megabit > this.props.activeGeography['Average_download_speed_(Mbit/s)'])
-      : null; // prettier-ignore
 
     return (
       <Fragment>
@@ -260,7 +240,7 @@ class Map extends Component {
                     !transitionInProgress && (
                     <div
                       style={{
-                        color: `${result ? this.colour(result.megabit - 2) : '#c0c3c9'}`,
+                        color: '#ffffff',
                         stroke: '#1a1d23',
                         strokeWidth: '0.4px',
                       }}
