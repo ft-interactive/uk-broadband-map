@@ -36,7 +36,7 @@ export default class Histogram extends React.Component {
     const width = D3.select(this.node.current)
       .node()
       .getBoundingClientRect().width;
-    const multiplier = width * (width < breakpoint ? 1.05 : 0.6);
+    const multiplier = width * (width < breakpoint ? 1.05 : 0.7);
     const height = this.props.geography
       ? multiplier
       : multiplier - (multiplier / 5); // prettier-ignore
