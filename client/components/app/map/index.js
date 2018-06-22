@@ -142,8 +142,7 @@ class Map extends Component {
     zoom,
   }) => {
     const { zoom: currentZoom } = this.props.viewport;
-    const transitionDuration =
-      Math.abs((zoom - currentZoom) * 500) || INITIAL_STATE.viewport.transitionDuration;
+    const transitionDuration = INITIAL_STATE.viewport.transitionDuration;
 
     console.log(`Transition duration: ${transitionDuration}`);
 

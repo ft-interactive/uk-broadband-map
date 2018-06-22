@@ -36,7 +36,7 @@ export const INITIAL_STATE = {
     zoom: 0,
     maxZoom: 12,
     minZoom: 0,
-    transitionDuration: 5000,
+    transitionDuration: 3000,
     transitionInterpolator: new FlyToInterpolator(),
     transitionEasing: easeCubic,
   },
