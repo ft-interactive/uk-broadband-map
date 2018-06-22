@@ -57,6 +57,11 @@ class Map extends Component {
     const [bottomRight, topLeft] = this.props.ukBounds;
     const [minLon, minLat] = bottomRight;
     const [maxLon, maxLat] = topLeft;
+    const { zoom, maxZoom, minZoom } = viewport;
+    const zoomInButton = document.getElementsByClassName('mapboxgl-ctrl-zoom-in')[0];
+    const zoomOutButton = document.getElementsByClassName('mapboxgl-ctrl-zoom-out')[0];
+    const disableZoomIn = zoom >= maxZoom;
+    const disableZoomOut = zoom <= minZoom;
 
     /* eslint-disable no-param-reassign */
     if (viewport.longitude > maxLon) {
@@ -72,6 +77,9 @@ class Map extends Component {
       viewport.latitude = minLat;
     }
     /* eslint-enable */
+
+    zoomInButton.disabled = disableZoomIn;
+    zoomOutButton.disabled = disableZoomOut;
 
     this.props.updateViewport({ ...this.props.viewport, ...viewport });
   };
