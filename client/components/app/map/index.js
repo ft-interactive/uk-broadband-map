@@ -6,12 +6,10 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import ReactMapGL, { FlyToInterpolator, NavigationControl, Marker } from 'react-map-gl';
+import ReactMapGL, { FlyToInterpolator, NavigationControl } from 'react-map-gl';
 import WebMercatorViewport from 'viewport-mercator-project';
 import { throttle } from 'lodash';
 import mapboxgl from 'mapbox-gl';
-import { Icon } from 'react-icons-kit';
-import { meter2 } from 'react-icons-kit/icomoon/meter2';
 import { easeCubic } from 'd3-ease';
 import BoundedGeolocateControl from '../bounded-geolocate';
 import HistogramContainer from '../histogram-container';
@@ -158,12 +156,10 @@ class Map extends Component {
   render() {
     const {
       // State
-      activeGeography,
       geolocatingInProgress,
       mapLoaded,
       viewport,
       selectedPreset,
-      transitionInProgress,
       postcodeError,
       fullscreenEnabled,
       // dragEnabled,
@@ -173,7 +169,6 @@ class Map extends Component {
       getUserLocation,
       raisePostcodeError,
       choosePreset,
-      setTransitionStatus,
       setFullscreenStatus,
       updatePostcodeInputValue,
       postcodeInputValue,
@@ -227,34 +222,14 @@ class Map extends Component {
                   doubleClickZoom
                   touchZoom
                   touchRotate={false}
-                  onTransitionStart={() => {
-                    setTransitionStatus(true);
-                  }}
-                  onTransitionEnd={() => {
-                    setTransitionStatus(false);
-                  }}
+                  // onTransitionStart={() => {
+                  //   setTransitionStatus(true);
+                  // }}
+                  // onTransitionEnd={() => {
+                  //   setTransitionStatus(false);
+                  // }}
                   ref={this.map}
                 >
-                  {activeGeography.latitude &&
-                    activeGeography.longitude &&
-                    !transitionInProgress && (
-                    <div
-                      style={{
-                        color: '#ffffff',
-                        stroke: '#1a1d23',
-                        strokeWidth: '0.4px',
-                      }}
-                    >
-                      <Marker
-                        latitude={activeGeography.latitude}
-                        longitude={activeGeography.longitude}
-                        offsetTop={-20}
-                        offsetLeft={-20}
-                      >
-                        <Icon icon={meter2} size={40} />
-                      </Marker>
-                    </div>
-                  )}
                   <div className="navigation-control-container">
                     <NavigationControl
                       onViewportChange={({ maxZoom, minZoom, ...rest }) =>
