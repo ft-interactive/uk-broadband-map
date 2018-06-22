@@ -23,6 +23,7 @@ import {
   CLEAR_SELECTED_PRESET,
   UPDATE_POSTCODE_INPUT_VALUE,
   CLEAR_MARKER,
+  SET_OGRID_LAYOUT,
 } from './actions';
 
 export const UK_BOUNDS = [[-8.655, 49.9], [1.79, 60.85000000000001]];
@@ -54,6 +55,7 @@ export const INITIAL_STATE = {
   selectedPreset: '',
   controlsHidden: false,
   fullscreenEnabled: false,
+  oGridLayout: 'default',
 };
 
 export default (state = INITIAL_STATE, { type, payload }) => {
@@ -171,6 +173,12 @@ export default (state = INITIAL_STATE, { type, payload }) => {
           latitude: undefined,
           longitude: undefined,
         },
+      };
+
+    case SET_OGRID_LAYOUT:
+      return {
+        ...state,
+        oGridLayout: payload,
       };
 
     default:

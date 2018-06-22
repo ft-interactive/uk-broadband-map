@@ -10,7 +10,7 @@ import './styles.scss';
 
 const ImageGrid = ({ children, images, caption }) => (
   <Fragment>
-    <div data-o-grid-colspan="hide M12">
+    <div data-o-grid-colspan="hide L12">
       <section className="image-grid">{images.map(image => children(image))}</section>
       {caption && (
         <figcaption>
@@ -19,7 +19,7 @@ const ImageGrid = ({ children, images, caption }) => (
         </figcaption>
       )}
     </div>
-    <div className="image-grid-carousel" data-o-grid-colspan="12 Mhide center">
+    <div className="image-grid-carousel" data-o-grid-colspan="12 Lhide center">
       <Carousel
         infinite
         fade

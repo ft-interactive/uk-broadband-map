@@ -2,6 +2,12 @@
 @import '~slick-carousel/slick/slick.scss';
 @import '~slick-carousel/slick/slick-theme.scss';
 
+.slow-cities {
+  [data-o-grid-colspan] [data-o-grid-colspan] {
+    padding-left: 0 !important; // shakes fist at o-grid
+  }
+}
+
 .image-grid {
   & > * {
     width: 100%;
@@ -9,19 +15,11 @@
   }
 
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   grid-gap: 5px;
 
-  @include oGridRespondTo($from: S) {
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  }
-
-  @include oGridRespondTo($from: L, $until: XL) {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    grid-gap: 10px;
-  }
-
-  @include oGridRespondTo(XL) {
+  @include oGridRespondTo($from: L) {
+    grid-template-columns: repeat(3, 1fr);
     grid-gap: 10px;
   }
 
