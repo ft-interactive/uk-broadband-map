@@ -32,7 +32,7 @@ export default class Histogram extends React.Component {
     D3.select(this.node.current)
       .selectAll('*')
       .remove();
-    const breakpoint = 735;
+    const breakpoint = 725;
     const width = D3.select(this.node.current)
       .node()
       .getBoundingClientRect().width;
@@ -400,12 +400,12 @@ export default class Histogram extends React.Component {
         });
       const labels = [
         {
-          label: 'Knightsbridge', // SW7 1BX
+          label: 'Knightsbridge, SW7 1BX',
           target: bins[4],
           offset: 4.75,
         },
         {
-          label: 'Rural Shropshire', // TF11 8AE
+          label: 'Rural Shropshire, TF11 8AE',
           target: bins[31],
           offset: 2.5,
         },
