@@ -221,6 +221,7 @@ class Map extends Component {
                   doubleClickZoom
                   touchZoom
                   touchRotate={false}
+                  touchAction="pan-y"
                   // onTransitionStart={() => {
                   //   setTransitionStatus(true);
                   // }}
