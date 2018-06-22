@@ -39,6 +39,10 @@ $font-serif: FinancierDisplayWeb, serif;
       @include oTypographySans($scale: 1, $line-height: 28px);
     }
 
+    li:not(.copyright) {
+      @include oTypographySans($scale: 1, $line-height: 28px);
+    }
+
     .copyright {
       @include oTypographySans($line-height: 24px);
       font-size: 15px;

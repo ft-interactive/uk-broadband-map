@@ -3,20 +3,38 @@
  * Function-as-child component to render a series of URLs as images in a grid
  */
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import Carousel from 'react-slick';
 import './styles.scss';
 
 const ImageGrid = ({ children, images, caption }) => (
-  <div data-o-grid-colspan="12">
-    <section className="image-grid">{images.map(image => children(image))}</section>
-    {caption && (
-      <figcaption>
-        FT graphic: {caption.names.join(', ')}&nbsp; Source: {caption.source}
-        <br />&copy; FT
-      </figcaption>
-    )}
-  </div>
+  <Fragment>
+    <div data-o-grid-colspan="hide M12">
+      <section className="image-grid">{images.map(image => children(image))}</section>
+      {caption && (
+        <figcaption>
+          FT graphic: {caption.names.join(', ')}&nbsp; Source: {caption.source}
+          <br />&copy; FT
+        </figcaption>
+      )}
+    </div>
+    <div className="image-grid-carousel" data-o-grid-colspan="12 Mhide center">
+      <Carousel
+        infinite
+        fade
+        autoplay
+        dots={false}
+        arrows={false}
+        speed={900}
+        slidesToShow={1}
+        cssEase="cubic-bezier(0.7, 0, 0.3, 1)"
+        touchThreshold={100}
+      >
+        {images.map(image => children(image))}
+      </Carousel>
+    </div>
+  </Fragment>
 );
 
 ImageGrid.propTypes = {
