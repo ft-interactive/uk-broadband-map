@@ -6,6 +6,8 @@ $o-typography-is-silent: false;
 @import 'components/core/main';
 @import 'components/core/dark';
 
+@include oGridSurfaceLayoutSizes;
+
 .article {
   &-head {
     margin-top: 40px;
@@ -86,6 +88,10 @@ $o-typography-is-silent: false;
       .byline {
         text-align: left;
       }
+    }
+
+    @include oGridRespondTo(L) {
+      text-align: center;
     }
   }
 }
