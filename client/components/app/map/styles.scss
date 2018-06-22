@@ -28,6 +28,10 @@ $font-sans: MetricWeb, sans-serif;
         height: 600px;
       }
 
+      @include oGridRespondTo(XL) {
+        margin: 0 30px 0 0;
+      }
+
       .mapboxgl-control-container {
         .mapboxgl-ctrl-attrib {
           background-color: rgba(38, 42, 51, 0.8);
