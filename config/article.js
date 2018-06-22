@@ -42,15 +42,16 @@ export default (environment = 'development') => ({ // eslint-disable-line
   // Byline can by a plain string, markdown, or array of authors
   // if array of authors, url is optional
   byline: [
-    { name: 'Nic Fildes', url: 'https://www.ft.com/nic-fildes' },
-  ],
-
-  igByline: [
     { name: 'Alan Smith', url: 'https://www.ft.com/alan-smith' },
+    { name: 'Nic Fildes', url: 'https://www.ft.com/nic-fildes' },
     { name: 'David Blood', url: 'https://www.ft.com/david-blood' },
     { name: 'Ændrew Rininsland', url: 'https://www.ft.com/%C3%A6ndrew-rininsland' },
     { name: 'Max Harlow', url: 'https://www.ft.com/max-harlow' },
   ],
+
+  // igByline: [
+  //   { name: 'Author One', url: '/foo/bar' },
+  // ],
 
   // Appears in the HTML <title>
   title: '',
