@@ -11,7 +11,7 @@ export default (environment = 'development') => ({ // eslint-disable-line
   //       new Date('2016-05-17T17:11:22Z')
   publishedDate: new Date(),
 
-  headline: 'Broadband speed map: High-speed internet infrastructure patchy in Britain’s cities',
+  headline: 'Broadband speed map: high-speed internet infrastructure patchy in Britain’s cities',
 
   // summary === standfirst (Summary is what the content API calls it)
   summary: 'The wide variation in British consumers’ access to broadband is more complicated than an urban-rural divide',
