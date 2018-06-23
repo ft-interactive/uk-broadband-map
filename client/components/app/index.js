@@ -43,10 +43,11 @@ const App = ({ speeds }) => (
               <div className="o-grid-row">
                 <div data-o-grid-colspan="12 S11 center M9 L8 XL7">
                   <Key />
-                  <ImageGrid images={imageGrid1Images}>
-                    {({ alt, ...props }) => <img alt={alt} {...props} />}
-                  </ImageGrid>
                 </div>
+
+                <ImageGrid images={imageGrid1Images}>
+                  {({ alt, ...props }) => <img alt={alt} {...props} />}
+                </ImageGrid>
               </div>
             </div>
           );
