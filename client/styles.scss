@@ -22,13 +22,7 @@ $o-typography-is-silent: false;
 
       .o-typography-topic {
         margin-bottom: 20px;
-
-        &:after {
-          content: '';
-          display: block;
-          height: 4px;
-          background: linear-gradient(to right, #981626, #c41439, #ef1757, #ff5a5f, #ff8d67, #ffb67f, #ffdca2, #ffffcc);
-        }
+        border-bottom: 4px solid #ffffff;
       }
 
       .o-typography-headline {
