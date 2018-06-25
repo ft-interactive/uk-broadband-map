@@ -69,9 +69,11 @@
       {% include "includes/onwardjourney.html" %}
     {% endif %}
 
-    {% if flags.comments %}
-      {% include "includes/comments.html" %}
-    {% endif %}
+    <div class="override-bg">
+      {% if flags.comments %}
+        {% include "includes/comments.html" %}
+      {% endif %}
+    </div>
 
     {% if flags.footer %}
       {% include "includes/footer.html" %}

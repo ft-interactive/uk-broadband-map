@@ -3,6 +3,7 @@ $o-buttons-is-silent: false;
 @import 'o-grid/main';
 @import 'o-buttons/main';
 @import 'o-typography/main';
+@import 'o-colors/main';
 
 $font-sans: MetricWeb, sans-serif;
 $font-serif: FinancierDisplayWeb, serif;
@@ -45,4 +46,8 @@ $font-serif: FinancierDisplayWeb, serif;
       font-size: 15px;
     }
   }
+}
+
+.override-bg {
+  background-color: oColorsGetPaletteColor('paper');
 }
