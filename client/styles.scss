@@ -13,7 +13,7 @@ $o-typography-is-silent: false;
     margin-top: 40px;
     text-align: center;
 
-    @include oGridRespondTo(S) {
+    @include oGridRespondTo(M) {
       margin-top: 56px;
     }
 
@@ -22,13 +22,23 @@ $o-typography-is-silent: false;
 
       .o-typography-topic {
         margin-bottom: 20px;
-        border-bottom: 4px solid #ffffff;
+
+        &:after {
+          content: '';
+          display: block;
+          height: 4px;
+          background: linear-gradient(to right, #981626, #c41439, #ef1757, #ff5a5f, #ff8d67, #ffb67f, #ffdca2, #ffffcc);
+        }
       }
 
       .o-typography-headline {
         @include oTypographyDisplay($scale: 5);
 
-        @include oGridRespondTo(S) {
+        @include oGridRespondTo(M) {
+          @include oTypographyDisplay($scale: 6);
+        }
+
+        @include oGridRespondTo(XL) {
           @include oTypographyDisplay($scale: 8);
         }
       }
@@ -38,10 +48,20 @@ $o-typography-is-silent: false;
       }
 
       .article__share {
+        margin-bottom: 48px;
+
+        @include oGridRespondTo(M) {
+          margin-bottom: 60px;
+        }
+
+        @include oGridRespondTo(XL) {
+          margin-bottom: 56px;
+        }
+
         .o-share__action {
           margin: 0;
 
-          @include oGridRespondTo(S) {
+          @include oGridRespondTo(XL) {
             width: 28px;
             height: 28px;
 

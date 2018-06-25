@@ -11,13 +11,13 @@ export default (environment = 'development') => ({ // eslint-disable-line
   //       new Date('2016-05-17T17:11:22Z')
   publishedDate: new Date(),
 
-  headline: 'Broadband speed map: High-speed internet infrastructure patchy in Britain’s cities',
+  headline: 'Broadband speed map: high-speed internet infrastructure patchy in Britain’s cities',
 
   // summary === standfirst (Summary is what the content API calls it)
   summary: 'The wide variation in British consumers’ access to broadband is more complicated than an urban-rural divide',
 
   topic: {
-    name: 'UK Broadband',
+    name: 'UK broadband',
     url: 'https://www.ft.com/stream/909907e7-99f8-4cda-9a10-add72bdd2a23',
   },
 
@@ -41,16 +41,17 @@ export default (environment = 'development') => ({ // eslint-disable-line
   // Byline can by a plain string, markdown, or array of authors
   // if array of authors, url is optional
   byline: [
-    { name: 'Nic Fildes', url: 'https://www.ft.com/nic-fildes' },
-  ],
-
-  igByline: [
     { name: 'Alan Smith', url: 'https://www.ft.com/alan-smith' },
+    { name: 'Nic Fildes', url: 'https://www.ft.com/nic-fildes' },
     { name: 'David Blood', url: 'https://www.ft.com/david-blood' },
     { name: 'Max Harlow', url: 'https://www.ft.com/max-harlow' },
     { name: 'Caroline Nevitt', url: 'https://www.ft.com/caroline-nevitt' },
     { name: 'Ændrew Rininsland', url: 'https://www.ft.com/%C3%A6ndrew-rininsland' },
   ],
+
+  // igByline: [
+  //   { name: 'Author One', url: '/foo/bar' },
+  // ],
 
   // Appears in the HTML <title>
   title: 'British broadband speed map',
