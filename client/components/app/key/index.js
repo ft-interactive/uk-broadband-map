@@ -15,7 +15,8 @@ const Key = (props) => {
   const { layout, title } = props;
   const lineHeight = 14; // This is equal to font-size.
   const isMobile = ['default', 's', 'm'].includes(layout.toLowerCase());
-  const height = isMobile ? 50 : 50;
+  const legendHeight = 20;
+  const height = isMobile ? 50 + legendHeight : 35 + legendHeight;
   const padding = 5;
   const labelHeight = isMobile ? 40 : 25;
   const width = getWidth(layout) - (2 * padding); // prettier-ignore
@@ -30,51 +31,84 @@ const Key = (props) => {
     '#ffffcc',
   ];
   const ticks = ['10', '20', '30', '40', '50', '60', '70'];
-  const mobileColorRamp = colorRamp.filter((d, i) => i < 4 || i === 7);
-  const mobileTicks = ['0', '10', '24\nGovernment', '30\nOfcom', '>80\nSuperfast'];
+  // const mobileTicks = ['0', '10', '24\nGovernment', '30\nOfcom', '>80\nSuperfast'];
   const colorScale = scaleThreshold()
-    .range(isMobile ? mobileColorRamp : colorRamp)
-    .domain(isMobile ? mobileTicks : ticks);
+    .range(colorRamp)
+    .domain(ticks);
   const binWidth = width / colorScale.range().length;
+  const barHeight = height - labelHeight - legendHeight;
 
   return (
     <Fragment>
-      <h4 style={{ textAlign: 'center' }}>{title}</h4>
-      <svg className="legend" height={height} width={width}>
-        <g transform={`translate(${padding}, 0)`}>
-          <g className="bins">
+      <h4 className="key__header">{title}</h4>
+      <svg className="key__legend" height={height} width={width}>
+        <defs>
+          <marker
+            id="arrow"
+            markerWidth="10"
+            markerHeight="10"
+            refX="0"
+            refY="3"
+            orient="auto"
+            markerUnits="strokeWidth"
+          >
+            <path d="M0,0 L0,6 L9,3 z" fill="#a8a9ad" />
+          </marker>
+          <linearGradient id="color-ramp-gradient">
             {colorScale
               .range()
-              .map((c, idx) => (
-                <rect
+              .map((c, idx, arr) => (
+                <stop
                   key={c}
-                  fill={c}
-                  x={idx * binWidth}
-                  y={0}
-                  width={binWidth}
-                  height={height - labelHeight}
+                  offset={`${(idx / arr.length) * 100}%` /* prettier-ignore */}
+                  style={{ stopColor: c }}
                 />
               ))}
-          </g>
+          </linearGradient>
+        </defs>
+        <g className="legend">
+          <text y="14" x={padding} fill="#a8a9ad" textAnchor="start">
+            Slow
+          </text>
+          <line
+            x1={8 * padding}
+            y1={legendHeight / 2}
+            x2={width - (8 * padding) /* prettier-ignore */}
+            y2={legendHeight / 2}
+            stroke="#a8a9ad"
+            strokeWidth="1"
+            markerEnd="url(#arrow)"
+          />
+          <text y="14" x={width} fill="#a8a9ad" textAnchor="end">
+            Fast
+          </text>
+        </g>
+        <g transform={`translate(${padding}, ${legendHeight})`}>
+          <rect
+            className="bins"
+            fill="url(#color-ramp-gradient)"
+            x={0}
+            y={0}
+            width={width}
+            height={barHeight}
+          />
           <g className="ticks">
             {colorScale.domain().map((d, idx) => (
               <g className="tick" key={d}>
-                {(isMobile ? idx + 1 < colorScale.domain().length : true) && (
-                  <line
-                    stroke="white"
-                    x1={(idx + 1) * binWidth}
-                    x2={(idx + 1) * binWidth}
-                    y1={0}
-                    y2={(height - labelHeight) + padding /* prettier-ignore */}
-                  />
-                )}
+                <line
+                  stroke="white"
+                  x1={(idx + 1) * binWidth}
+                  x2={(idx + 1) * binWidth}
+                  y1={0}
+                  y2={barHeight + padding /* prettier-ignore */}
+                />
                 {d.split('\n').map((line, i) => (
                   <text
                     className="label-text"
-                    x={isMobile ? idx * binWidth : (idx + 1) * binWidth /* prettier-ignore */}
+                    x={(idx + 1) * binWidth /* prettier-ignore */}
                     y={
                       /* prettier-ignore */
-                      (height - labelHeight) + padding + lineHeight + (i * lineHeight)
+                      barHeight + padding + lineHeight + (i * lineHeight)
                     }
                     key={line.replace('\n', '-')}
                   >
@@ -86,6 +120,7 @@ const Key = (props) => {
           </g>
         </g>
       </svg>
+      <h5 className="key__footer">MBits/s</h5>
     </Fragment>
   );
 };
@@ -96,7 +131,7 @@ Key.propTypes = {
 };
 
 Key.defaultProps = {
-  title: 'Legend',
+  title: "Britain's city centres are in the internet slow lane",
 };
 
 export default connect(({ oGridLayout }) => ({ layout: oGridLayout }))(Key);

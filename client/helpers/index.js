@@ -25,9 +25,10 @@ export const getWidth = (layout) => {
     case 'M':
       return 520;
     case 'S':
+      return 430;
     case 'default':
     default:
-      return 430;
+      return 220;
   }
 };
 
