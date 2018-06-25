@@ -164,7 +164,7 @@ export default class Histogram extends React.Component {
       .call(yAxis)
       .attr('text-anchor', 'end')
       .attr('font-family', null)
-      .attr('font-size', null);
+      .attr('font-size', null); // prettier-ignore
     yAxisElement.selectAll('line,path').remove();
     yAxisElement
       .selectAll('text')
@@ -282,8 +282,8 @@ export default class Histogram extends React.Component {
     if (this.props.geography) {
       const plotwidth = width - margin.left - margin.right; // eslint-ignore
       const line = D3.line()
-        .x(d => xScale(d.megabit - 2) + (plotwidth / bins.length / 2)) // prettier-ignore eslint-ignore
-        .y(d => yScale(d['national-rural'] + d['national-urban']));
+        .x(d => xScale(d.megabit - 2) + (plotwidth / bins.length / 2)) // eslint-ignore
+        .y(d => yScale(d['national-rural'] + d['national-urban'])); // prettier-ignore
       svg
         .append('defs')
         .append('filter')
@@ -316,17 +316,17 @@ export default class Histogram extends React.Component {
         g
           .append('line')
           .attr('x1', Number(text.attr('x')) - (spacing + 1))
-          .attr('y1', Number(text.attr('y')) - ((text.node().getBBox().height / 4) + 1)) // prettier-ignore eslint-ignore
+          .attr('y1', Number(text.attr('y')) - ((text.node().getBBox().height / 4) + 1)) // eslint-ignore
           .attr('x2', Number(text.attr('x')) - (distance + 1))
-          .attr('y2', Number(text.attr('y')) - ((text.node().getBBox().height / 4) + 1)) // prettier-ignore eslint-ignore
-          .attr('stroke', 'black');
+          .attr('y2', Number(text.attr('y')) - ((text.node().getBBox().height / 4) + 1)) // eslint-ignore
+          .attr('stroke', 'black'); // prettier-ignore
         g
           .append('line')
           .attr('x1', Number(text.attr('x')) - spacing)
-          .attr('y1', Number(text.attr('y')) - (text.node().getBBox().height / 4)) // prettier-ignore eslint-ignore
+          .attr('y1', Number(text.attr('y')) - (text.node().getBBox().height / 4)) // eslint-ignore
           .attr('x2', Number(text.attr('x')) - distance)
-          .attr('y2', Number(text.attr('y')) - (text.node().getBBox().height / 4)) // prettier-ignore eslint-ignore
-          .attr('stroke', 'white');
+          .attr('y2', Number(text.attr('y')) - (text.node().getBBox().height / 4)) // eslint-ignore
+          .attr('stroke', 'white'); // prettier-ignore
         g
           .append('text')
           .attr('x', Number(text.attr('x')) + 1)
@@ -419,14 +419,14 @@ export default class Histogram extends React.Component {
       const g = svg.append('g');
       g
         .append('rect')
-        .attr('x', text.node().getBBox().x - (padding * 2)) // prettier-ignore eslint-ignore
+        .attr('x', text.node().getBBox().x - (padding * 2)) // eslint-ignore
         .attr('y', text.node().getBBox().y - padding)
-        .attr('width', text.node().getBBox().width + (padding * 4)) // prettier-ignore eslint-ignore
-        .attr('height', text.node().getBBox().height + (padding * 2)) // prettier-ignore eslint-ignore
+        .attr('width', text.node().getBBox().width + (padding * 4)) // eslint-ignore
+        .attr('height', text.node().getBBox().height + (padding * 2)) // eslint-ignore
         .attr('fill', 'black')
         .attr('fill-opacity', 0.8)
         .attr('rx', 3)
-        .attr('ry', 3);
+        .attr('ry', 3); // prettier-ignore
       g.append(() => text.remove().node());
     };
     if (result && result.megabit <= 150) {
@@ -435,10 +435,10 @@ export default class Histogram extends React.Component {
         .datum(result)
         .attr('cx', d => xScale(d.megabit - 1))
         .attr('cy', yScale(0))
-        .attr('r', (width - margin.left - margin.right) / bins.length / (width < breakpoint ? 0.8 : 1.5)) // prettier-ignore eslint-ignore
+        .attr('r', (width - margin.left - margin.right) / bins.length / (width < breakpoint ? 0.8 : 1.5)) // eslint-ignore
         .attr('fill', 'rgba(0, 0, 0, 0.8)')
         .attr('stroke', 'white')
-        .attr('stroke-width', 2);
+        .attr('stroke-width', 2); // prettier-ignore
       svg
         .append('text')
         .attr('x', () => {
