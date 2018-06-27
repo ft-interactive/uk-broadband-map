@@ -68,7 +68,12 @@ $font-serif: FinancierDisplayWeb, serif;
 }
 
 .override-bg {
+  padding-top: 10px;
   background-color: oColorsGetPaletteColor('paper');
+
+  @include oGridRespondTo(M) {
+    padding-top: 20px;
+  }
 }
 
 .o-footer {
