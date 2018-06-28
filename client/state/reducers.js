@@ -70,6 +70,7 @@ export default (state = INITIAL_STATE, { type, payload }) => {
       const { postcode, region, ...rest } = payload;
       return {
         ...state,
+        postcodeInputValue: postcode || 'postcode unavailable',
         activeGeography: {
           postcode: postcode || 'unavailable',
           region,
