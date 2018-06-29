@@ -35,11 +35,8 @@ $font-serif: FinancierDisplayWeb, serif;
       font-weight: 600;
     }
 
-    p:not(.copyright) {
-      @include oTypographySans($scale: 1, $line-height: 28px);
-    }
-
-    li:not(.copyright) {
+    p,
+    li {
       @include oTypographySans($scale: 1, $line-height: 28px);
     }
 
@@ -48,4 +45,8 @@ $font-serif: FinancierDisplayWeb, serif;
       font-size: 15px;
     }
   }
+}
+
+.mapboxgl-ctrl-logo {
+  opacity: 0.6 !important;
 }

@@ -21,7 +21,7 @@ const App = ({ speeds }) => (
     {window.PRELOADED_COPY.map(({ id, content }) => {
       switch (content) {
         case '<!-- Postcode input, Mapbox map and dynamic histogram -->':
-          return <Map key={`map__${id}`} />;
+          return <Map key={`map__${id}`} speeds={speeds} />;
         case '<!-- Lead urban/rural histogram here -->':
           return (
             <div className="o-grid-container" key={`histogram__${id}`}>
@@ -43,10 +43,11 @@ const App = ({ speeds }) => (
               <div className="o-grid-row">
                 <div data-o-grid-colspan="12 S11 center M9 L8 XL7">
                   <Key />
-                  <ImageGrid images={imageGrid1Images}>
-                    {({ alt, ...props }) => <img alt={alt} {...props} />}
-                  </ImageGrid>
                 </div>
+
+                <ImageGrid images={imageGrid1Images}>
+                  {({ alt, ...props }) => <img alt={alt} {...props} />}
+                </ImageGrid>
               </div>
             </div>
           );

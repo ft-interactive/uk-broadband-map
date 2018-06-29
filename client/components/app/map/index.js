@@ -6,12 +6,10 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import ReactMapGL, { FlyToInterpolator, NavigationControl, Marker } from 'react-map-gl';
+import ReactMapGL, { FlyToInterpolator, NavigationControl } from 'react-map-gl';
 import WebMercatorViewport from 'viewport-mercator-project';
 import { throttle } from 'lodash';
 import mapboxgl from 'mapbox-gl';
-import { Icon } from 'react-icons-kit';
-import { location2 } from 'react-icons-kit/icomoon/location2';
 import { easeCubic } from 'd3-ease';
 import BoundedGeolocateControl from '../bounded-geolocate';
 import HistogramContainer from '../histogram-container';
@@ -19,7 +17,11 @@ import GeographyLookup from '../geography-lookup';
 import Loader from '../loader';
 import LocationsDropdown from '../locations-dropdown';
 import FullscreenControl from '../fullscreen-control';
-import { propTypeActiveGeography, propTypeViewport } from '../../../helpers/proptypes';
+import {
+  propTypeActiveGeography,
+  propTypeViewport,
+  propTypeSpeed,
+} from '../../../helpers/proptypes';
 import * as actions from '../../../state/actions';
 import { INITIAL_STATE } from '../../../state/reducers';
 import './styles.scss';
@@ -40,6 +42,7 @@ class Map extends Component {
     const { longitude, latitude } = this.props.activeGeography;
     const { longitude: oldLong, latitude: oldLat } = oldProps.activeGeography;
     const zoom = 12;
+    this.bins = this.props.speeds.filter(d => d.megabit <= 150);
 
     if (longitude !== oldLong && latitude !== oldLat) {
       this.goToViewport({ longitude, latitude, zoom });
@@ -54,6 +57,11 @@ class Map extends Component {
     const [bottomRight, topLeft] = this.props.ukBounds;
     const [minLon, minLat] = bottomRight;
     const [maxLon, maxLat] = topLeft;
+    const { zoom, maxZoom, minZoom } = viewport;
+    const zoomInButton = document.getElementsByClassName('mapboxgl-ctrl-zoom-in')[0];
+    const zoomOutButton = document.getElementsByClassName('mapboxgl-ctrl-zoom-out')[0];
+    const disableZoomIn = zoom >= maxZoom;
+    const disableZoomOut = zoom <= minZoom;
 
     /* eslint-disable no-param-reassign */
     if (viewport.longitude > maxLon) {
@@ -69,6 +77,9 @@ class Map extends Component {
       viewport.latitude = minLat;
     }
     /* eslint-enable */
+
+    zoomInButton.disabled = disableZoomIn;
+    zoomOutButton.disabled = disableZoomOut;
 
     this.props.updateViewport({ ...this.props.viewport, ...viewport });
   };
@@ -104,7 +115,7 @@ class Map extends Component {
     const map = this.map.current.getMap();
     const scale = new mapboxgl.ScaleControl();
     const geolocation = new BoundedGeolocateControl({
-      maxZoom: 12,
+      maxZoom: 11,
     });
 
     geolocation.on('error', (e) => {
@@ -135,9 +146,7 @@ class Map extends Component {
     latitude = this.props.viewport.latitude,
     zoom,
   }) => {
-    const { zoom: currentZoom } = this.props.viewport;
-    const transitionDuration =
-      Math.abs((zoom - currentZoom) * 500) || INITIAL_STATE.viewport.transitionDuration;
+    const transitionDuration = INITIAL_STATE.viewport.transitionDuration;
 
     console.log(`Transition duration: ${transitionDuration}`);
 
@@ -154,12 +163,10 @@ class Map extends Component {
   render() {
     const {
       // State
-      activeGeography,
       geolocatingInProgress,
       mapLoaded,
       viewport,
       selectedPreset,
-      transitionInProgress,
       postcodeError,
       fullscreenEnabled,
       // dragEnabled,
@@ -169,11 +176,11 @@ class Map extends Component {
       getUserLocation,
       raisePostcodeError,
       choosePreset,
-      setTransitionStatus,
       setFullscreenStatus,
       updatePostcodeInputValue,
       postcodeInputValue,
     } = this.props;
+
     return (
       <Fragment>
         <div className="o-grid-container">
@@ -222,28 +229,15 @@ class Map extends Component {
                   doubleClickZoom
                   touchZoom
                   touchRotate={false}
-                  onTransitionStart={() => {
-                    setTransitionStatus(true);
-                  }}
-                  onTransitionEnd={() => {
-                    setTransitionStatus(false);
-                  }}
+                  touchAction="pan-y"
+                  // onTransitionStart={() => {
+                  //   setTransitionStatus(true);
+                  // }}
+                  // onTransitionEnd={() => {
+                  //   setTransitionStatus(false);
+                  // }}
                   ref={this.map}
                 >
-                  {activeGeography.latitude &&
-                    activeGeography.longitude &&
-                    !transitionInProgress && (
-                    <div style={{ color: 'white' }}>
-                      <Marker
-                        latitude={activeGeography.latitude}
-                        longitude={activeGeography.longitude}
-                        offsetTop={-16}
-                        offsetLeft={-8}
-                      >
-                        <Icon icon={location2} size={32} />
-                      </Marker>
-                    </div>
-                  )}
                   <div className="navigation-control-container">
                     <NavigationControl
                       onViewportChange={({ maxZoom, minZoom, ...rest }) =>
@@ -289,6 +283,7 @@ Map.propTypes = {
   fullscreenEnabled: PropTypes.bool.isRequired,
   doneLoading: PropTypes.bool.isRequired,
   postcodeInputValue: PropTypes.string.isRequired,
+  speeds: PropTypes.arrayOf(propTypeSpeed),
 
   // Action dispatchers from Redux
   updateViewport: PropTypes.func.isRequired,
@@ -312,6 +307,7 @@ Map.propTypes = {
 Map.defaultProps = {
   activeGeography: [],
   postcodeInputValue: '',
+  speeds: [],
 };
 
 export default connect(state => state, actions)(Map);

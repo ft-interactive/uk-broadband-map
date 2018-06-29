@@ -35,9 +35,9 @@ export const INITIAL_STATE = {
     longitude: -3.432,
     latitude: 55.757,
     zoom: 0,
-    maxZoom: 15,
+    maxZoom: 12,
     minZoom: 0,
-    transitionDuration: 5000,
+    transitionDuration: 3000,
     transitionInterpolator: new FlyToInterpolator(),
     transitionEasing: easeCubic,
   },
@@ -70,6 +70,7 @@ export default (state = INITIAL_STATE, { type, payload }) => {
       const { postcode, region, ...rest } = payload;
       return {
         ...state,
+        postcodeInputValue: postcode || 'postcode unavailable',
         activeGeography: {
           postcode: postcode || 'unavailable',
           region,
@@ -144,6 +145,7 @@ export default (state = INITIAL_STATE, { type, payload }) => {
         viewport: {
           ...state.viewport,
           ...payload.viewport,
+          transitionDuration: INITIAL_STATE.viewport.transitionDuration * 2,
         },
       };
 

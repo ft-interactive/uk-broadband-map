@@ -13,14 +13,14 @@ class GeographyLookup extends PureComponent {
     const postcode = this.props.value;
     try {
       if (!postcodeRegex.test(postcode) && postcode !== '') {
-        throw new Error(`Postcode ${postcode} is invalid`);
+        throw new Error(`Postcode ${postcode.toUpperCase()} is invalid`);
       } else if (
         postcode
           .toLowerCase()
           .replace(/\s/g, '')
           .startsWith('bt')
       ) {
-        throw new Error(`Postcode ${postcode} is in Northern Ireland`);
+        throw new Error(`Postcode ${postcode.toUpperCase()} is in Northern Ireland`);
       }
 
       this.props.getPostcodeData(postcode);

@@ -217,8 +217,6 @@ export default class Histogram extends React.Component {
       '#ffb67f', //  60
       '#ffdca2', //  70
       '#ffffcc', //  80
-      '#ffffcc', //  90
-      '#ffffcc', // 100
     ];
     const colour = value => D3.interpolateRgbBasis(colourRamp)(value / bins.length);
     if (region) {

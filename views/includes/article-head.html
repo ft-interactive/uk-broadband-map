@@ -27,7 +27,7 @@
     <div class="byline">
       {%- if byline -%}
         {%- if byline.push -%}
-        Words by&nbsp;
+        By&nbsp;
           {%- for author in byline -%}
             {{ " and " if not loop.first and loop.last else (", " if not loop.first else "") }}
             {%- if author.url -%}
