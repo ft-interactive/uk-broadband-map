@@ -1,10 +1,31 @@
-.legend {
-  display: block;
-  margin: 0 auto;
+.key {
+  &__header,
+  &__footer {
+    text-align: center;
+  }
 
-  .label-text {
-    text-anchor: middle;
-    font-size: 14px;
-    fill: white;
+  &__header {
+    font-family: 'Metric-SemiBold', sans-serif !important;
+  }
+
+  &__footer {
+    padding-top: 0.25em;
+    color: rgba(255, 255, 255, 0.6) !important;
+  }
+
+  &__legend {
+    display: block;
+    margin: 0 auto;
+
+    .legend {
+      font-family: MetricWeb, sans-serif;
+    }
+
+    .label-text {
+      text-anchor: middle;
+      font-size: 14px;
+      fill: white;
+      font-family: MetricWeb;
+    }
   }
 }
