@@ -1,15 +1,12 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Icon } from 'react-icons-kit';
-import { notification } from 'react-icons-kit/icomoon/notification';
-import { search } from 'react-icons-kit/icomoon/search';
 import './styles.scss';
 
 const postcodeRegex = /^([Gg][Ii][Rr] ?0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9]?[A-Za-z])))) ?[0-9][A-Za-z]{2})$/i;
 
 class GeographyLookup extends PureComponent {
   handleSubmit = (evt) => {
-    evt.preventDefault();
+    evt.preventDefault(); // Prevent form submission
     const postcode = this.props.value;
     try {
       if (!postcodeRegex.test(postcode) && postcode !== '') {
@@ -24,6 +21,7 @@ class GeographyLookup extends PureComponent {
       }
 
       this.props.getPostcodeData(postcode);
+      document.activeElement.blur(); // Hide mobile keyboard
     } catch (e) {
       this.props.raisePostcodeError(e);
     }
@@ -35,6 +33,7 @@ class GeographyLookup extends PureComponent {
         className={`locate-user__form${
           this.props.postcodeError ? ' locate-user__form--validation-error' : ''
         }`}
+        action="#"
         onSubmit={this.handleSubmit}
       >
         <label htmlFor="locate-user__text">Zoom to a postcode</label>
@@ -47,6 +46,7 @@ class GeographyLookup extends PureComponent {
             id="geography"
             className="locate-user__text"
             name="locate-user__text"
+            autoCorrect="false"
           />
           <div className="locate-user__suffix">
             <button type="button" className="locate-user__button" onClick={this.handleSubmit}>
