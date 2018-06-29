@@ -70,6 +70,7 @@ export default (state = INITIAL_STATE, { type, payload }) => {
       const { postcode, region, ...rest } = payload;
       return {
         ...state,
+        postcodeInputValue: postcode || 'postcode unavailable',
         activeGeography: {
           postcode: postcode || 'unavailable',
           region,
@@ -144,6 +145,7 @@ export default (state = INITIAL_STATE, { type, payload }) => {
         viewport: {
           ...state.viewport,
           ...payload.viewport,
+          transitionDuration: INITIAL_STATE.viewport.transitionDuration * 2,
         },
       };
 

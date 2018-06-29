@@ -17,17 +17,24 @@ class BoundedGeolocateControl extends GeolocateControl {
 
       this._userLocationDotMarker.remove(); // Remove marker
 
-      const center = new LngLat(-0.0961675, 51.5089683); // FT Offices
+      const c = new LngLat(-0.0961675, 51.5089683); // FT Offices
       const radius = position.coords.accuracy;
+      const bounds = c.toBounds(radius);
 
-      this._map.fitBounds(center.toBounds(radius), this.options.fitBoundsOptions, {
+      // WTAFITS?
+      const boundsArray = [[bounds._ne.lng, bounds._ne.lat], [bounds._sw.lng, bounds._sw.lat]];
+      this._map.fitBounds(boundsArray, this.options.fitBoundsOptions, {
         // tag this camera change so it won't cause the control to change to background state
         geolocateSource: true,
       });
     } else {
-      const center = new LngLat(position.coords.longitude, position.coords.latitude);
+      const c = new LngLat(position.coords.longitude, position.coords.latitude);
       const radius = position.coords.accuracy;
-      this._map.fitBounds(center.toBounds(radius), this.options.fitBoundsOptions, {
+      const bounds = c.toBounds(radius);
+
+      // Seriously?
+      const boundsArray = [[bounds._ne.lng, bounds._ne.lat], [bounds._sw.lng, bounds._sw.lat]];
+      this._map.fitBounds(boundsArray, this.options.fitBoundsOptions, {
         // tag this camera change so it won't cause the control to change to background state
         geolocateSource: true,
       });
