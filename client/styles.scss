@@ -27,6 +27,7 @@ $o-typography-is-silent: false;
 
       .o-typography-headline {
         @include oTypographyDisplay($scale: 5);
+        font-weight: 600;
 
         @include oGridRespondTo(M) {
           @include oTypographyDisplay($scale: 6);

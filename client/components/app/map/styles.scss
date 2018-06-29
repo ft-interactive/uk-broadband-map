@@ -157,6 +157,11 @@ $font-sans: MetricWeb, sans-serif;
           }
         }
       }
+
+      .mapboxgl-user-location-dot,
+      .mapboxgl-user-location-dot:before {
+        background-color: oColorsGetPaletteColor('oxford-100');
+      }
     }
 
     .histogram-container {
