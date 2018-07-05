@@ -40,7 +40,7 @@ const Key = (props) => {
 
   return (
     <Fragment>
-      <h4 className="key__header">{title}</h4>
+      <h2 className="key__header">{title}</h2>
       <svg className="key__legend" height={height} width={width}>
         <defs>
           <marker
