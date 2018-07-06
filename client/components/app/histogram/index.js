@@ -32,7 +32,7 @@ export default class Histogram extends React.Component {
     D3.select(this.node.current)
       .selectAll('*')
       .remove();
-    const breakpoint = 725;
+    const breakpoint = 490;
     const width = D3.select(this.node.current)
       .node()
       .getBoundingClientRect().width;
