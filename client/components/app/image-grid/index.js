@@ -14,7 +14,7 @@ const ImageGrid = ({ children, images, caption }) => (
       <section className="image-grid">{images.map(image => children(image))}</section>
       {caption && (
         <figcaption>
-          FT graphic: {caption.names.join(', ')}&nbsp; Source: {caption.source}
+          Source: {caption.source}
           <br />&copy; FT
         </figcaption>
       )}
@@ -34,6 +34,10 @@ const ImageGrid = ({ children, images, caption }) => (
       >
         {images.map(image => children(image))}
       </Carousel>
+      <figcaption>
+        Source: {caption.source}
+        <br />&copy; FT
+      </figcaption>
     </div>
   </Fragment>
 );
@@ -59,7 +63,7 @@ ImageGrid.defaultProps = {
   images: [],
   caption: {
     names: ['Interactive Graphics'],
-    source: '',
+    source: 'FT analysis of Ofcom data',
   },
 };
 

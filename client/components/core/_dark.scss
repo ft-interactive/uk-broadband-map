@@ -11,6 +11,15 @@ $o-typography-is-silent: false;
     background-color: inherit;
   }
 
+  .pink {
+    @include oColorsFor(page, background);
+    padding: 1em 0;
+
+    @include oGridRespondTo(M) {
+      padding: 2em 0;
+    }
+  }
+
   .article {
     .o-typography-topic,
     .o-typography-author {

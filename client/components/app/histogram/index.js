@@ -3,7 +3,7 @@
  * Histogram component
  */
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import * as D3 from 'd3';
 import { propTypeActiveGeography, propTypeSpeed } from '../../../helpers/proptypes';
@@ -480,7 +480,14 @@ export default class Histogram extends React.Component {
   };
 
   render() {
-    return <div className="histogram" ref={this.node} />;
+    return (
+      <Fragment>
+        <div className="histogram" ref={this.node} />
+        <figcaption className="histogram__source">
+          Source: Ofcom<br />&copy; FT
+        </figcaption>
+      </Fragment>
+    );
   }
 }
 

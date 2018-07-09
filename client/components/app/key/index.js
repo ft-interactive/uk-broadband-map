@@ -19,7 +19,7 @@ const Key = (props) => {
   const height = isMobile ? 50 + legendHeight : 35 + legendHeight;
   const padding = 5;
   const labelHeight = isMobile ? 40 : 25;
-  const width = getWidth(layout) - (2 * padding); // prettier-ignore
+  const width = getWidth(layout); // prettier-ignore
   const colorRamp = [
     '#981626',
     '#c41439',
@@ -40,7 +40,7 @@ const Key = (props) => {
 
   return (
     <Fragment>
-      <h4 className="key__header">{title}</h4>
+      <h2 className="key__header">{title}</h2>
       <svg className="key__legend" height={height} width={width}>
         <defs>
           <marker
@@ -67,7 +67,7 @@ const Key = (props) => {
           </linearGradient>
         </defs>
         <g className="legend">
-          <text y="14" x={padding} fill="#a8a9ad" textAnchor="start">
+          <text y="14" x={0} fill="#a8a9ad" textAnchor="start">
             Slow
           </text>
           <line
@@ -83,7 +83,7 @@ const Key = (props) => {
             Fast
           </text>
         </g>
-        <g transform={`translate(${padding}, ${legendHeight})`}>
+        <g transform={`translate(0, ${legendHeight})`}>
           <rect
             className="bins"
             fill="url(#color-ramp-gradient)"

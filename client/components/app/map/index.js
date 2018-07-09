@@ -257,6 +257,9 @@ class Map extends Component {
                     )}
                   </div>
                 </ReactMapGL>
+                <figcaption className="map__source">
+                  Source: FT analysis of Ofcom data<br />&copy; FT
+                </figcaption>
               </div>
 
               <HistogramContainer />
