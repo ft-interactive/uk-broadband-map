@@ -2,7 +2,6 @@
  * @file
  * Root reducer for Redux store
  */
-
 import { easeCubic } from 'd3-ease';
 import { FlyToInterpolator } from 'react-map-gl';
 
@@ -24,6 +23,7 @@ import {
   UPDATE_POSTCODE_INPUT_VALUE,
   CLEAR_MARKER,
   SET_OGRID_LAYOUT,
+  SET_PAGE_WIDTH,
 } from './actions';
 
 export const UK_BOUNDS = [[-8.655, 49.9], [1.79, 60.85000000000001]];
@@ -56,6 +56,7 @@ export const INITIAL_STATE = {
   controlsHidden: false,
   fullscreenEnabled: false,
   oGridLayout: 'default',
+  pageWidth: null,
 };
 
 export default (state = INITIAL_STATE, { type, payload }) => {
@@ -181,6 +182,12 @@ export default (state = INITIAL_STATE, { type, payload }) => {
       return {
         ...state,
         oGridLayout: payload,
+      };
+
+    case SET_PAGE_WIDTH:
+      return {
+        ...state,
+        pageWidth: payload,
       };
 
     default:
