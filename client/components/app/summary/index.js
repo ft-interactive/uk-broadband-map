@@ -15,7 +15,11 @@ const Summary = (props) => {
     props.geography['Average_download_speed_(Mbit/s)'] === 'NA' ||
     props.geography['Average_download_speed_(Mbit/s)'] === undefined
   ) {
-    return null;
+    return (
+      <div className="summary">
+        <span>Enter your postcode above to see how your area compares</span>
+      </div>
+    );
   }
   const yourSpeed = props.geography['Average_download_speed_(Mbit/s)'];
   const regionID = (name) => {
