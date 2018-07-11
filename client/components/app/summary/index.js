@@ -37,7 +37,7 @@ const Summary = (props) => {
       case 'West Midlands':
         return { code: 'wm', phrasing: 'the West Midlands' };
       case 'Yorkshire and The Humber':
-        return { code: 'YH', phrasing: 'Yorkshire and the Humber' };
+        return { code: 'yh', phrasing: 'Yorkshire and the Humber' };
       case 'North West':
         return { code: 'nw', phrasing: 'the North West' };
       case 'North East':
