@@ -3,6 +3,7 @@
     text-align: center;
     padding-top: 0.25em;
     color: rgba(255, 255, 255, 0.6) !important;
+    text-transform: none !important;
   }
 
   &__legend {
@@ -11,6 +12,7 @@
 
     .legend {
       font-family: MetricWeb, sans-serif;
+      font-weight: 600;
     }
 
     .label-text {

@@ -24,10 +24,10 @@ const App = ({ speeds }) => (
           return <Map key={`map__${id}`} speeds={speeds} />;
         case '<!-- Lead urban/rural histogram here -->':
           return (
-            <div className="o-grid-container" key={`histogram__${id}`}>
+            <div className="o-grid-container o-grid-container__graphic" key={`histogram__${id}`}>
               <div className="o-grid-row">
                 <div data-o-grid-colspan="12 S11 Scenter M9 L8 XL7">
-                  <h2>
+                  <h2 className="graphic__title">
                     Britain’s broadband speeds:<br /> not just an urban-rural divide
                   </h2>
                 </div>
@@ -41,7 +41,10 @@ const App = ({ speeds }) => (
           );
         case '<!-- Image grid 1 -->':
           return (
-            <div className="o-grid-container slow-cities" key={`image-grid__${id}`}>
+            <div
+              className="o-grid-container o-grid-container__graphic slow-cities"
+              key={`image-grid__${id}`}
+            >
               <div className="o-grid-row">
                 <div data-o-grid-colspan="12 S11 center M9 L8 XL7">
                   <Key />

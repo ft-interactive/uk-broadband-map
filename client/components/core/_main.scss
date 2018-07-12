@@ -30,6 +30,12 @@ body {
       text-decoration: none; // Artefact from GDoc
     }
   }
+
+  .graphic__title {
+    $lastParMarginBottom: 28px;
+    max-width: 14em;
+    margin: (60px - $lastParMarginBottom) auto 36px auto; // Double-check
+  }
 }
 
 /* Hide whatsapp share button on desktop */
@@ -63,4 +69,8 @@ body {
   &-b-1 {
     max-width: 700px;
   }
+}
+
+.o-grid-container__graphic {
+  margin-bottom: 60px;
 }

@@ -55,14 +55,17 @@ $o-typography-is-silent: false;
     p,
     .o-date,
     .byline,
-    small,
-    figcaption {
+    small {
       color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 73);
     }
 
-    p a,
+    figcaption,
     figcaption a,
     footer small a {
+      color: rgb(151, 151, 151);
+    }
+
+    p a {
       color: oColorsGetTextColor(oColorsGetPaletteColor('slate'), 100);
       border-bottom: 2px solid oColorsGetTextColor(oColorsGetPaletteColor('slate'), 73);
 
