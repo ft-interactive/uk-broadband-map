@@ -29,7 +29,7 @@ export const getWidth = (layout, pageWidth) => {
       return 430;
     case 'default':
     default:
-      return pageWidth - (2 * padding); // prettier-ignore
+      return pageWidth - 2 * padding;
   }
 };
 

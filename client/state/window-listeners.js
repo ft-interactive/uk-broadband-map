@@ -19,7 +19,7 @@ export default (store) => {
 
     window.addEventListener(
       'resize',
-      debounce(() => store.dispatch(setPageWidth(window.innerWidth))),
+      debounce(() => store.dispatch(setPageWidth(window.innerWidth)), 1000),
     );
   }
 
