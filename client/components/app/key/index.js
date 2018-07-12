@@ -12,14 +12,14 @@ import { getWidth } from '../../../helpers';
 import './styles.scss';
 
 const Key = (props) => {
-  const { layout, title } = props;
+  const { layout, title, pageWidth } = props;
   const lineHeight = 14; // This is equal to font-size.
   const isMobile = ['default', 's', 'm'].includes(layout.toLowerCase());
   const legendHeight = 20;
   const height = isMobile ? 50 + legendHeight : 35 + legendHeight;
   const padding = 5;
   const labelHeight = isMobile ? 40 : 25;
-  const width = getWidth(layout); // prettier-ignore
+  const width = getWidth(layout, pageWidth); // prettier-ignore
   const colorRamp = [
     '#981626',
     '#c41439',
@@ -31,7 +31,6 @@ const Key = (props) => {
     '#ffffcc',
   ];
   const ticks = ['10', '20', '30', '40', '50', '60', '70'];
-  // const mobileTicks = ['0', '10', '24\nGovernment', '30\nOfcom', '>80\nSuperfast'];
   const colorScale = scaleThreshold()
     .range(colorRamp)
     .domain(ticks);
@@ -128,10 +127,11 @@ const Key = (props) => {
 Key.propTypes = {
   title: PropTypes.string,
   layout: PropTypes.string.isRequired,
+  pageWidth: PropTypes.number.isRequired,
 };
 
 Key.defaultProps = {
   title: "Britain's city centres are in the internet slow lane",
 };
 
-export default connect(({ oGridLayout }) => ({ layout: oGridLayout }))(Key);
+export default connect(({ oGridLayout, pageWidth }) => ({ layout: oGridLayout, pageWidth }))(Key);

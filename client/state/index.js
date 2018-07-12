@@ -8,11 +8,11 @@ import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import rootReducer from './reducers';
 import oTrackingMiddleware from './otracking-middleware';
-import addOGridListeners from './ogrid-listeners';
+import addWindowListeners from './window-listeners';
 
 const store = createStore(
   rootReducer,
   composeWithDevTools(applyMiddleware(ReduxThunk, oTrackingMiddleware)),
 );
 
-export default addOGridListeners(store);
+export default addWindowListeners(store);
