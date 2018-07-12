@@ -147,6 +147,8 @@ export default (state = INITIAL_STATE, { type, payload }) => {
           ...state.viewport,
           ...payload.viewport,
           transitionDuration: INITIAL_STATE.viewport.transitionDuration * 2,
+          transitionInterpolator: new FlyToInterpolator(),
+          transitionEasing: easeCubic,
         },
       };
 
