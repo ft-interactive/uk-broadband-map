@@ -10,7 +10,9 @@
         }
       ]
     ],
-    "plugins": ["transform-object-rest-spread"]
+    "plugins": [
+      "transform-object-rest-spread"
+    ]
   },
   "devDependencies": {
     "ajv": "^5.2.2",
@@ -81,12 +83,9 @@
   "private": true,
   "scripts": {
     "build": "webpack --env=production",
-    "a11y":
-      "pa11y --ignore \"warning;notice\" --hide-elements \"iframe[src*=google],iframe[id*=google],.o-comments\" --threshold 100 $(ft-graphics-deploy --get-commit-url)",
-    "a11y:preview":
-      "pa11y --ignore \"warning;notice\" --hide-elements \"iframe[src*=google],iframe[id*=google],.o-comments\" --threshold 100 $(ft-graphics-deploy --preview --get-commit-url)",
-    "a11y:local":
-      "pa11y --ignore \"warning;notice\" localhost:8080 --hide-elements \"iframe[src*=google],iframe[id*=google],.o-comments\"",
+    "a11y": "pa11y --ignore \"warning;notice\" --hide-elements \"iframe[src*=google],iframe[id*=google],.o-comments\" --threshold 100 $(ft-graphics-deploy --get-commit-url)",
+    "a11y:preview": "pa11y --ignore \"warning;notice\" --hide-elements \"iframe[src*=google],iframe[id*=google],.o-comments\" --threshold 100 $(ft-graphics-deploy --preview --get-commit-url)",
+    "a11y:local": "pa11y --ignore \"warning;notice\" localhost:8080 --hide-elements \"iframe[src*=google],iframe[id*=google],.o-comments\"",
     "clean": "rm -rf dist",
     "deploy": "ft-graphics-deploy --assets-prefix=https://ig.ft.com/v2/__assets/",
     "postinstall": "bower install --allow-root",
@@ -103,7 +102,7 @@
     "fscreen": "^1.0.2",
     "lodash": "^4.17.10",
     "lodash.debounce": "^4.0.8",
-    "mapbox-gl": "^0.45.0",
+    "mapbox-gl": "^0.47.0-beta.1",
     "prop-types": "^15.6.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
