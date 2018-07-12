@@ -63,7 +63,7 @@ ImageGrid.defaultProps = {
   images: [],
   caption: {
     names: ['Interactive Graphics'],
-    source: 'FT analysis of Ofcom data',
+    source: 'FT analysis of Ofcom data (May 2017)',
   },
 };
 

@@ -484,7 +484,7 @@ export default class Histogram extends React.Component {
       <Fragment>
         <div className="histogram" ref={this.node} />
         <figcaption className="histogram__source">
-          Source: Ofcom<br />&copy; FT
+          Source: Ofcom, May 2017<br />&copy; FT
         </figcaption>
       </Fragment>
     );
