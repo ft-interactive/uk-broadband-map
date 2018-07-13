@@ -129,15 +129,20 @@ class Map extends Component {
       this.props.getUserLocation(position.coords);
     });
 
+    map.addControl(geolocation);
+    map.addControl(scale);
+
     console.log('Loading map resources…');
 
-    map.on('load', () => {
+    map.once('load', () => {
       console.log('Map resources loaded.');
-
-      map.addControl(geolocation);
-      map.addControl(scale);
-
       this.props.setMapLoadedStatus(true);
+
+      try {
+        geolocation.trigger();
+      } catch (e) {
+        console.error(e);
+      }
     });
   };
 

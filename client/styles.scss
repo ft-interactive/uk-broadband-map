@@ -56,6 +56,15 @@ $o-typography-is-silent: false;
         .o-share__action {
           margin: 0;
 
+          .o-share__icon {
+            &::after {
+              width: 40px;
+              height: 40px;
+              top: 0;
+              left: 0;
+            }
+          }
+
           @include oGridRespondTo(XL) {
             width: 28px;
             height: 28px;
@@ -70,8 +79,10 @@ $o-typography-is-silent: false;
               }
 
               &::after {
-                width: 38px;
-                height: 38px;
+                width: 28px;
+                height: 28px;
+                top: 0;
+                left: 0;
               }
             }
           }
