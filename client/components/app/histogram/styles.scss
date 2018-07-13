@@ -7,3 +7,11 @@
     order: 1;
   }
 }
+
+.histogram__source {
+  @include oGridRespondTo(L) {
+    order: 2;
+    margin-bottom: auto !important;
+    padding-bottom: 10px;
+  }
+}
