@@ -39,7 +39,9 @@ const Key = (props) => {
 
   return (
     <Fragment>
-      <h2 className="key__header">{title}</h2>
+      <h2 className="key__header graphic__title">
+        Britain&rsquo;s city centres are<br />in the internet slow lane
+      </h2>
       <svg className="key__legend" height={height} width={width}>
         <defs>
           <marker
@@ -65,7 +67,7 @@ const Key = (props) => {
               ))}
           </linearGradient>
         </defs>
-        <g className="legend">
+        <g className="legend" transform="translate(0, -4)">
           <text y="14" x={0} fill="#a8a9ad" textAnchor="start">
             Slow
           </text>
