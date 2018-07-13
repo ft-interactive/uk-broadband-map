@@ -6,6 +6,7 @@
 import { GeolocateControl, LngLat } from 'mapbox-gl';
 import { isOutsideTheUK } from '../../../helpers';
 
+console.log(new GeolocateControl());
 /* eslint-disable no-underscore-dangle */
 
 class BoundedGeolocateControl extends GeolocateControl {
