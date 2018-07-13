@@ -101,6 +101,10 @@ $font-sans: MetricWeb, sans-serif;
           top: 122px;
           right: 10px;
 
+          .no-fullscreen & {
+            top: 80px;
+          }
+
           .mapboxgl-ctrl-group {
             margin: 0;
             border-radius: 0;

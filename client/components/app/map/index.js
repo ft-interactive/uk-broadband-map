@@ -186,6 +186,8 @@ class Map extends Component {
       postcodeInputValue,
     } = this.props;
 
+    const fullscreenCapable = document.documentElement.classList.contains('fullscreen');
+
     return (
       <Fragment>
         <div className="o-grid-container o-grid-container__graphic">
@@ -254,7 +256,7 @@ class Map extends Component {
                     />
 
                     {this.mapContainer &&
-                      this.mapContainer.current && (
+                      this.mapContainer.current && fullscreenCapable && (
                       <FullscreenControl
                         targetElement={this.mapContainer.current}
                         onFullscreenChange={setFullscreenStatus}
