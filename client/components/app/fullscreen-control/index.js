@@ -71,9 +71,9 @@ class FullscreenControl extends PureComponent {
     return (
       <div className="mapboxgl-ctrl mapboxgl-ctrl-group fullscreen-control">
         <button
-          onClick={fscreen.fullscreenEnabled ? this.handleClick : this.handleClickNoAPI}
+          onClick={fscreen.fullscreenEnabled ? this.handleClick : null}
           title={fullscreenStatus ? 'Exit Full Screen' : 'Enter Full Screen with Scroll Zoom'}
-          style={{ color: '#ffffff' }}
+          disabled={!fscreen.fullscreenEnabled}
         >
           {fullscreenStatus ? (
             <Icon icon={ic_fullscreen_exit} size={30} /> // eslint-disable-line camelcase
