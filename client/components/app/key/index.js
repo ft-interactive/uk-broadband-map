@@ -72,11 +72,26 @@ const Key = (props) => {
                 );
               }
 
+              if (idx === colorScale.range().length - 1) {
+                return (
+                  <Fragment key={c}>
+                    <stop
+                      offset={`${(idx / arr.length) * 100}%` /* prettier-ignore */}
+                      style={{ stopColor: colorScale.range()[idx - 1] }}
+                    />
+                    <stop
+                      offset={`${((idx + 1) / arr.length) * 100}%` /* prettier-ignore */}
+                      style={{ stopColor: c }}
+                    />
+                  </Fragment>
+                );
+              }
+
               return (
                 <stop
                   key={c}
                   offset={`${(idx / arr.length) * 100}%` /* prettier-ignore */}
-                  style={{ stopColor: c }}
+                  style={{ stopColor: colorScale.range()[idx - 1] }}
                 />
               );
             })}
