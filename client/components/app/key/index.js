@@ -12,14 +12,14 @@ import { getWidth } from '../../../helpers';
 import './styles.scss';
 
 const Key = (props) => {
-  const { layout, title, pageWidth } = props;
+  const { layout, title, pageWidth, viewportWidth } = props;
   const lineHeight = 14; // This is equal to font-size.
   const isMobile = ['default', 's', 'm'].includes(layout.toLowerCase());
   const legendHeight = 20;
   const height = isMobile ? 50 + legendHeight : 35 + legendHeight;
   const padding = 5;
   const labelHeight = isMobile ? 40 : 25;
-  const width = getWidth(layout, pageWidth); // prettier-ignore
+  const width = layout === 'default' ? viewportWidth : getWidth(layout, pageWidth); // prettier-ignore
   const colorRamp = [
     '#981626',
     '#c41439',
@@ -145,10 +145,15 @@ Key.propTypes = {
   title: PropTypes.string,
   layout: PropTypes.string.isRequired,
   pageWidth: PropTypes.number.isRequired,
+  viewportWidth: PropTypes.number.isRequired,
 };
 
 Key.defaultProps = {
   title: "Britain's city centres are in the internet slow lane",
 };
 
-export default connect(({ oGridLayout, pageWidth }) => ({ layout: oGridLayout, pageWidth }))(Key);
+export default connect(({ oGridLayout, pageWidth, viewport }) => ({
+  layout: oGridLayout,
+  pageWidth,
+  viewportWidth: viewport.width,
+}))(Key);
