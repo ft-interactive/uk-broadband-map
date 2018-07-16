@@ -90,8 +90,8 @@ class Map extends Component {
   resize = () => {
     console.log('Viewport will resize…');
 
-    const width = this.mapContainer.current.clientWidth;
-    const height = this.mapContainer.current.clientHeight;
+    const width = this.mapContainer.current.getBoundingClientRect().width;
+    const height = this.mapContainer.current.getBoundingClientRect().height;
     const viewport = new WebMercatorViewport({ width, height });
     const { zoom, minZoom } = this.props.viewport;
     const bound = viewport.fitBounds(this.props.ukBounds, { padding: 0 });
@@ -258,7 +258,8 @@ class Map extends Component {
                     />
 
                     {this.mapContainer &&
-                      this.mapContainer.current && fullscreenCapable && (
+                      this.mapContainer.current &&
+                      fullscreenCapable && (
                       <FullscreenControl
                         targetElement={this.mapContainer.current}
                         onFullscreenChange={setFullscreenStatus}
