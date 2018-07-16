@@ -59,14 +59,12 @@ const Key = (props) => {
             {colorScale.range().map((c, idx, arr) => {
               if (idx === 0) {
                 return (
-                  <Fragment>
+                  <Fragment key={c}>
                     <stop
-                      key={`${c}_1`}
                       offset={`${(idx / arr.length) * 100}%` /* prettier-ignore */}
                       style={{ stopColor: c }}
                     />
                     <stop
-                      key={`${c}_2`}
                       offset={`${((idx + 1) / arr.length) * 100}%` /* prettier-ignore */}
                       style={{ stopColor: c }}
                     />
