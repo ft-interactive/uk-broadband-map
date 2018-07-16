@@ -16,8 +16,7 @@ export const isOutsideTheUK = ({ coords }) => {
   );
 };
 
-export const getWidth = (layout, pageWidth) => {
-  const padding = 10;
+export const getWidth = (layout) => {
   switch (layout) {
     case 'XL':
       return 680;
@@ -26,10 +25,9 @@ export const getWidth = (layout, pageWidth) => {
     case 'M':
       return 520;
     case 'S':
-      return 430;
     case 'default':
     default:
-      return pageWidth - 2 * padding;
+      return 430;
   }
 };
 
