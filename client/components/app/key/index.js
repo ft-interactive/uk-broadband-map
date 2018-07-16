@@ -56,15 +56,32 @@ const Key = (props) => {
             <path d="M0,0 L0,6 L9,3 z" fill="#a8a9ad" />
           </marker>
           <linearGradient id="color-ramp-gradient">
-            {colorScale
-              .range()
-              .map((c, idx, arr) => (
+            {colorScale.range().map((c, idx, arr) => {
+              if (idx === 0) {
+                return (
+                  <Fragment>
+                    <stop
+                      key={`${c}_1`}
+                      offset={`${(idx / arr.length) * 100}%` /* prettier-ignore */}
+                      style={{ stopColor: c }}
+                    />
+                    <stop
+                      key={`${c}_2`}
+                      offset={`${((idx + 1) / arr.length) * 100}%` /* prettier-ignore */}
+                      style={{ stopColor: c }}
+                    />
+                  </Fragment>
+                );
+              }
+
+              return (
                 <stop
                   key={c}
                   offset={`${(idx / arr.length) * 100}%` /* prettier-ignore */}
                   style={{ stopColor: c }}
                 />
-              ))}
+              );
+            })}
           </linearGradient>
         </defs>
         <g className="legend" transform="translate(0, -4)">
