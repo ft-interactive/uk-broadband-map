@@ -13,6 +13,10 @@
     float: left;
     width: 33%;
     display: block;
+
+    @supports (display: grid) {
+      width: 100%;
+    }
   }
 
   display: grid;
