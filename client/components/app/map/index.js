@@ -94,7 +94,7 @@ class Map extends Component {
     const height = this.mapContainer.current.getBoundingClientRect().height;
     const viewport = new WebMercatorViewport({ width, height });
     const { zoom, minZoom } = this.props.viewport;
-    const bound = viewport.fitBounds(this.props.ukBounds, { padding: 0 });
+    const bound = viewport.fitBounds(this.props.ukBounds, { padding: 10 });
 
     if (zoom.toFixed(5) === minZoom.toFixed(5)) {
       this.onViewportChange({
