@@ -60,8 +60,8 @@ class Map extends Component {
     const { zoom, maxZoom, minZoom } = viewport;
     const zoomInButton = document.getElementsByClassName('mapboxgl-ctrl-zoom-in')[0];
     const zoomOutButton = document.getElementsByClassName('mapboxgl-ctrl-zoom-out')[0];
-    const disableZoomIn = Math.round(zoom) >= maxZoom;
-    const disableZoomOut = Math.round(zoom) <= minZoom;
+    const disableZoomIn = Math.ceil(zoom) >= maxZoom;
+    const disableZoomOut = Math.floor(zoom) <= minZoom;
 
     /* eslint-disable no-param-reassign */
     if (viewport.longitude > maxLon) {
