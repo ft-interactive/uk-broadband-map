@@ -14,7 +14,7 @@ export default (environment = 'development') => ({ // eslint-disable-line
   headline: 'Britain’s new digital divide',
 
   // summary === standfirst (Summary is what the content API calls it)
-  summary: 'The FT’s Broadband speed map reveals more than just an urban-rural gap as inner cities are left behind',
+  summary: 'The FT’s broadband speed map reveals more than just an urban-rural gap as inner cities are left behind',
 
   topic: {
     name: 'UK broadband',
