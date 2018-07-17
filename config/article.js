@@ -73,7 +73,7 @@ export default (environment = 'development') => ({ // eslint-disable-line
         optional social meta data?
   */
   // General social
-  socialImage: '',
+  socialImage: 'https://www.ft.com/__origami/service/image/v2/images/raw/ftcms%3A1a788bcc-709c-11e8-852d-d8b934ff5ffa?source=ig&width=1400',
   socialHeadline: '',
   socialDescription: 'Britain’s broadband speed divide: How does your postcode compare?',
   twitterCreator: '@ftdata', // shows up in summary_large_image cards
