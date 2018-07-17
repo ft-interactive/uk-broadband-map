@@ -156,4 +156,4 @@ module.exports = async (env = 'development') => ({
       }),
     env === 'production' && new ImageminWebpackPlugin({ test: /\.(jpe?g|png|gif|svg)$/i }),
   ].filter(i => i),
-});
+}); //
