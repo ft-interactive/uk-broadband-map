@@ -1,0 +1,23 @@
+/* via: https://stackoverflow.com/a/41169344/467760 */
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+   .locate-user > .locate-user__form {
+     height: 90px !important;
+     flex: 2 0 0% !important;
+   }
+
+   .locate-user > span {
+     flex: 1 0 0% !important;
+     display: block !important;
+     text-align: center !important;
+   }
+
+   .locate-user > .locate-user-presets {
+     flex: 2 0 0% !important;
+   }
+}
+
+@media screen and (-ms-high-contrast: active) and (max-width: 979px), (-ms-high-contrast: none) and (max-width: 979px) {
+  .locate-user {
+    height: 200px;
+  }
+}
