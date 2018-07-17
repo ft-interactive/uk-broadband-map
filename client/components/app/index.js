@@ -28,7 +28,7 @@ const App = ({ speeds }) => (
               <div className="o-grid-row">
                 <div data-o-grid-colspan="12 S11 Scenter M9 L8 XL7">
                   <h2 className="graphic__title">
-                    Britain’s broadband speeds:<br /> not just an urban-rural divide
+                    Britain’s broadband speeds:<br />not just an urban-rural divide
                   </h2>
                 </div>
               </div>

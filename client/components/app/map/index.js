@@ -195,8 +195,8 @@ class Map extends Component {
         <div className="o-grid-container o-grid-container__graphic">
           <div className="o-grid-row">
             <div data-o-grid-colspan="12 S11 Scenter M9 L8 XL7">
-              <h2 className="graphic__title">
-                Compare your broadband speed to your region and the rest of Britain
+              <h2 className="graphic__title" style={{ maxWidth: '17em' }}>
+                Compare broadband speeds in your area to your region and the rest of Britain
               </h2>
             </div>
           </div>
