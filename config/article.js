@@ -14,7 +14,7 @@ export default (environment = 'development') => ({ // eslint-disable-line
   headline: 'Britain’s new digital divide',
 
   // summary === standfirst (Summary is what the content API calls it)
-  summary: 'Broadband speed map reveals more than just an urban-rural divide as inner cities are left behind',
+  summary: 'The FT’s Broadband speed map reveals more than just an urban-rural gap as inner cities are left behind',
 
   topic: {
     name: 'UK broadband',
@@ -57,7 +57,7 @@ export default (environment = 'development') => ({ // eslint-disable-line
   title: 'British broadband speed map',
 
   // meta data
-  description: 'How is your area affected by Britain’s struggle to roll out high-speed internet infrastructure?',
+  description: 'How is your postcode affected by Britain’s broadband speed divide?',
 
   /*
   TODO: Select Twitter card type -
