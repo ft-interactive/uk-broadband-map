@@ -9,12 +9,12 @@ export default (environment = 'development') => ({ // eslint-disable-line
 
   // To set an exact publish date do this:
   //       new Date('2016-05-17T17:11:22Z')
-  publishedDate: new Date(),
+  publishedDate: new Date('2018-07-18T05:00:00Z'),
 
-  headline: 'Broadband speed map: high-speed internet infrastructure patchy in Britain’s cities',
+  headline: 'Britain’s new digital divide',
 
   // summary === standfirst (Summary is what the content API calls it)
-  summary: 'The wide variation in British consumers’ access to broadband is more complicated than an urban-rural divide',
+  summary: 'Broadband speed map reveals more than just an urban-rural divide as inner cities are left behind',
 
   topic: {
     name: 'UK broadband',
