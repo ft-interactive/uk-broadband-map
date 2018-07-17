@@ -11,7 +11,8 @@
   }
 
   @include oGridRespondTo(L) {
-    order: 3;
+    order: 0;
+    margin-bottom: auto;
   }
 }
 

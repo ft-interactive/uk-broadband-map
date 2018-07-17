@@ -11,7 +11,7 @@
 .histogram__source {
   @include oGridRespondTo(L) {
     order: 2;
-    margin-bottom: auto !important;
+    margin-bottom: 0 !important;
     padding-bottom: 10px;
   }
 }
