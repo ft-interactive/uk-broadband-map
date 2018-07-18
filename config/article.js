@@ -88,7 +88,7 @@ export default (environment = 'development') => ({ // eslint-disable-line
   // override the General social options above
 
   // TWITTER METADATA (for Twitter cards)
-  // twitterImage: '',
+  twitterImage: 'https://www.ft.com/__origami/service/image/v2/images/raw/ftcms%3A1a788bcc-709c-11e8-852d-d8b934ff5ffa?source=ig&width=1400',
   twitterHeadline: 'British broadband speed map',
   twitterDescription: 'Britain’s broadband speed divide: How does your postcode compare?',
 
