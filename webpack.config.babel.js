@@ -19,6 +19,7 @@ module.exports = async (env = 'development') => ({
     path: resolve(__dirname, 'dist'),
   },
   module: {
+    noParse: [/mapbox-gl/],
     rules: [
       {
         test: /\.(txt|csv|tsv|xml)$/,
