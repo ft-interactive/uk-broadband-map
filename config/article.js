@@ -11,10 +11,10 @@ export default (environment = 'development') => ({ // eslint-disable-line
   //       new Date('2016-05-17T17:11:22Z')
   publishedDate: new Date('2018-07-18T05:00:00Z'),
 
-  headline: 'Britain’s new digital divide',
+  headline: 'Broadband speed map reveals Britain’s new digital divide',
 
   // summary === standfirst (Summary is what the content API calls it)
-  summary: 'The FT’s broadband speed map reveals more than just an urban-rural gap as inner cities are left behind',
+  summary: 'Postcode comparison shows more than just an urban-rural gap as inner city areas are left behind',
 
   topic: {
     name: 'UK broadband',
@@ -57,7 +57,7 @@ export default (environment = 'development') => ({ // eslint-disable-line
   title: 'British broadband speed map',
 
   // meta data
-  description: 'How is your postcode affected by Britain’s broadband speed divide?',
+  description: 'Postcode comparison: how is my area affected by Britain’s broadband speed divide?',
 
   /*
   TODO: Select Twitter card type -
