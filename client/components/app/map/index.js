@@ -231,7 +231,9 @@ class Map extends Component {
 
                 <ReactMapGL
                   {...viewport}
-                  maxTileCacheSize={/ipad/i.test(navigator.userAgent) ? 2 : null}
+                  mapOptions={{
+                    maxTileCacheSize: /ipad/i.test(navigator.userAgent) ? 2 : null,
+                  }}
                   mapboxApiAccessToken={MAPBOX_TOKEN}
                   mapStyle={MAPBOX_STYLE}
                   onViewportChange={this.onViewportChange}
