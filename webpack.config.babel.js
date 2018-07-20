@@ -19,6 +19,7 @@ module.exports = async (env = 'development') => ({
     path: resolve(__dirname, 'dist'),
   },
   module: {
+    noParse: [/mapbox-gl/],
     rules: [
       {
         test: /\.(txt|csv|tsv|xml)$/,
@@ -149,10 +150,6 @@ module.exports = async (env = 'development') => ({
     env === 'production' &&
       new optimize.UglifyJsPlugin({
         sourceMap: true,
-        compress: {
-          warnings: false,
-          comparisons: false, // don't optimize comparisons because MapboxGL is stooopid
-        },
       }),
     env === 'production' && new ImageminWebpackPlugin({ test: /\.(jpe?g|png|gif|svg)$/i }),
   ].filter(i => i),
