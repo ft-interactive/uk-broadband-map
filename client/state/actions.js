@@ -3,6 +3,8 @@
  * Redux actions
  */
 
+import { isOutsideTheUK } from '../helpers';
+
 export const GET_POSTCODE_DATA = 'GET_POSTCODE_DATA';
 export const GET_SPEED_DATA = 'GET_SPEED_DATA';
 export const UPDATE_VIEWPORT = 'UPDATE_VIEWPORT';
@@ -85,6 +87,17 @@ export const getPostcodeData = postcode => dispatch =>
       return res.json();
     })
     .then(async (data) => {
+      if (
+        isOutsideTheUK({
+          coords: {
+            latitude: data.latitude,
+            longitude: data.longitude,
+          },
+        })
+      ) {
+        throw new Error('Unsupported location');
+      }
+
       await dispatch(clearPostcodeError());
       await dispatch(clearGeolocationError());
       await dispatch(clearSelectedPreset());
